@@ -8,10 +8,11 @@ public class Constants {
 
     public static final class Controllers {
         public static final int DRIVER_CONTROLS_PORT = 0;
-        public static final int CONTROL_PANEL_PORT = 1;
+        public static final int SECONDARY_DRIVER_CONTROLS_PORT = 1
+        public static final int CONTROL_PANEL_PORT = 2;
     }
 
     public static enum ArmPositions {
-        BACK_POLE, FRONT_POLE, FLOOR_DROP, FLOOR_PICKUP, SLIDER_PICKUP, PARK
+        BACK_POLE, FRONT_POLE, FLOOR_DROP, FLOOR_PICKUP, SHELF_PICKUP, PARK
     }
 }
