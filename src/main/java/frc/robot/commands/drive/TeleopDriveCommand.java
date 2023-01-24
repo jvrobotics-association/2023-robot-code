@@ -1,5 +1,6 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.controls.DriverControls;
@@ -15,11 +16,11 @@ public class TeleopDriveCommand extends CommandBase {
     
     @Override
     public void execute() {
-        drivetrain.drive(driverControls.getForward(), driverControls.getStrafe(), driverControls.getYaw(), false);
+        drivetrain.drive(driverControls.getForward(), driverControls.getStrafe(), driverControls.getYaw(), false, new Translation2d());
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.drive(0, 0, 0, false);
+        drivetrain.drive(0, 0, 0, false, new Translation2d());
     }
 }

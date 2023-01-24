@@ -8,7 +8,7 @@ public class Constants {
 
     public static final class Controllers {
         public static final int DRIVER_CONTROLS_PORT = 0;
-        public static final int SECONDARY_DRIVER_CONTROLS_PORT = 1
+        public static final int SECONDARY_DRIVER_CONTROLS_PORT = 1;
         public static final int CONTROL_PANEL_PORT = 2;
     }
 

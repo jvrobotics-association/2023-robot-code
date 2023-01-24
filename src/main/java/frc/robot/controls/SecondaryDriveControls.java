@@ -1,25 +1,25 @@
-package java.frc.robot.controls;
+package frc.robot.controls;
 
-import edu.wpi.first.wpilibj.Controller;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class SecondaryDriveControls {
 
-    private final Controller controller;
+    private final XboxController controller;
 
-    SecondaryDriveControls () {
-        controller = new Controller(Constants.Controllers.SECONDARY_DRIVER_CONTROLS_PORT);
+    SecondaryDriveControls (int port) {
+        controller = new XboxController(port);
     }
 
     public double getForward() {
-        return driveJoystick.getRawAxis(1);
+        return controller.getRawAxis(1);
     }
 
     public double getStrafe() {
-        return driveJoystick.getRawAxis(0);
+        return controller.getRawAxis(0);
     }
 
     public double getYaw() {
-        return driveJoystick.getRawAxis(2);
+        return controller.getRawAxis(2);
     }
 
 }

@@ -33,7 +33,7 @@ public class ArmSubsystem {
             case FLOOR_PICKUP:
                 // move the arm to the floor pickup position
                 break;
-            case SLIDER_PICKUP:
+            case SHELF_PICKUP:
                 // move the arm to the slider pickup position
                 break;
             case PARK:
