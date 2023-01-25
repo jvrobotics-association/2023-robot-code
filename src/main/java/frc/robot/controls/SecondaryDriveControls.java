@@ -6,7 +6,7 @@ public class SecondaryDriveControls {
 
     private final XboxController controller;
 
-    SecondaryDriveControls (int port) {
+    public SecondaryDriveControls (int port) {
         controller = new XboxController(port);
     }
 

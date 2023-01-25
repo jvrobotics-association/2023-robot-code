@@ -12,6 +12,7 @@ public class ArmSubsystem {
 
     public ArmSubsystem() {
         // initialize the motors and encoders here
+        currentPosition = Constants.ArmPositions.PARK;
     }
 
     public void setArmPosition(Constants.ArmPositions position) {
