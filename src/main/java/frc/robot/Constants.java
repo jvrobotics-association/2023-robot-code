@@ -1,9 +1,6 @@
 package frc.robot;
 
-import java.util.Collections;
 import java.util.List;
-
-import org.apache.commons.collections4.list.UnmodifiableList;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -15,10 +12,22 @@ import edu.wpi.first.math.geometry.Translation2d;
  */
 public class Constants {
 
+    public static final class Wheels {
+        public static final double WHEEL_DIAMETER = 0.1524;
+        public static final double WHEEL_WIDTH_OFFSET = 0.168275;
+        public static final double WHEEL_LENGTH_OFFSET = 0.282575;
+    }
+
     public static final class Controllers {
         public static final int DRIVER_CONTROLS_PORT = 0;
         public static final int SECONDARY_DRIVER_CONTROLS_PORT = 1;
         public static final int CONTROL_PANEL_PORT = 2;
+    }
+
+    public static final class Arm {
+        public static final int PRIMARY_MOTOR = 0;
+        public static final int SECONDARY_MOTOR = 1;
+        public static final int MAX_CURRENT = 105;
     }
 
     public static enum ArmPositions {

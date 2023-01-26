@@ -4,23 +4,34 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
   public static final double kMaxSpeed = 3.0; // 3 meters per second
   public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
-  private final Translation2d m_frontLeftLocation = new Translation2d(0.168275, 0.282575);
-  private final Translation2d m_frontRightLocation = new Translation2d(0.168275, -0.282575);
-  private final Translation2d m_backLeftLocation = new Translation2d(-0.168275, 0.282575);
-  private final Translation2d m_backRightLocation = new Translation2d(-0.168275, -0.282575);
+  private final double w = Constants.Wheels.WHEEL_WIDTH_OFFSET;
+  private final double l = Constants.Wheels.WHEEL_LENGTH_OFFSET;
+
+  private final Translation2d m_frontLeftLocation = new Translation2d(w, l);
+  private final Translation2d m_frontRightLocation = new Translation2d(w, -l);
+  private final Translation2d m_backLeftLocation = new Translation2d(-w, l);
+  private final Translation2d m_backRightLocation = new Translation2d(-w, -l);
 
   private final SwerveModule m_frontLeft = new SwerveModule(1, 2, 0, 1, 2, 3);
   private final SwerveModule m_frontRight = new SwerveModule(3, 4, 4, 5, 6, 7);
@@ -46,6 +57,9 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     m_gyro.reset();
+    Pose2d pose = m_odometry.getPoseMeters();
+    double[] data = {pose.getTranslation().getX(), pose.getTranslation().getY(), pose.getRotation().getDegrees()};
+    SmartDashboard.putNumberArray("Pose", data);
   }
 
   /**

@@ -15,9 +15,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.Constants;
 
 public class SwerveModule {
-  private static final double kWheelRadius = 0.0508;
+  private static final double kWheelRadius = Constants.Wheels.WHEEL_DIAMETER / 2;
   private static final int kEncoderResolution = 4096;
 
   private static final double kModuleMaxAngularVelocity = Drivetrain.kMaxAngularSpeed;

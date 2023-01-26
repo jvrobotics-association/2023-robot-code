@@ -35,6 +35,8 @@ public class AprilTagSubsystem extends SubsystemBase {
 
 
             double range = PhotonUtils.calculateDistanceToTargetMeters(Constants.Camera.CAMERA_HEIGHT, tag.pose.getZ(), Constants.Camera.CAMERA_PITCH, targetPitch);
+
+            
         }
     }
 
