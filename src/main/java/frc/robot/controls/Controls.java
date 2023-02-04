@@ -14,4 +14,8 @@ public class Controls {
     public DriverControls getDriverControls() {
         return driverControls;
     }
+
+    public SecondaryDriveControls getSecondaryDriveControls() {
+        return secondaryDriveControls;
+    }
 }

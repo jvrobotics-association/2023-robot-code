@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,6 +22,12 @@ public class ArmSubsystem extends SubsystemBase {
         currentPosition = Constants.ArmPositions.PARK;
         primaryMotor = new TalonSRX(Constants.Arm.PRIMARY_MOTOR);
         secondaryMotor = new TalonSRX(Constants.Arm.SECONDARY_MOTOR);
+
+        TalonSRXConfiguration primaryConfig = new TalonSRXConfiguration();
+        primaryConfig.continuousCurrentLimit = Constants.Arm.MAX_CURRENT;
+
+        primaryMotor.configAllSettings(primaryConfig);
+        secondaryMotor.configAllSettings(primaryConfig);
     }
 
     public void setArmPosition(Constants.ArmPositions position) {
