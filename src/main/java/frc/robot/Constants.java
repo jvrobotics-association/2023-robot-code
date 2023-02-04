@@ -6,6 +6,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 
 /*
  * This class is where the constants for the robot are stored. This is the sources of all modifyable values to tune the robot.
@@ -27,8 +28,18 @@ public class Constants {
     public static final class Arm {
         public static final int PRIMARY_MOTOR = 0;
         public static final int SECONDARY_MOTOR = 1;
+        public static final int WRIST_MOTOR = 2;
         public static final int MAX_CURRENT = 105;
+        public static final int ENCODER_TICKS_PER_REVOLUTION = 4096;
+        public static final double MAX_RPM = 5000.0;
+        public static final double PRIMARY_ARM_LENGTH = Units.inchesToMeters(34.0);
+        public static final double SECONDARY_ARM_LENGTH = Units.inchesToMeters(34.0);
+        public static final double CLAW_LENGTH = Units.inchesToMeters(16.0);
+        public static final double PRIMARY_ARM_GEAR_RATIO = 125.0;
+        public static final double SECONDARY_ARM_GEAR_RATIO = 125.0;
+        public static final double CLAW_GEAR_RATIO = 125.0;
     }
+
 
     public static enum ArmPositions {
         BACK_POLE, FRONT_POLE, FLOOR_DROP, FLOOR_PICKUP, SHELF_PICKUP, PARK

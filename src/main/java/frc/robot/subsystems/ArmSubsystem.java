@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,19 +16,21 @@ public class ArmSubsystem extends SubsystemBase {
     // actions
     private final TalonSRX primaryMotor;
     private final TalonSRX secondaryMotor;
-
+    private final TalonSRX wristMotor;
 
     public ArmSubsystem() {
         // initialize the motors and encoders here
         currentPosition = Constants.ArmPositions.PARK;
         primaryMotor = new TalonSRX(Constants.Arm.PRIMARY_MOTOR);
         secondaryMotor = new TalonSRX(Constants.Arm.SECONDARY_MOTOR);
+        wristMotor = new TalonSRX(Constants.Arm.WRIST_MOTOR);
 
         TalonSRXConfiguration primaryConfig = new TalonSRXConfiguration();
         primaryConfig.continuousCurrentLimit = Constants.Arm.MAX_CURRENT;
 
         primaryMotor.configAllSettings(primaryConfig);
         secondaryMotor.configAllSettings(primaryConfig);
+        wristMotor.configAllSettings(primaryConfig);
     }
 
     public void setArmPosition(Constants.ArmPositions position) {
@@ -57,6 +60,22 @@ public class ArmSubsystem extends SubsystemBase {
         secondaryMotor.set(TalonSRXControlMode.PercentOutput, speed);
     }
 
+    public void setWristMotor(double speed) {
+        wristMotor.set(TalonSRXControlMode.PercentOutput, speed);
+    }
+
+    public double getPrimaryEncoderPosition() {
+        return primaryMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+    }
+
+    public double getSecondaryEncoderPosition() {
+        return secondaryMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+    }
+
+    public double getWristEncoderPosition() {
+        return wristMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+    }
+
     public boolean isInCurrentPosition() {
         // check if the arm is in the current position
         switch (currentPosition) {
@@ -84,6 +103,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void stopMotor(TalonSRX motor) {
         motor.set(TalonSRXControlMode.PercentOutput, 0);
+    }
+
+    public void moveTo(Translation2d position) {      
+        double targetSecondarytheta = secondaryThetaFromPosition(position);
+        double targetPrimarytheta = primaryThetaFromPosition(position, targetSecondarytheta);
+
+        primaryMotor.set(TalonSRXControlMode.Position, convertThetaToEncoder(targetPrimarytheta, 0, Constants.Arm.PRIMARY_ARM_GEAR_RATIO));
+        secondaryMotor.set(TalonSRXControlMode.Position, convertThetaToEncoder(targetSecondarytheta, 0, Constants.Arm.SECONDARY_ARM_GEAR_RATIO));
     }
 
     public void moveToCurrentPosition() {
@@ -121,6 +148,36 @@ public class ArmSubsystem extends SubsystemBase {
             return true;
         }
         return false;
+    }
+
+    public double convertEncoderToTheta(double encoderValue, double zeroPoint, double gearRatio) {
+        return (encoderValue - zeroPoint) * 2 * Math.PI / (gearRatio * Constants.Arm.ENCODER_TICKS_PER_REVOLUTION);
+    }
+
+    public double convertThetaToEncoder(double theta, double zeroPoint, double gearRatio) {
+        return (theta * gearRatio) / (2 * Math.PI) + zeroPoint;
+    }
+
+    // Work in progress
+    // public double calculateDeltaTheta(double speed, double gearRatio) {
+    //     return speed / gearRatio;
+    // }
+
+    public double secondaryThetaFromPosition(Translation2d position) {
+        double x = position.getX();
+        double y = position.getY();
+        double theta = -Math.acos((x * x + y * y - Constants.Arm.PRIMARY_ARM_LENGTH * Constants.Arm.PRIMARY_ARM_LENGTH
+                - Constants.Arm.SECONDARY_ARM_LENGTH * Constants.Arm.SECONDARY_ARM_LENGTH)
+                / (2 * Constants.Arm.PRIMARY_ARM_LENGTH * Constants.Arm.SECONDARY_ARM_LENGTH));
+        return theta;
+    }
+
+    public double primaryThetaFromPosition(Translation2d position, double secondaryTheta) {
+        double x = position.getX();
+        double y = position.getY();
+        double theta = Math.atan2(y, x) + Math.atan2(Constants.Arm.SECONDARY_ARM_LENGTH * Math.sin(secondaryTheta),
+                Constants.Arm.PRIMARY_ARM_LENGTH + Constants.Arm.SECONDARY_ARM_LENGTH * Math.cos(secondaryTheta));
+        return theta;
     }
 
 }
