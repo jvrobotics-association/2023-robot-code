@@ -25,6 +25,12 @@ public class Constants {
         public static final int CONTROL_PANEL_PORT = 2;
     }
 
+    public static final class Claw {
+        public static final int INTAKE_MOTOR = 3;
+        public static final int SOLINOID_FORWARD = 0;
+        public static final int SOLINOID_REVERSE = 1;
+    }
+
     public static final class Arm {
         public static final int PRIMARY_MOTOR = 0;
         public static final int SECONDARY_MOTOR = 1;
