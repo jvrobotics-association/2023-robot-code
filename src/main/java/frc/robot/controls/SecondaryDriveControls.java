@@ -10,13 +10,14 @@ import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
 import frc.robot.commands.arm.MoveSecondaryArmUpCommand;
 
 public class SecondaryDriveControls {
-
+    // The controller for the secondary driver primarily used for the arm
     private final XboxController controller;
 
     public SecondaryDriveControls(int port) {
+        // Initialize the controller
         controller = new XboxController(port);
 
-        // assign buttons to commands
+        // Assign buttons to commands
         new JoystickButton(controller, 5).whileTrue(new MovePrimaryArmForwardCommand());
         new JoystickButton(controller, 6).whileTrue(new MovePrimaryArmBackwardsCommand());
         new JoystickButton(controller, 3).whileTrue(new MoveSecondaryArmUpCommand());

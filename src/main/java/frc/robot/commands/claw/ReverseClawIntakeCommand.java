@@ -6,6 +6,7 @@ import frc.robot.subsystems.ClawSubsystem;
 
 public class ReverseClawIntakeCommand extends CommandBase {
 
+    // Required subsystems
     private final ClawSubsystem clawSubsystem = RobotContainer.getClawSubsystem();
 
     public ReverseClawIntakeCommand(){}

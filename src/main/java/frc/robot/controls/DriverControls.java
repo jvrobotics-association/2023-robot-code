@@ -9,13 +9,16 @@ import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.drive.EnableRotateAroundPointCommand;
 
 public class DriverControls {
+    // The joystick for the driver and the control panel
     private final Joystick driveJoystick;
     private final Joystick controlPannel;
 
     public DriverControls(int drivePortNumer, int controlPortNumber) {
+        // Initialize the joysticks
         driveJoystick = new Joystick(drivePortNumer);
         controlPannel = new Joystick(controlPortNumber);
 
+        // Assign the buttons to commands
         new JoystickButton(driveJoystick, 3).whileTrue(new EnableRotateAroundPointCommand());
         new JoystickButton(driveJoystick, 7).whileTrue(new RunClawIntakeCommand());
         new JoystickButton(driveJoystick, 9).whileTrue(new ReverseClawIntakeCommand());

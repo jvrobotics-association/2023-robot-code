@@ -6,6 +6,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class CalibrateArmCommand extends CommandBase {
 
+    // Required subsystems
     private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
 
     /**

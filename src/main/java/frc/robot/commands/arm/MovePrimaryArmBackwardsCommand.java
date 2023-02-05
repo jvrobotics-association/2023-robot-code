@@ -6,6 +6,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class MovePrimaryArmBackwardsCommand extends CommandBase {
 
+    // Required subsystems
     private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
 
     public MovePrimaryArmBackwardsCommand() {
@@ -18,6 +19,7 @@ public class MovePrimaryArmBackwardsCommand extends CommandBase {
         armSubsystem.setPrimaryMotor(-0.3);
     }
 
+    // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
         return armSubsystem.isPrimaryMotorStopped();

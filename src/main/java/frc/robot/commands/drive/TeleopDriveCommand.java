@@ -43,6 +43,7 @@ public class TeleopDriveCommand extends CommandBase {
         final var rot = -m_rotLimiter.calculate(MathUtil.applyDeadband(driverControls.getYaw(), 0.02))
                 * Drivetrain.kMaxAngularSpeed;
 
+                // Set the rotation offset to the claw pickup position if enabled
         final boolean rotateAroundFront = RobotContainer.getRotateAroundFront();
         final Translation2d rotationOffset = rotateAroundFront ? new Translation2d() : Constants.RelativePositions.CLAW_PICKUP;
 

@@ -6,6 +6,7 @@ import frc.robot.subsystems.ClawSubsystem;
 
 public class OpenClawCommand extends CommandBase {
 
+    // Required subsystems
     private final ClawSubsystem clawSubsystem = RobotContainer.getClawSubsystem();
 
     public OpenClawCommand(){}

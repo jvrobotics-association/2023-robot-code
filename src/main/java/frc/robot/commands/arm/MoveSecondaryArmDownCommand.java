@@ -6,6 +6,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class MoveSecondaryArmDownCommand extends CommandBase {
 
+    // Required subsystems
     private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
 
     public MoveSecondaryArmDownCommand() {
@@ -18,6 +19,7 @@ public class MoveSecondaryArmDownCommand extends CommandBase {
         armSubsystem.setSecondaryMotor(-0.3);
     }
 
+    // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
         return armSubsystem.isSecondaryMotorStopped();

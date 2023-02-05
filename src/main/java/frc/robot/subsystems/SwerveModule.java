@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants;
 
+// TODO: Migrate hardcoded values to constants
 public class SwerveModule {
   private static final double kWheelRadius = Constants.Wheels.WHEEL_DIAMETER / 2;
   private static final int kEncoderResolution = 4096;
@@ -31,10 +32,10 @@ public class SwerveModule {
   private final Encoder m_driveEncoder;
   private final Encoder m_turningEncoder;
 
-  // Gains are for example purposes only - must be determined for your own robot!
+  // Gains are for example purposes only - must be determined
   private final PIDController m_drivePIDController = new PIDController(1, 0, 0);
 
-  // Gains are for example purposes only - must be determined for your own robot!
+  // Gains are for example purposes only - must be determined
   private final ProfiledPIDController m_turningPIDController =
       new ProfiledPIDController(
           1,
@@ -43,7 +44,7 @@ public class SwerveModule {
           new TrapezoidProfile.Constraints(
               kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
 
-  // Gains are for example purposes only - must be determined for your own robot!
+  // Gains are for example purposes only - must be determined 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
 

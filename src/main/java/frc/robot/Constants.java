@@ -46,11 +46,12 @@ public class Constants {
         public static final double CLAW_GEAR_RATIO = 125.0;
     }
 
-
+    // These values will be used to select predefined arm positions
     public static enum ArmPositions {
         BACK_POLE, FRONT_POLE, FLOOR_DROP, FLOOR_PICKUP, SHELF_PICKUP, PARK
     }
 
+    
     public static final class RelativePositions {
         public static final Translation2d CLAW_PICKUP = new Translation2d(0.0, 1.0);
     }
@@ -60,6 +61,7 @@ public class Constants {
         public static final double CAMERA_PITCH = 0.0;
     }
 
+    // These values are all hardcoded for the specific position of the AprilTags on the field including the rotation
     public static final class AprilTagPositions {
         public static final List<AprilTag> TAGS = List.of(null, new AprilTag(1,
                 new Pose3d(15.513558, 1.071626, 0.462788, new Rotation3d())),

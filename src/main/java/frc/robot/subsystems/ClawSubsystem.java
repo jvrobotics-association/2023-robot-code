@@ -10,14 +10,17 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ClawSubsystem extends SubsystemBase {
 
+    // The motor to control the intake and the solenoid to control the claw
     private final CANSparkMax intakeMotor;
     private final DoubleSolenoid clawSolenoid;
 
     public ClawSubsystem() {
+        // Initialize the motors and solenoids
         intakeMotor = new CANSparkMax(Constants.Claw.INTAKE_MOTOR, MotorType.kBrushless);
         clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Claw.SOLINOID_FORWARD, Constants.Claw.SOLINOID_REVERSE);
     }
 
+    // Sets the speed of the intake motor
     public void setIntakeMotor(double speed) {
         intakeMotor.set(speed);
     }
@@ -26,6 +29,7 @@ public class ClawSubsystem extends SubsystemBase {
         intakeMotor.set(0);
     }
 
+    // Opens and closes the claw
     public void openClaw() {
         clawSolenoid.set(DoubleSolenoid.Value.kForward);
     }
