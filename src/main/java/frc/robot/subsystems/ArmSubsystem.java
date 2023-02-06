@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,25 +12,16 @@ public class ArmSubsystem extends SubsystemBase {
 
     // define the motors and encoders here for the primary, secondary, and wrist
     // actions
-    private final TalonSRX primaryMotor;
-    private final TalonSRX secondaryMotor;
-    private final TalonSRX wristMotor;
+    private final CANSparkMax primaryMotor;
+    private final CANSparkMax secondaryMotor;
+    private final CANSparkMax wristMotor;
 
     public ArmSubsystem() {
         // initialize the motors and encoders here
         currentPosition = Constants.ArmPositions.PARK;
-        primaryMotor = new TalonSRX(Constants.Arm.PRIMARY_MOTOR);
-        secondaryMotor = new TalonSRX(Constants.Arm.SECONDARY_MOTOR);
-        wristMotor = new TalonSRX(Constants.Arm.WRIST_MOTOR);
-
-        // create the configuration for the motors
-        TalonSRXConfiguration primaryConfig = new TalonSRXConfiguration();
-        primaryConfig.continuousCurrentLimit = Constants.Arm.MAX_CURRENT;
-
-        // apply configuration to the motors
-        primaryMotor.configAllSettings(primaryConfig);
-        secondaryMotor.configAllSettings(primaryConfig);
-        wristMotor.configAllSettings(primaryConfig);
+        primaryMotor = new CANSparkMax(Constants.Arm.PRIMARY_MOTOR, CANSparkMax.MotorType.kBrushless);
+        secondaryMotor = new CANSparkMax(Constants.Arm.SECONDARY_MOTOR, CANSparkMax.MotorType.kBrushless);
+        wristMotor = new CANSparkMax(Constants.Arm.WRIST_MOTOR, CANSparkMax.MotorType.kBrushless);
     }
 
     // Sets value of the current arm position
@@ -47,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the primary motor is stopped
      */
     public boolean isPrimaryMotorStopped() {
-        double primaryCurrent = primaryMotor.getStatorCurrent();
+        double primaryCurrent = primaryMotor.getOutputCurrent();
         if (primaryCurrent > Constants.Arm.MAX_CURRENT) {
             stopMotor(primaryMotor);
             return true;
@@ -58,29 +47,30 @@ public class ArmSubsystem extends SubsystemBase {
 
     // controlls the motors
     public void setPrimaryMotor(double speed) {
-        primaryMotor.set(TalonSRXControlMode.PercentOutput, speed);
+        primaryMotor.set(speed);
     }
 
     public void setSecondaryMotor(double speed) {
-        secondaryMotor.set(TalonSRXControlMode.PercentOutput, speed);
+        secondaryMotor.set(speed);
     }
 
     public void setWristMotor(double speed) {
-        wristMotor.set(TalonSRXControlMode.PercentOutput, speed);
+        wristMotor.set(speed);
     }
 
 
+    // TODO: Check to see if this is correct
     // gets the encoder positions
     public double getPrimaryEncoderPosition() {
-        return primaryMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+        return primaryMotor.getEncoder().getPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
     }
 
     public double getSecondaryEncoderPosition() {
-        return secondaryMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+        return secondaryMotor.getEncoder().getPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
     }
 
     public double getWristEncoderPosition() {
-        return wristMotor.getSelectedSensorPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
+        return wristMotor.getEncoder().getPosition() % Constants.Arm.ENCODER_TICKS_PER_REVOLUTION;
     }
 
     // Check to see if the arm is in the right position returns true if it is
@@ -110,8 +100,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     // stops the motors
-    public void stopMotor(TalonSRX motor) {
-        motor.set(TalonSRXControlMode.PercentOutput, 0);
+    public void stopMotor(CANSparkMax motor) {
+        motor.set(0);
     }
 
     /*
@@ -125,9 +115,10 @@ public class ArmSubsystem extends SubsystemBase {
         double targetSecondarytheta = secondaryThetaFromPosition(position);
         double targetPrimarytheta = primaryThetaFromPosition(position, targetSecondarytheta);
 
+        // TODO: Redo this method to use the new motor control
         // move the motors to the target positions
-        primaryMotor.set(TalonSRXControlMode.Position, convertThetaToEncoder(targetPrimarytheta, 0, Constants.Arm.PRIMARY_ARM_GEAR_RATIO));
-        secondaryMotor.set(TalonSRXControlMode.Position, convertThetaToEncoder(targetSecondarytheta, 0, Constants.Arm.SECONDARY_ARM_GEAR_RATIO));
+        // primaryMotor.set(CANSparkMaxControlMode.Position, convertThetaToEncoder(targetPrimarytheta, 0, Constants.Arm.PRIMARY_ARM_GEAR_RATIO));
+        // secondaryMotor.set(CANSparkMaxControlMode.Position, convertThetaToEncoder(targetSecondarytheta, 0, Constants.Arm.SECONDARY_ARM_GEAR_RATIO));
     }
 
 
@@ -163,7 +154,7 @@ public class ArmSubsystem extends SubsystemBase {
      * Resets the encoders to zero
      */
     public void resetEncoders() {
-        primaryMotor.setSelectedSensorPosition(0);
+        primaryMotor.getEncoder().setPosition(0);
     }
 
     /*
@@ -172,7 +163,7 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the secondary motor is stopped
      */
     public boolean isSecondaryMotorStopped() {
-        double secondaryCurrent = secondaryMotor.getStatorCurrent();
+        double secondaryCurrent = secondaryMotor.getOutputCurrent();
         if (secondaryCurrent > Constants.Arm.MAX_CURRENT) {
             stopMotor(secondaryMotor);
             return true;

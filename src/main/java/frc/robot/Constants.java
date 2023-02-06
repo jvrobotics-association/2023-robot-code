@@ -42,8 +42,8 @@ public class Constants {
         public static final double SECONDARY_ARM_LENGTH = Units.inchesToMeters(34.0);
         public static final double CLAW_LENGTH = Units.inchesToMeters(16.0);
         public static final double PRIMARY_ARM_GEAR_RATIO = 125.0;
-        public static final double SECONDARY_ARM_GEAR_RATIO = 125.0;
-        public static final double CLAW_GEAR_RATIO = 125.0;
+        public static final double SECONDARY_ARM_GEAR_RATIO = 100.0;
+        public static final double CLAW_GEAR_RATIO = 20.0;
     }
 
     // These values will be used to select predefined arm positions
