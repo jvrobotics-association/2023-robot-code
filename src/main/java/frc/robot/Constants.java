@@ -13,35 +13,38 @@ import edu.wpi.first.math.util.Units;
  */
 public class Constants {
 
-    public static final int kFrontLeftDriveMotorPort = 18;
-    public static final int kRearLeftDriveMotorPort = 6;
-    public static final int kFrontRightDriveMotorPort = 4;
-    public static final int kRearRightDriveMotorPort = 23;
+    public static final class Drive {
+        public static final int kFrontLeftDriveMotorId = 18;
+        public static final int kRearLeftDriveMotorId = 6;
+        public static final int kFrontRightDriveMotorId = 4;
+        public static final int kRearRightDriveMotorId = 23;
 
-    public static final int kFrontLeftTurningMotorPort = 1;
-    public static final int kRearLeftTurningMotorPort = 7;
-    public static final int kFrontRightTurningMotorPort = 3;
-    public static final int kRearRightTurningMotorPort = 25;
+        public static final int kFrontLeftTurningMotorId = 1;
+        public static final int kRearLeftTurningMotorId = 7;
+        public static final int kFrontRightTurningMotorId = 3;
+        public static final int kRearRightTurningMotorId = 25;
 
-    public static final int kFrontLeftTurningEncoderPort = 22;
-    public static final int kRearLeftTurningEncoderPort = 10;
-    public static final int kFrontRightTurningEncoderPort = 9;
-    public static final int kRearRightTurningEncoderPort = 8;
+        public static final int kFrontLeftTurningEncoderId = 22;
+        public static final int kRearLeftTurningEncoderId = 10;
+        public static final int kFrontRightTurningEncoderId = 9;
+        public static final int kRearRightTurningEncoderId = 8;
 
-    public static final double kFrontLeftAngleZero = 79.45;
-    public static final double kRearLeftAngleZero = 121.38;
-    public static final double kFrontRightAngleZero = -104.68;
-    public static final double kRearRightAngleZero = 23.54;
+        public static final double kFrontLeftAngleZero = 79.45;
+        public static final double kRearLeftAngleZero = 121.38;
+        public static final double kFrontRightAngleZero = -104.68;
+        public static final double kRearRightAngleZero = 23.54;
 
-    public static final boolean kFrontLeftTurningEncoderReversed = false;
-    public static final boolean kRearLeftTurningEncoderReversed = false;
-    public static final boolean kFrontRightTurningEncoderReversed = false;
-    public static final boolean kRearRightTurningEncoderReversed = false;
+        public static final boolean kFrontLeftTurningEncoderReversed = false;
+        public static final boolean kRearLeftTurningEncoderReversed = false;
+        public static final boolean kFrontRightTurningEncoderReversed = false;
+        public static final boolean kRearRightTurningEncoderReversed = false;
 
-    public static final boolean kFrontLeftDriveEncoderReversed = false;
-    public static final boolean kRearLeftDriveEncoderReversed = false;
-    public static final boolean kFrontRightDriveEncoderReversed = true;
-    public static final boolean kRearRightDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveEncoderReversed = false;
+        public static final boolean kRearLeftDriveEncoderReversed = false;
+        public static final boolean kFrontRightDriveEncoderReversed = true;
+        public static final boolean kRearRightDriveEncoderReversed = true;
+
+    }
 
     public static final class Wheels {
         public static final double WHEEL_DIAMETER = 0.1524;
@@ -84,7 +87,6 @@ public class Constants {
         BACK_POLE, FRONT_POLE, FLOOR_DROP, FLOOR_PICKUP, SHELF_PICKUP, PARK
     }
 
-    
     public static final class RelativePositions {
         public static final Translation2d CLAW_PICKUP = new Translation2d(0.0, 1.0);
     }
@@ -94,7 +96,8 @@ public class Constants {
         public static final double CAMERA_PITCH = 0.0;
     }
 
-    // These values are all hardcoded for the specific position of the AprilTags on the field including the rotation
+    // These values are all hardcoded for the specific position of the AprilTags on
+    // the field including the rotation
     public static final class AprilTagPositions {
         public static final List<AprilTag> TAGS = List.of(null, new AprilTag(1,
                 new Pose3d(15.513558, 1.071626, 0.462788, new Rotation3d())),

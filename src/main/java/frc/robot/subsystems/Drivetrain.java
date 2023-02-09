@@ -47,45 +47,45 @@ public class Drivetrain extends SubsystemBase {
     private final ShuffleboardTab moduleTab = Shuffleboard.getTab("Module Info");
     private final SwerveModule m_frontLeft =
             new SwerveModule(
-                    Constants.kFrontLeftDriveMotorPort,
-                    Constants.kFrontLeftTurningMotorPort,
-                    Constants.kFrontLeftTurningEncoderPort,
-                    Constants.kFrontLeftAngleZero,
-                    Constants.kFrontLeftTurningEncoderReversed,
-                    Constants.kFrontLeftDriveEncoderReversed,
+                    Constants.Drive.kFrontLeftDriveMotorId,
+                    Constants.Drive.kFrontLeftTurningMotorId,
+                    Constants.Drive.kFrontLeftTurningEncoderId,
+                    Constants.Drive.kFrontLeftAngleZero,
+                    Constants.Drive.kFrontLeftTurningEncoderReversed,
+                    Constants.Drive.kFrontLeftDriveEncoderReversed,
                     moduleTab.getLayout("Front Left Module", BuiltInLayouts.kList)
                             .withSize(4, 8)
                             .withPosition(0, 0));
     private final SwerveModule m_rearLeft =
             new SwerveModule(
-                    Constants.kRearLeftDriveMotorPort,
-                    Constants.kRearLeftTurningMotorPort,
-                    Constants.kRearLeftTurningEncoderPort,
-                    Constants.kRearLeftAngleZero,
-                    Constants.kRearLeftTurningEncoderReversed,
-                    Constants.kRearLeftDriveEncoderReversed,
+                    Constants.Drive.kRearLeftDriveMotorId,
+                    Constants.Drive.kRearLeftTurningMotorId,
+                    Constants.Drive.kRearLeftTurningEncoderId,
+                    Constants.Drive.kRearLeftAngleZero,
+                    Constants.Drive.kRearLeftTurningEncoderReversed,
+                    Constants.Drive.kRearLeftDriveEncoderReversed,
                     moduleTab.getLayout("Rear Left Module", BuiltInLayouts.kList)
                             .withSize(4, 8)
                             .withPosition(4, 0));
     private final SwerveModule m_frontRight =
             new SwerveModule(
-                    Constants.kFrontRightDriveMotorPort,
-                    Constants.kFrontRightTurningMotorPort,
-                    Constants.kFrontRightTurningEncoderPort,
-                    Constants.kFrontRightAngleZero,
-                    Constants.kFrontRightTurningEncoderReversed,
-                    Constants.kFrontRightDriveEncoderReversed,
+                    Constants.Drive.kFrontRightDriveMotorId,
+                    Constants.Drive.kFrontRightTurningMotorId,
+                    Constants.Drive.kFrontRightTurningEncoderId,
+                    Constants.Drive.kFrontRightAngleZero,
+                    Constants.Drive.kFrontRightTurningEncoderReversed,
+                    Constants.Drive.kFrontRightDriveEncoderReversed,
                     moduleTab.getLayout("Front Right Module", BuiltInLayouts.kList)
                             .withSize(4, 8)
                             .withPosition(8, 0));
     private final SwerveModule m_rearRight =
             new SwerveModule(
-                    Constants.kRearRightDriveMotorPort,
-                    Constants.kRearRightTurningMotorPort,
-                    Constants.kRearRightTurningEncoderPort,
-                    Constants.kRearRightAngleZero,
-                    Constants.kRearRightTurningEncoderReversed,
-                    Constants.kRearRightDriveEncoderReversed,
+                    Constants.Drive.kRearRightDriveMotorId,
+                    Constants.Drive.kRearRightTurningMotorId,
+                    Constants.Drive.kRearRightTurningEncoderId,
+                    Constants.Drive.kRearRightAngleZero,
+                    Constants.Drive.kRearRightTurningEncoderReversed,
+                    Constants.Drive.kRearRightDriveEncoderReversed,
                     moduleTab.getLayout("Rear Right Module", BuiltInLayouts.kList)
                             .withSize(4, 8)
                             .withPosition(12, 0));
@@ -221,7 +221,7 @@ public class Drivetrain extends SubsystemBase {
 //   * @return The turn rate of the robot, in degrees per second
 //   */
 //  public double getTurnRate() {
-////    return m_gyro.getRate() * (Constants.kGyroReversed ? -1.0 : 1.0);
+////    return m_gyro.getRate() * (Constants.Drive.kGyroReversed ? -1.0 : 1.0);
 //    return m_gyro.getRate();
 //  }
 
