@@ -8,6 +8,8 @@ import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
 
+    private double primaryEncoderTarget = 0;
+    private double secondaryEncoderTarget = 0;
     private Constants.ArmPositions currentPosition;
 
     // define the motors and encoders here for the primary, secondary, and wrist
@@ -44,7 +46,6 @@ public class ArmSubsystem extends SubsystemBase {
         return false;
     }
 
-
     // controlls the motors
     public void setPrimaryMotor(double speed) {
         primaryMotor.set(speed);
@@ -57,7 +58,6 @@ public class ArmSubsystem extends SubsystemBase {
     public void setWristMotor(double speed) {
         wristMotor.set(speed);
     }
-
 
     // TODO: Check to see if this is correct
     // gets the encoder positions
@@ -99,33 +99,55 @@ public class ArmSubsystem extends SubsystemBase {
         return false;
     }
 
+    /*
+     * Boolean on if the arm has reached its targeted position or not
+     * 
+     * @returns true if both joints have reached the target positions
+     */
+    public boolean hasReachedTarget() {
+        return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR);
+    }
+
+    
+
     // stops the motors
     public void stopMotor(CANSparkMax motor) {
         motor.set(0);
     }
 
     /*
-     * Moves the arm to a specified position where the origin is the axis of rotation for the primary.
-     * The x axis is forward on the robot and the y axis is upward on the robot.
-     * 
-     * @param position The position to move the arm to
+     * Moves the arm joints to the target encoder positions
      */
-    public void moveTo(Translation2d position) {      
-        // calculate the target positions for the motors
-        double targetSecondarytheta = secondaryThetaFromPosition(position);
-        double targetPrimarytheta = primaryThetaFromPosition(position, targetSecondarytheta);
+    public void moveToTarget() {
+        // stores the distance that the primary and secondary joints need to travel
+        double primaryDelta = primaryEncoderTarget - getPrimaryEncoderPosition();
+        double secondaryDelta = secondaryEncoderTarget - getSecondaryEncoderPosition();
 
-        // TODO: Redo this method to use the new motor control
-        // move the motors to the target positions
-        // primaryMotor.set(CANSparkMaxControlMode.Position, convertThetaToEncoder(targetPrimarytheta, 0, Constants.Arm.PRIMARY_ARM_GEAR_RATIO));
-        // secondaryMotor.set(CANSparkMaxControlMode.Position, convertThetaToEncoder(targetSecondarytheta, 0, Constants.Arm.SECONDARY_ARM_GEAR_RATIO));
+        // move the motors if not in allowed error
+        if (primaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
+            int direction = (int) (primaryDelta / Math.abs(primaryDelta));
+            primaryMotor.set(direction);
+        } else {
+            primaryMotor.stopMotor();
+        }
+        if (secondaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
+            int direction = (int) (secondaryDelta / Math.abs(secondaryDelta));
+            secondaryMotor.set(direction);
+        } else {
+            secondaryMotor.stopMotor();
+        }
     }
 
+    public void setTargetEncoderValues(Translation2d position) {
+        // calculate the target positions for the motors
+        secondaryEncoderTarget = secondaryThetaFromPosition(position);
+        primaryEncoderTarget = primaryThetaFromPosition(position, secondaryThetaFromPosition(position));
+    }
 
     /*
      * Moves the arms to predefined positions
      */
-    //TODO: Finish this method
+    // TODO: Finish this method
     public void moveToCurrentPosition() {
         // move the arm to the current position
         switch (currentPosition) {
@@ -158,7 +180,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     /*
-     * Checks to see if the secondary motor is stopped by checking the current. 
+     * Checks to see if the secondary motor is stopped by checking the current.
      * 
      * @return Whether the secondary motor is stopped
      */
@@ -171,12 +193,14 @@ public class ArmSubsystem extends SubsystemBase {
         return false;
     }
 
-
     /*
      * Converts the encoder value to the angle of the arm
      * 
      * @param encoderValue The encoder value to convert
-     * @param zeroPoint The zero point of the arm (if it is not at zero else pass in 0)
+     * 
+     * @param zeroPoint The zero point of the arm (if it is not at zero else pass in
+     * 0)
+     * 
      * @param gearRatio The gear ratio of the arm
      * 
      * @return The angle of the arm
@@ -189,7 +213,10 @@ public class ArmSubsystem extends SubsystemBase {
      * Converts the angle of the arm to the encoder value
      * 
      * @param theta The angle of the arm
-     * @param zeroPoint The zero point of the arm (if it is not at zero else pass in 0)
+     * 
+     * @param zeroPoint The zero point of the arm (if it is not at zero else pass in
+     * 0)
+     * 
      * @param gearRatio The gear ratio of the arm
      * 
      * @return The encoder value
@@ -200,9 +227,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Work in progress
     // public double calculateDeltaTheta(double speed, double gearRatio) {
-    //     return speed / gearRatio;
+    // return speed / gearRatio;
     // }
-
 
     /*
      * Calculates the secondary theta from the target position
@@ -226,6 +252,7 @@ public class ArmSubsystem extends SubsystemBase {
      * Calculates the primary theta from the target position
      * 
      * @param position The target position
+     * 
      * @param secondaryTheta The secondary theta
      * 
      * @return The primary theta

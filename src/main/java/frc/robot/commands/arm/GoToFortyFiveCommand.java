@@ -17,7 +17,12 @@ public class GoToFortyFiveCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        armSubsystem.moveTo(new Translation2d(1.22131483, 1.22131483));
+        armSubsystem.setTargetEncoderValues(new Translation2d(1.22131483, 1.22131483));
+    }
+
+    @Override
+    public boolean isFinished() {
+        return armSubsystem.hasReachedTarget();
     }
     
 }
