@@ -13,10 +13,41 @@ import edu.wpi.first.math.util.Units;
  */
 public class Constants {
 
+    public static final int kFrontLeftDriveMotorPort = 18;
+    public static final int kRearLeftDriveMotorPort = 6;
+    public static final int kFrontRightDriveMotorPort = 4;
+    public static final int kRearRightDriveMotorPort = 23;
+
+    public static final int kFrontLeftTurningMotorPort = 1;
+    public static final int kRearLeftTurningMotorPort = 7;
+    public static final int kFrontRightTurningMotorPort = 3;
+    public static final int kRearRightTurningMotorPort = 25;
+
+    public static final int kFrontLeftTurningEncoderPort = 22;
+    public static final int kRearLeftTurningEncoderPort = 10;
+    public static final int kFrontRightTurningEncoderPort = 9;
+    public static final int kRearRightTurningEncoderPort = 8;
+
+    public static final double kFrontLeftAngleZero = 79.45;
+    public static final double kRearLeftAngleZero = 121.38;
+    public static final double kFrontRightAngleZero = -104.68;
+    public static final double kRearRightAngleZero = 23.54;
+
+    public static final boolean kFrontLeftTurningEncoderReversed = false;
+    public static final boolean kRearLeftTurningEncoderReversed = false;
+    public static final boolean kFrontRightTurningEncoderReversed = false;
+    public static final boolean kRearRightTurningEncoderReversed = false;
+
+    public static final boolean kFrontLeftDriveEncoderReversed = false;
+    public static final boolean kRearLeftDriveEncoderReversed = false;
+    public static final boolean kFrontRightDriveEncoderReversed = true;
+    public static final boolean kRearRightDriveEncoderReversed = true;
+
     public static final class Wheels {
         public static final double WHEEL_DIAMETER = 0.1524;
         public static final double WHEEL_WIDTH_OFFSET = 0.168275;
         public static final double WHEEL_LENGTH_OFFSET = 0.282575;
+        public static final double WHEEL_POLAR_DISTANCE = 0.32888;
     }
 
     public static final class Controllers {
