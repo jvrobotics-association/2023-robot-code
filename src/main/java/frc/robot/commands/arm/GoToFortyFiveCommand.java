@@ -21,6 +21,11 @@ public class GoToFortyFiveCommand extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        armSubsystem.moveToTarget();
+    }
+
+    @Override
     public boolean isFinished() {
         return armSubsystem.hasReachedTarget();
     }

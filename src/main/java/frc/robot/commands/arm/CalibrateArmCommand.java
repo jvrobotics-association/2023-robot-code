@@ -18,8 +18,9 @@ public class CalibrateArmCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        armSubsystem.setPrimaryMotor(0.3);
-        armSubsystem.setSecondaryMotor(0.3);
+        // armSubsystem.setPrimaryMotor(0.3);
+        // armSubsystem.setSecondaryMotor(0.3);
+        armSubsystem.resetEncoders();
     }
 
     // Returns whether the arm is stopped.

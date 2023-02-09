@@ -6,15 +6,16 @@ import org.photonvision.PhotonUtils;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class AprilTagSubsystem extends SubsystemBase {
 
     // Define the things that the subsystem needs to use
-    public Drivetrain drivetrain = RobotContainer.getDrivetrain();
+    public Drivetrain drivetrain;
     public PhotonCamera photonCamera = new PhotonCamera("photonvision");
 
-    public AprilTagSubsystem() {}
+    public AprilTagSubsystem(Drivetrain drivetrain) {
+        this.drivetrain = drivetrain;
+    }
 
     // Each cycle of the robot loop, this method is called
     public void periodic() {

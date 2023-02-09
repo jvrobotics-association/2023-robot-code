@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.commands.drive.TeleopDriveCommand;
 import frc.robot.controls.DriverControls;
 import frc.robot.subsystems.AprilTagSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -10,7 +11,7 @@ import frc.robot.controls.SecondaryDriveControls;
 public class RobotContainer {
     // Initialized all of the subsystems
     private static Drivetrain drivetrain = new Drivetrain();
-    private static AprilTagSubsystem aprilTagSubsystem = new AprilTagSubsystem();
+    // private AprilTagSubsystem aprilTagSubsystem = new AprilTagSubsystem();
     private static ArmSubsystem armSubsystem = new ArmSubsystem();
     private static ClawSubsystem clawSubsystem = new ClawSubsystem();
     private static DriverControls driverControls = new DriverControls(Constants.Controllers.DRIVER_CONTROLS_PORT, Constants.Controllers.CONTROL_PANEL_PORT);
@@ -19,8 +20,12 @@ public class RobotContainer {
     // used to determine if the robot should rotate around the center of the robot or the front of the robot
     private static boolean rotateAroundFront = false;
 
-    public static void setRotateAroundFront(boolean rotateAroundFront) {
-        RobotContainer.rotateAroundFront = rotateAroundFront;
+    public RobotContainer() {
+        drivetrain.setDefaultCommand(new TeleopDriveCommand());
+    }
+
+    public static void setRotateAroundFront(boolean m_rotateAroundFront) {
+       rotateAroundFront = m_rotateAroundFront;
     }
 
     public static ArmSubsystem getArmSubsystem() {
@@ -43,9 +48,9 @@ public class RobotContainer {
         return secondaryDriveControls;
     }
 
-    public static AprilTagSubsystem getAprilTagSubsystem() {
-        return aprilTagSubsystem;
-    }
+    // public AprilTagSubsystem getAprilTagSubsystem() {
+    //     return aprilTagSubsystem;
+    // }
 
     public static ClawSubsystem getClawSubsystem() {
         return clawSubsystem;

@@ -105,6 +105,7 @@ public class ArmSubsystem extends SubsystemBase {
      * @returns true if both joints have reached the target positions
      */
     public boolean hasReachedTarget() {
+        System.out.println(primaryEncoderTarget - getPrimaryEncoderPosition());
         return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR);
     }
 
@@ -140,8 +141,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void setTargetEncoderValues(Translation2d position) {
         // calculate the target positions for the motors
-        secondaryEncoderTarget = secondaryThetaFromPosition(position);
-        primaryEncoderTarget = primaryThetaFromPosition(position, secondaryThetaFromPosition(position));
+        secondaryEncoderTarget = convertThetaToEncoder(secondaryThetaFromPosition(position), 0, Constants.Arm.SECONDARY_ARM_GEAR_RATIO);
+        primaryEncoderTarget = convertThetaToEncoder(primaryThetaFromPosition(position, secondaryThetaFromPosition(position)), 0, Constants.Arm.PRIMARY_ARM_GEAR_RATIO);
     }
 
     /*

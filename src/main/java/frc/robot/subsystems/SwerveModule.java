@@ -212,8 +212,8 @@ public class SwerveModule {
   }
 
   public void periodic_func() {
-//    SmartDashboard.putNumber(shuffleboardContainer.getTitle() + " ABS", m_turnEncoder.getAbsolutePosition());
-//    SmartDashboard.putNumber(shuffleboardContainer.getTitle() + " pos", m_turnEncoder.getPosition());
+   SmartDashboard.putNumber(shuffleboardContainer.getTitle() + " ABS", m_turnEncoder.getAbsolutePosition());
+   SmartDashboard.putNumber(shuffleboardContainer.getTitle() + " pos", m_turnEncoder.getPosition());
   }
 
 
