@@ -1,7 +1,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,13 +16,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 
 
 public class Drivetrain extends SubsystemBase {
 
     // The gyro sensor
-    public final Pigeon2 m_gyro = new Pigeon2(0);
+    public final PigeonIMU m_gyro = new PigeonIMU(13);
 
     private int gyroOffset = 0;
 
@@ -43,7 +44,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Odometry class for tracking robot pose
     public SwerveDriveOdometry m_odometry =
-            new SwerveDriveOdometry(kDriveKinematics, new Rotation2d(m_gyro.getRoll(), m_gyro.getPitch()), swerveModulePositions);
+            new SwerveDriveOdometry(kDriveKinematics, new Rotation2d(m_gyro.getRoll()), swerveModulePositions);
     private final ShuffleboardTab moduleTab = Shuffleboard.getTab("Module Info");
     private final SwerveModule m_frontLeft =
             new SwerveModule(

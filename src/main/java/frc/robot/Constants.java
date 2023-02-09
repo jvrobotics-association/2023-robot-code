@@ -14,20 +14,20 @@ import edu.wpi.first.math.util.Units;
 public class Constants {
 
     public static final class Drive {
-        public static final int kFrontLeftDriveMotorId = 18;
-        public static final int kRearLeftDriveMotorId = 6;
-        public static final int kFrontRightDriveMotorId = 4;
-        public static final int kRearRightDriveMotorId = 23;
+        public static final int kFrontLeftDriveMotorId = 6;
+        public static final int kRearLeftDriveMotorId = 8;
+        public static final int kFrontRightDriveMotorId = 7;
+        public static final int kRearRightDriveMotorId = 1;
 
-        public static final int kFrontLeftTurningMotorId = 1;
-        public static final int kRearLeftTurningMotorId = 7;
+        public static final int kFrontLeftTurningMotorId = 5;
+        public static final int kRearLeftTurningMotorId = 4;
         public static final int kFrontRightTurningMotorId = 3;
-        public static final int kRearRightTurningMotorId = 25;
+        public static final int kRearRightTurningMotorId = 2;
 
-        public static final int kFrontLeftTurningEncoderId = 22;
-        public static final int kRearLeftTurningEncoderId = 10;
+        public static final int kFrontLeftTurningEncoderId = 11;
+        public static final int kRearLeftTurningEncoderId = 12;
         public static final int kFrontRightTurningEncoderId = 9;
-        public static final int kRearRightTurningEncoderId = 8;
+        public static final int kRearRightTurningEncoderId = 10;
 
         public static final double kFrontLeftAngleZero = 79.45;
         public static final double kRearLeftAngleZero = 121.38;
@@ -44,6 +44,7 @@ public class Constants {
         public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kRearRightDriveEncoderReversed = true;
 
+        public static final int kPigeonId = 13;
     }
 
     public static final class Wheels {
@@ -60,15 +61,15 @@ public class Constants {
     }
 
     public static final class Claw {
-        public static final int INTAKE_MOTOR = 3;
+        public static final int INTAKE_MOTOR_ID = 3;
         public static final int SOLINOID_FORWARD = 0;
         public static final int SOLINOID_REVERSE = 1;
         public static final double ALLOWED_ENCODER_ERROR = 5.0;
     }
 
     public static final class Arm {
-        public static final int PRIMARY_MOTOR = 0;
-        public static final int SECONDARY_MOTOR = 1;
+        public static final int PRIMARY_MOTOR_ID = 14;
+        public static final int SECONDARY_MOTOR_ID = 15;
         public static final int WRIST_MOTOR = 2;
         public static final int MAX_CURRENT = 105;
         public static final int ENCODER_TICKS_PER_REVOLUTION = 42;

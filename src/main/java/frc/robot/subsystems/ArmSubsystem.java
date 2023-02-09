@@ -21,8 +21,8 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem() {
         // initialize the motors and encoders here
         currentPosition = Constants.ArmPositions.PARK;
-        primaryMotor = new CANSparkMax(Constants.Arm.PRIMARY_MOTOR, CANSparkMax.MotorType.kBrushless);
-        secondaryMotor = new CANSparkMax(Constants.Arm.SECONDARY_MOTOR, CANSparkMax.MotorType.kBrushless);
+        primaryMotor = new CANSparkMax(Constants.Arm.PRIMARY_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+        secondaryMotor = new CANSparkMax(Constants.Arm.SECONDARY_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
         wristMotor = new CANSparkMax(Constants.Arm.WRIST_MOTOR, CANSparkMax.MotorType.kBrushless);
     }
 
