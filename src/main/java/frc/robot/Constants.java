@@ -68,18 +68,37 @@ public class Constants {
     }
 
     public static final class Arm {
+        // The motor IDs for the motors in the CAN loop
         public static final int PRIMARY_MOTOR_ID = 14;
         public static final int SECONDARY_MOTOR_ID = 15;
-        public static final int WRIST_MOTOR = 2;
+        public static final int WRIST_MOTOR_ID = 2;
+
+        // The IDs for the limit switches
+        public static final int PRIMARY_LIMIT_SWITCH_FORWARD = 0;
+        public static final int PRIMARY_LIMIT_SWITCH_REVERSE = 1;
+        public static final int SECONDARY_LIMIT_SWITCH_FORWARD = 2;
+        public static final int WRIST_LIMIT_SWITCH_FORWARD = 3;
+        
+        // The configuration for the arm motors
         public static final int MAX_CURRENT = 105;
         public static final int ENCODER_TICKS_PER_REVOLUTION = 42;
         public static final double MAX_RPM = 5000.0;
+
+        // The measurements of the arm in meters
         public static final double PRIMARY_ARM_LENGTH = Units.inchesToMeters(34.0);
         public static final double SECONDARY_ARM_LENGTH = Units.inchesToMeters(34.0);
         public static final double CLAW_LENGTH = Units.inchesToMeters(16.0);
+
+        // The gear ratios of the arm motors
         public static final double PRIMARY_ARM_GEAR_RATIO = 500.0;
         public static final double SECONDARY_ARM_GEAR_RATIO = 400.0;
         public static final double CLAW_GEAR_RATIO = 20.0;
+        
+        // These values are the maximum speed of the arm motors in percent output from 0 to 1
+        public static final double PRIMARY_ARM_MAX_SPEED = 0.3;
+        public static final double SECONDARY_ARM_MAX_SPEED = 0.3;
+
+        // The maximum error in encoder ticks that the arm can be from the desired position
         public static final double ALLOWED_ENCODER_ERROR = 5.0;
     }
 

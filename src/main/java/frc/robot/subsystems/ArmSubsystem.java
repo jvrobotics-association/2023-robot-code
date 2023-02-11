@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,6 +12,12 @@ public class ArmSubsystem extends SubsystemBase {
     private double primaryEncoderTarget = 0;
     private double secondaryEncoderTarget = 0;
     private Constants.ArmPositions currentPosition;
+
+    private DigitalInput primaryLimitSwitchForward = new DigitalInput(Constants.Arm.PRIMARY_LIMIT_SWITCH_FORWARD);
+    private DigitalInput primaryLimitSwitchReverse = new DigitalInput(Constants.Arm.PRIMARY_LIMIT_SWITCH_REVERSE);
+    private DigitalInput secondaryLimitSwitch = new DigitalInput(Constants.Arm.SECONDARY_LIMIT_SWITCH_FORWARD);
+    private DigitalInput wristLimitSwitch = new DigitalInput(Constants.Arm.WRIST_LIMIT_SWITCH_FORWARD);
+
 
     // define the motors and encoders here for the primary, secondary, and wrist
     // actions
@@ -23,7 +30,8 @@ public class ArmSubsystem extends SubsystemBase {
         currentPosition = Constants.ArmPositions.PARK;
         primaryMotor = new CANSparkMax(Constants.Arm.PRIMARY_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
         secondaryMotor = new CANSparkMax(Constants.Arm.SECONDARY_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
-        wristMotor = new CANSparkMax(Constants.Arm.WRIST_MOTOR, CANSparkMax.MotorType.kBrushless);
+        wristMotor = new CANSparkMax(Constants.Arm.WRIST_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+
     }
 
     // Sets value of the current arm position
@@ -38,24 +46,48 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the primary motor is stopped
      */
     public boolean isPrimaryMotorStopped() {
-        double primaryCurrent = primaryMotor.getOutputCurrent();
-        if (primaryCurrent > Constants.Arm.MAX_CURRENT) {
-            stopMotor(primaryMotor);
-            return true;
-        }
-        return false;
+        return primaryLimitSwitchForward.get() || primaryLimitSwitchReverse.get();
     }
 
-    // controlls the motors
+    /**
+     * Checks if the secondary motor is stopped. If so, it stops the motor and returns
+     * true.
+     * 
+     * @return Whether the secondary motor is stopped
+     */
+    public boolean isSecondaryMotorStopped() {
+        return secondaryLimitSwitch.get();
+    }
+
+    // controlls the motors and makes sure they are not going past the limit switches
     public void setPrimaryMotor(double speed) {
+        if (primaryLimitSwitchForward.get()) {
+            if (speed > 0) {
+                speed = 0;
+            }
+        } else if (primaryLimitSwitchReverse.get()) {
+            if (speed < 0) {
+                speed = 0;
+            }
+        }
         primaryMotor.set(speed);
     }
 
     public void setSecondaryMotor(double speed) {
+        if (secondaryLimitSwitch.get()) {
+            if (speed > 0) {
+                speed = 0;
+            }
+        }
         secondaryMotor.set(speed);
     }
 
     public void setWristMotor(double speed) {
+        if (wristLimitSwitch.get()) {
+            if (speed > 0) {
+                speed = 0;
+            }
+        }
         wristMotor.set(speed);
     }
 
@@ -102,7 +134,7 @@ public class ArmSubsystem extends SubsystemBase {
     /*
      * Boolean on if the arm has reached its targeted position or not
      * 
-     * @returns true if both joints have reached the target positions
+     * @return true if both joints have reached the target positions
      */
     public boolean hasReachedTarget() {
         System.out.println(primaryEncoderTarget - getPrimaryEncoderPosition());
@@ -126,13 +158,13 @@ public class ArmSubsystem extends SubsystemBase {
 
         // move the motors if not in allowed error
         if (primaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
-            int direction = (int) (primaryDelta / Math.abs(primaryDelta));
+            int direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.PRIMARY_ARM_MAX_SPEED;
             primaryMotor.set(direction);
         } else {
             primaryMotor.stopMotor();
         }
         if (secondaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
-            int direction = (int) (secondaryDelta / Math.abs(secondaryDelta));
+            int direction = (int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.SECONDARY_ARM_MAX_SPEED;
             secondaryMotor.set(direction);
         } else {
             secondaryMotor.stopMotor();
@@ -178,20 +210,7 @@ public class ArmSubsystem extends SubsystemBase {
      */
     public void resetEncoders() {
         primaryMotor.getEncoder().setPosition(0);
-    }
-
-    /*
-     * Checks to see if the secondary motor is stopped by checking the current.
-     * 
-     * @return Whether the secondary motor is stopped
-     */
-    public boolean isSecondaryMotorStopped() {
-        double secondaryCurrent = secondaryMotor.getOutputCurrent();
-        if (secondaryCurrent > Constants.Arm.MAX_CURRENT) {
-            stopMotor(secondaryMotor);
-            return true;
-        }
-        return false;
+        secondaryMotor.getEncoder().setPosition(0);
     }
 
     /*
@@ -206,6 +225,8 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @return The angle of the arm
      */
+    // Q: Can you explain the formula for this?
+    // A: 
     public double convertEncoderToTheta(double encoderValue, double zeroPoint, double gearRatio) {
         return (encoderValue - zeroPoint) * 2 * Math.PI / (gearRatio * Constants.Arm.ENCODER_TICKS_PER_REVOLUTION);
     }
