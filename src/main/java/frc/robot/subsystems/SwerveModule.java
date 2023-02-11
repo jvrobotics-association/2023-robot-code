@@ -18,7 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.util.Objects;
+import frc.robot.Constants;
 
 public class SwerveModule {
   private final WPI_TalonFX m_driveMotor;
@@ -144,7 +144,7 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     double m_speedMetersPerSecond =
-    ((10 * 0.1016 * Math.PI) / (7.13 * 2048)) * m_driveMotor.getSelectedSensorVelocity();
+    ((10 * 0.1016 * Math.PI) / (Constants.Drive.DRIVE_GEAR_RATIO * 2048)) * m_driveMotor.getSelectedSensorVelocity();
 
     double m_turningRadians =
         (Math.PI / 180) * m_turnEncoder.getAbsolutePosition();
@@ -159,7 +159,7 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     double m_speedMetersPerSecond =
-    ((10 * 0.1016 * Math.PI) / (7.13 * 2048)) * m_driveMotor.getSelectedSensorVelocity();
+    ((10 * 0.1016 * Math.PI) / (Constants.Drive.DRIVE_GEAR_RATIO * 2048)) * m_driveMotor.getSelectedSensorVelocity();
 
     double m_turnRadians =
         ((2 * Math.PI)/360) * m_turnEncoder.getAbsolutePosition();

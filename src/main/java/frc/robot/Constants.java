@@ -34,6 +34,10 @@ public class Constants {
         public static final double kFrontRightAngleZero = -171;
         public static final double kRearRightAngleZero = 40;
 
+        public static final double DRIVE_GEAR_RATIO = 7.36;
+        // 32 24 
+        public static final double TURNING_GEAR_RATIO = 9.0;
+
         public static final boolean kFrontLeftTurningEncoderReversed = false;
         public static final boolean kRearLeftTurningEncoderReversed = false;
         public static final boolean kFrontRightTurningEncoderReversed = false;

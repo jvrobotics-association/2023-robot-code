@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -137,7 +138,7 @@ public class ArmSubsystem extends SubsystemBase {
      * @return true if both joints have reached the target positions
      */
     public boolean hasReachedTarget() {
-        System.out.println(primaryEncoderTarget - getPrimaryEncoderPosition());
+        SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
         return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.ALLOWED_ENCODER_ERROR);
     }
 
@@ -158,13 +159,13 @@ public class ArmSubsystem extends SubsystemBase {
 
         // move the motors if not in allowed error
         if (primaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
-            int direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.PRIMARY_ARM_MAX_SPEED;
+            double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.PRIMARY_ARM_MAX_SPEED;
             primaryMotor.set(direction);
         } else {
             primaryMotor.stopMotor();
         }
         if (secondaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
-            int direction = (int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.SECONDARY_ARM_MAX_SPEED;
+            double direction = (int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.SECONDARY_ARM_MAX_SPEED;
             secondaryMotor.set(direction);
         } else {
             secondaryMotor.stopMotor();
@@ -225,8 +226,6 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @return The angle of the arm
      */
-    // Q: Can you explain the formula for this?
-    // A: 
     public double convertEncoderToTheta(double encoderValue, double zeroPoint, double gearRatio) {
         return (encoderValue - zeroPoint) * 2 * Math.PI / (gearRatio * Constants.Arm.ENCODER_TICKS_PER_REVOLUTION);
     }

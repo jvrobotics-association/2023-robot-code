@@ -5,19 +5,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class GoToFortyFiveCommand extends CommandBase {
+public class InverseKinematicsCommand extends CommandBase {
 
     // Required subsystems
     private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
 
-    public GoToFortyFiveCommand() {
+    public InverseKinematicsCommand() {
         addRequirements(armSubsystem);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        armSubsystem.setTargetEncoderValues(new Translation2d(1.22131483, 1.22131483));
+        armSubsystem.setTargetEncoderValues(new Translation2d(0.8, 0.8));
     }
 
     @Override
