@@ -128,6 +128,20 @@ public class Drivetrain extends SubsystemBase {
                 return (double) m_gyro.getPitch();
         }
 
+        public void spinDriveMotors(double speed) {
+                m_frontLeft.setDriveMotor(speed);
+                m_rearLeft.setDriveMotor(speed);
+                m_frontRight.setDriveMotor(speed);
+                m_rearRight.setDriveMotor(speed);
+        }
+
+        public void rotateMotorsForward () {
+                m_frontLeft.rotateWheelTo(0);
+                m_rearLeft.rotateWheelTo(0);
+                m_frontRight.rotateWheelTo(0);
+                m_rearRight.rotateWheelTo(0);
+        }
+
         /**
          * Returns the currently-estimated pose of the robot.
          *

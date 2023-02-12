@@ -29,13 +29,12 @@ public class Constants {
         public static final int kFrontRightTurningEncoderId = 9;
         public static final int kRearRightTurningEncoderId = 10;
 
-        public static final double kFrontLeftAngleZero = -130;
-        public static final double kRearLeftAngleZero = -15;
-        public static final double kFrontRightAngleZero = -171;
-        public static final double kRearRightAngleZero = 40;
+        public static final double kFrontLeftAngleZero = 0;
+        public static final double kRearLeftAngleZero = -136.669910;
+        public static final double kFrontRightAngleZero = 0;
+        public static final double kRearRightAngleZero = 0;
 
         public static final double DRIVE_GEAR_RATIO = 7.36;
-        // 32 24 
         public static final double TURNING_GEAR_RATIO = 9.0;
 
         public static final boolean kFrontLeftTurningEncoderReversed = false;

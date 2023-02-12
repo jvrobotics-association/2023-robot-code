@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -8,8 +9,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
-
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -106,9 +110,9 @@ public class SwerveModule {
     m_turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
     m_turnEncoder.configMagnetOffset(angleZero);
     m_turnEncoder.configSensorDirection(encoderReversed);
+    m_turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
     m_turnEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     m_turnEncoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
-
     m_turningMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
     m_turningMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 250);
 
@@ -186,6 +190,14 @@ public class SwerveModule {
             + turnFeedForward.calculate(m_turnPIDController.getSetpoint().velocity);
     m_driveMotor.set(driveOutput/12);
     m_turningMotor.set(turnOutput/12);
+  }
+
+  public void setDriveMotor(double speed) {
+    m_driveMotor.set(speed);
+  }
+
+  public void rotateWheelTo(double encoderValue) {
+    m_turningMotor.set(ControlMode.Position, encoderValue);
   }
 
   /**

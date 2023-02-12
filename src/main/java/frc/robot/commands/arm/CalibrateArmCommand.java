@@ -18,8 +18,8 @@ public class CalibrateArmCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        // armSubsystem.setPrimaryMotor(0.3);
-        // armSubsystem.setSecondaryMotor(0.3);
+        armSubsystem.setPrimaryMotor(0.1);
+        // armSubsystem.setSecondaryMotor(0.1);
         armSubsystem.resetEncoders();
     }
 
@@ -28,7 +28,8 @@ public class CalibrateArmCommand extends CommandBase {
     // The arm is done moving when both motors are stopped.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isPrimaryMotorStopped() && armSubsystem.isSecondaryMotorStopped();
+        // return armSubsystem.isPrimaryMotorStopped() && armSubsystem.isSecondaryMotorStopped();
+        return armSubsystem.isPrimaryMotorStopped();
     }
 
     @Override

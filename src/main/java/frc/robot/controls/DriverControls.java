@@ -7,6 +7,7 @@ import frc.robot.commands.claw.OpenClawCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.drive.EnableRotateAroundPointCommand;
+import frc.robot.commands.drive.MoveForwardCommand;
 
 public class DriverControls {
     // The joystick for the driver and the control panel
@@ -24,6 +25,8 @@ public class DriverControls {
         new JoystickButton(driveJoystick, 9).whileTrue(new ReverseClawIntakeCommand());
         new JoystickButton(driveJoystick, 8).whileTrue(new OpenClawCommand());
         new JoystickButton(driveJoystick, 10).whileTrue(new CloseClawCommand());
+        new JoystickButton(driveJoystick, 11).whileTrue(new MoveForwardCommand());
+
     }
 
     public double getForward() {

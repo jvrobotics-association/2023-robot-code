@@ -47,7 +47,10 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the primary motor is stopped
      */
     public boolean isPrimaryMotorStopped() {
-        return primaryLimitSwitchForward.get() || primaryLimitSwitchReverse.get();
+        boolean isStopped = primaryLimitSwitchForward.get() || primaryLimitSwitchReverse.get();
+        if (isStopped)
+            primaryMotor.set(0);
+        return isStopped;
     }
 
     /**
@@ -57,7 +60,10 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the secondary motor is stopped
      */
     public boolean isSecondaryMotorStopped() {
-        return secondaryLimitSwitch.get();
+        boolean isStopped = secondaryLimitSwitch.get();
+        if (isStopped)
+            secondaryMotor.set(0);
+        return isStopped;
     }
 
     // controlls the motors and makes sure they are not going past the limit switches
@@ -160,13 +166,13 @@ public class ArmSubsystem extends SubsystemBase {
         // move the motors if not in allowed error
         if (primaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
             double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.PRIMARY_ARM_MAX_SPEED;
-            primaryMotor.set(direction);
+            setPrimaryMotor(direction);
         } else {
             primaryMotor.stopMotor();
         }
         if (secondaryDelta > Constants.Arm.ALLOWED_ENCODER_ERROR) {
             double direction = (int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.SECONDARY_ARM_MAX_SPEED;
-            secondaryMotor.set(direction);
+            setSecondaryMotor(direction);
         } else {
             secondaryMotor.stopMotor();
         }
