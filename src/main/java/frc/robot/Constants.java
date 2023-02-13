@@ -30,7 +30,7 @@ public class Constants {
         public static final int kRearRightTurningEncoderId = 10;
 
         public static final double kFrontLeftAngleZero = 0;
-        public static final double kRearLeftAngleZero = -136.669910;
+        public static final double kRearLeftAngleZero = 0;
         public static final double kFrontRightAngleZero = 0;
         public static final double kRearRightAngleZero = 0;
 

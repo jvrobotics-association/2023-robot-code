@@ -115,6 +115,7 @@ public class SwerveModule {
     m_turnEncoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
     m_turningMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
     m_turningMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 250);
+    m_turningMotor.setSelectedSensorPosition(m_turnEncoder.getAbsolutePosition());
 
     m_driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
     m_driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
