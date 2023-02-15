@@ -13,6 +13,8 @@ import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
 import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
 import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
 import frc.robot.commands.arm.MoveSecondaryArmUpCommand;
+import frc.robot.commands.claw.MoveWristDownCommand;
+import frc.robot.commands.claw.MoveWristUpCommand;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -25,6 +27,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick operator = new Joystick(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -41,6 +44,10 @@ public class RobotContainer {
     private final JoystickButton primaryArmReverse = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton secondaryArmUp = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton secondaryArmDown = new JoystickButton(driver, XboxController.Button.kA.value);
+
+    /* Claw Buttons */
+    private final JoystickButton moveWristUp = new JoystickButton(operator, 7);
+    private final JoystickButton moveWristDown = new JoystickButton(operator, 9);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -79,6 +86,10 @@ public class RobotContainer {
         primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
         secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
+
+        /* Claw Buttons */
+        moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
+        moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
     }
 
     /**
