@@ -16,8 +16,8 @@ public class ClawSubsystem extends SubsystemBase {
 
     public ClawSubsystem() {
         // Initialize the motors and solenoids
-        intakeMotor = new CANSparkMax(Constants.Claw.INTAKE_MOTOR_ID, MotorType.kBrushless);
-        clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Claw.SOLINOID_FORWARD, Constants.Claw.SOLINOID_REVERSE);
+        intakeMotor = new CANSparkMax(Constants.Claw.intakeMotorId, MotorType.kBrushless);
+        clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Claw.solenoidForwardId, Constants.Claw.solenoidReverseId);
     }
 
     // Sets the speed of the intake motor

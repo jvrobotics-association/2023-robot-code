@@ -1,18 +1,18 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class CalibrateArmCommand extends CommandBase {
 
     // Required subsystems
-    private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
+    private final ArmSubsystem armSubsystem;
 
     /**
      * This command sets the arm to the zero position.
      */
-    public CalibrateArmCommand() {
+    public CalibrateArmCommand(ArmSubsystem _armSubsystem) {
+        this.armSubsystem = _armSubsystem;
         addRequirements(armSubsystem);
     }
 

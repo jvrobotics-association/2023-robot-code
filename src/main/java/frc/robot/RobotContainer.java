@@ -1,58 +1,94 @@
 package frc.robot;
 
-import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.controls.DriverControls;
-import frc.robot.subsystems.AprilTagSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.controls.SecondaryDriveControls;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+import frc.robot.autos.*;
+import frc.robot.commands.*;
+import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.subsystems.*;
+
+/**
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
+ */
 public class RobotContainer {
-    // Initialized all of the subsystems
-    private static Drivetrain drivetrain = new Drivetrain();
-    // private AprilTagSubsystem aprilTagSubsystem = new AprilTagSubsystem();
-    private static ArmSubsystem armSubsystem = new ArmSubsystem();
-    private static ClawSubsystem clawSubsystem = new ClawSubsystem();
-    private static DriverControls driverControls = new DriverControls(Constants.Controllers.DRIVER_CONTROLS_PORT, Constants.Controllers.CONTROL_PANEL_PORT);
-    private static SecondaryDriveControls secondaryDriveControls = new SecondaryDriveControls(Constants.Controllers.SECONDARY_DRIVER_CONTROLS_PORT);
+    /* Controllers */
+    private final Joystick driver = new Joystick(0);
 
-    // used to determine if the robot should rotate around the center of the robot or the front of the robot
-    private static boolean rotateAroundFront = false;
+    /* Drive Controls */
+    private final int translationAxis = XboxController.Axis.kLeftY.value;
+    private final int strafeAxis = XboxController.Axis.kLeftX.value;
+    private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+    /* Driver Buttons */
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+
+    /* Arm Buttons */
+
+    /* Subsystems */
+    private final Swerve s_Swerve = new Swerve();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final ClawSubsystem s_Claw = new ClawSubsystem();
+
+
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        drivetrain.setDefaultCommand(new TeleopDriveCommand());
+        s_Swerve.setDefaultCommand(
+            new TeleopSwerve(
+                s_Swerve, 
+                () -> -driver.getRawAxis(translationAxis), 
+                () -> -driver.getRawAxis(strafeAxis), 
+                () -> -driver.getRawAxis(rotationAxis), 
+                () -> robotCentric.getAsBoolean()
+            )
+        );
+
+        // Configure the button bindings
+        configureButtonBindings();
     }
 
-    public static void setRotateAroundFront(boolean m_rotateAroundFront) {
-       rotateAroundFront = m_rotateAroundFront;
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        /* Driver Buttons */
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
     }
 
-    public static ArmSubsystem getArmSubsystem() {
-        return armSubsystem;
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return new exampleAuto(s_Swerve);
     }
 
-    public static boolean getRotateAroundFront() {
-        return rotateAroundFront;
+    /*
+     * Getters for subsystems
+     */
+    public Swerve getSwerve() {
+        return s_Swerve;
     }
 
-    public static Drivetrain getDrivetrain() {
-        return drivetrain;
+    public ArmSubsystem getArm() {
+        return s_Arm;
     }
 
-    public static DriverControls getDriverControls() {
-        return driverControls;
-    }
-
-    public static SecondaryDriveControls getSecondaryDriveControls() {
-        return secondaryDriveControls;
-    }
-
-    // public AprilTagSubsystem getAprilTagSubsystem() {
-    //     return aprilTagSubsystem;
-    // }
-
-    public static ClawSubsystem getClawSubsystem() {
-        return clawSubsystem;
+    public ClawSubsystem getClaw() {
+        return s_Claw;
     }
 }

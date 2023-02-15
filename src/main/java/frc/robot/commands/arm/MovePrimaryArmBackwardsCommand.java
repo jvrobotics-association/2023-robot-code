@@ -1,15 +1,15 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class MovePrimaryArmBackwardsCommand extends CommandBase {
 
     // Required subsystems
-    private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
+    private final ArmSubsystem armSubsystem;
 
-    public MovePrimaryArmBackwardsCommand() {
+    public MovePrimaryArmBackwardsCommand(ArmSubsystem _armSubsystem) {
+        this.armSubsystem = _armSubsystem;
         addRequirements(armSubsystem);
     }
 

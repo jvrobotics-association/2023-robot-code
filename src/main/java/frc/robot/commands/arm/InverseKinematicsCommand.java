@@ -2,15 +2,15 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class InverseKinematicsCommand extends CommandBase {
 
     // Required subsystems
-    private final ArmSubsystem armSubsystem = RobotContainer.getArmSubsystem();
+    private final ArmSubsystem armSubsystem;
 
-    public InverseKinematicsCommand() {
+    public InverseKinematicsCommand(ArmSubsystem _armSubsystem) {
+        this.armSubsystem = _armSubsystem;
         addRequirements(armSubsystem);
     }
 
