@@ -35,8 +35,15 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @return Whether the primary motor is stopped
      */
-    public boolean isPrimaryMotorStopped() {
-        boolean isStopped = primaryLimitSwitchForward.get() || primaryLimitSwitchReverse.get();
+    public boolean isPrimaryMotorStoppedForward() {
+        boolean isStopped = primaryLimitSwitchForward.get();
+        if (isStopped)
+            primaryMotor.set(0);
+        return isStopped;
+    }
+
+    public boolean isPrimaryMotorStoppedBackwards() {
+        boolean isStopped = primaryLimitSwitchReverse.get();
         if (isStopped)
             primaryMotor.set(0);
         return isStopped;

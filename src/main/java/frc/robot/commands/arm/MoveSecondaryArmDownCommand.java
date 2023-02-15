@@ -16,6 +16,8 @@ public class MoveSecondaryArmDownCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        if (armSubsystem.isSecondaryMotorStopped())
+            return;
         armSubsystem.setSecondaryMotor(-0.3);
     }
 

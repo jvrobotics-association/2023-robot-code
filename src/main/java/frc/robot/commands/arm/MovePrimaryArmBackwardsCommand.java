@@ -16,13 +16,15 @@ public class MovePrimaryArmBackwardsCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        if (armSubsystem.isPrimaryMotorStoppedBackwards())
+            return;
         armSubsystem.setPrimaryMotor(-0.3);
     }
 
     // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isPrimaryMotorStopped();
+        return armSubsystem.isPrimaryMotorStoppedBackwards();
     }
 
     // Called once the command ends or is interrupted.

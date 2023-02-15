@@ -19,12 +19,6 @@ public class MoveSecondaryArmUpCommand extends CommandBase {
         armSubsystem.setSecondaryMotor(0.3);
     }
 
-    // If the arm is stopped, the command is finished.
-    @Override
-    public boolean isFinished() {
-        return armSubsystem.isSecondaryMotorStopped();
-    }
-
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {

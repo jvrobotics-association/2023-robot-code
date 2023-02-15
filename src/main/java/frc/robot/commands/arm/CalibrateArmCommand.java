@@ -29,7 +29,7 @@ public class CalibrateArmCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         // return armSubsystem.isPrimaryMotorStopped() && armSubsystem.isSecondaryMotorStopped();
-        return armSubsystem.isPrimaryMotorStopped();
+        return armSubsystem.isPrimaryMotorStoppedForward();
     }
 
     @Override

@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
+import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
+import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
+import frc.robot.commands.arm.MoveSecondaryArmUpCommand;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -28,11 +32,15 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
     /* Arm Buttons */
+    private final JoystickButton primaryArmForward = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton primaryArmReverse = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton secondaryArmUp = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton secondaryArmDown = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -65,6 +73,12 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        /* Arm Buttons */
+        primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
+        primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
+        secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
+        secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
     }
 
     /**
