@@ -15,7 +15,7 @@ public class MoveWristDownCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        clawSubsystem.setWristMotor(-0.3);
+        clawSubsystem.setWristMotor(0.3);
     }
 
     // Called once the command ends or is interrupted.

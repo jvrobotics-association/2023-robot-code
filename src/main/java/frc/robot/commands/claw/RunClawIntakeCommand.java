@@ -15,7 +15,7 @@ public class RunClawIntakeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        clawSubsystem.setIntakeMotor(1);
+        clawSubsystem.setIntakeMotor(-1);
     }
 
     @Override

@@ -56,19 +56,21 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the secondary motor is stopped
      */
     public boolean isSecondaryMotorStopped() {
-        boolean isStopped = secondaryLimitSwitch.get();
+        boolean isStopped = !secondaryLimitSwitch.get();
         if (isStopped)
             secondaryMotor.set(0);
         return isStopped;
     }
 
+
+
     // controlls the motors and makes sure they are not going past the limit switches
     public void setPrimaryMotor(double speed) {
-        if (primaryLimitSwitchForward.get()) {
+        if (getPrimaryForwardLimitSwitch()) {
             if (speed > 0) {
                 speed = 0;
             }
-        } else if (primaryLimitSwitchReverse.get()) {
+        } else if (getPrimaryReverseLimitSwitch()) {
             if (speed < 0) {
                 speed = 0;
             }
@@ -77,7 +79,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setSecondaryMotor(double speed) {
-        if (secondaryLimitSwitch.get()) {
+        if (getSecondaryLimitSwitch()) {
             if (speed > 0) {
                 speed = 0;
             }
@@ -105,6 +107,18 @@ public class ArmSubsystem extends SubsystemBase {
     public boolean hasReachedTarget() {
         SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
         return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.allowedEncoderError) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.allowedEncoderError);
+    }
+
+    public boolean getPrimaryForwardLimitSwitch() {
+        return !primaryLimitSwitchForward.get();
+    }
+
+    public boolean getPrimaryReverseLimitSwitch() {
+        return primaryLimitSwitchReverse.get();
+    }
+
+    public boolean getSecondaryLimitSwitch() {
+        return !secondaryLimitSwitch.get();
     }
 
     

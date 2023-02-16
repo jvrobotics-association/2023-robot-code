@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
-import frc.robot.commands.*;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
 import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
 import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
 import frc.robot.commands.arm.MoveSecondaryArmUpCommand;
 import frc.robot.commands.claw.MoveWristDownCommand;
 import frc.robot.commands.claw.MoveWristUpCommand;
+import frc.robot.commands.claw.ReverseClawIntakeCommand;
+import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -48,6 +49,8 @@ public class RobotContainer {
     /* Claw Buttons */
     private final JoystickButton moveWristUp = new JoystickButton(operator, 7);
     private final JoystickButton moveWristDown = new JoystickButton(operator, 9);
+    private final JoystickButton runIntakeFoward = new JoystickButton(operator, 8);
+    private final JoystickButton runIntakeReverse = new JoystickButton(operator, 10);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -90,6 +93,8 @@ public class RobotContainer {
         /* Claw Buttons */
         moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
         moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
+        runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
+        runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
     }
 
     /**

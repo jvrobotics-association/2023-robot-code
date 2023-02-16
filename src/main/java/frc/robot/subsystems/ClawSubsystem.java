@@ -53,7 +53,7 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
     public boolean isWristMotorStopped() {
-        boolean isStopped = wristLimitSwitch.get();
+        boolean isStopped = !wristLimitSwitch.get();
         if (isStopped)
             wristMotor.set(0);
         return isStopped;
