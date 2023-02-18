@@ -144,7 +144,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         // move the motors if not in allowed error
         if (Math.abs(primaryDelta) > Constants.Arm.allowedEncoderError) {
-            double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
+            double direction = -(int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
             setPrimaryMotor(direction);
         } else {
             primaryMotor.stopMotor();

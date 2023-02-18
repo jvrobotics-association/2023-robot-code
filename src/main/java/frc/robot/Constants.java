@@ -44,7 +44,7 @@ public final class Constants {
         public static final double secondaryArmGearRatio = 400.0;
 
         public static final double primaryArmEncoderZero = 148.611111;
-        public static final double secondaryArmEncoderZero = 22.2222222;
+        public static final double secondaryArmEncoderZero = -22.2222222;
     }
 
     public static final class Swerve {
