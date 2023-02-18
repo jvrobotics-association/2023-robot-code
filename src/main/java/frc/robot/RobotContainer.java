@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
+import frc.robot.commands.arm.CalibrateArmCommand;
+import frc.robot.commands.arm.InverseKinematicsCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
 import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
 import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
@@ -45,6 +47,8 @@ public class RobotContainer {
     private final JoystickButton primaryArmReverse = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton secondaryArmUp = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton secondaryArmDown = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
+    private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
     /* Claw Buttons */
     private final JoystickButton moveWristUp = new JoystickButton(operator, 7);
@@ -89,6 +93,8 @@ public class RobotContainer {
         primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
         secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
+        inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
+        calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm));
 
         /* Claw Buttons */
         moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));

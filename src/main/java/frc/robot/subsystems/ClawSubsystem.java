@@ -13,14 +13,13 @@ public class ClawSubsystem extends SubsystemBase {
 
     // The motor to control the intake and the solenoid to control the claw
     private final CANSparkMax intakeMotor;
-    private final DoubleSolenoid clawSolenoid;
     private final CANSparkMax wristMotor;
     private final DigitalInput wristLimitSwitch;
 
     public ClawSubsystem() {
         // Initialize the motors and solenoids
         intakeMotor = new CANSparkMax(Constants.Claw.intakeMotorId, MotorType.kBrushless);
-        clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Claw.solenoidForwardId, Constants.Claw.solenoidReverseId);
+        intakeMotor.setSmartCurrentLimit(50);
         wristMotor = new CANSparkMax(Constants.Claw.wristMotorId, MotorType.kBrushless);
         wristLimitSwitch = new DigitalInput(Constants.Claw.wristLimitSwitchForwardId);
     }
@@ -32,15 +31,6 @@ public class ClawSubsystem extends SubsystemBase {
 
     public void stopIntakeMotor() {
         intakeMotor.set(0);
-    }
-
-    // Opens and closes the claw
-    public void openClaw() {
-        clawSolenoid.set(DoubleSolenoid.Value.kForward);
-    }
-
-    public void closeClaw() {
-        clawSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
     // Sets the speed of the wrist motor

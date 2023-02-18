@@ -36,14 +36,14 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the primary motor is stopped
      */
     public boolean isPrimaryMotorStoppedForward() {
-        boolean isStopped = primaryLimitSwitchForward.get();
+        boolean isStopped = getPrimaryForwardLimitSwitch();
         if (isStopped)
             primaryMotor.set(0);
         return isStopped;
     }
 
     public boolean isPrimaryMotorStoppedBackwards() {
-        boolean isStopped = primaryLimitSwitchReverse.get();
+        boolean isStopped = getPrimaryReverseLimitSwitch();
         if (isStopped)
             primaryMotor.set(0);
         return isStopped;
@@ -56,7 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
      * @return Whether the secondary motor is stopped
      */
     public boolean isSecondaryMotorStopped() {
-        boolean isStopped = !secondaryLimitSwitch.get();
+        boolean isStopped = getSecondaryLimitSwitch();
         if (isStopped)
             secondaryMotor.set(0);
         return isStopped;
@@ -80,10 +80,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void setSecondaryMotor(double speed) {
         if (getSecondaryLimitSwitch()) {
-            if (speed > 0) {
+            if (speed < 0) {
                 speed = 0;
             }
         }
+        speed = -speed;
         secondaryMotor.set(speed);
     }
 
@@ -91,11 +92,15 @@ public class ArmSubsystem extends SubsystemBase {
     // TODO: Check to see if this is correct
     // gets the encoder positions
     public double getPrimaryEncoderPosition() {
-        return primaryMotor.getEncoder().getPosition() % Constants.Arm.encoderTicksPerRevolution;
+        double position = primaryMotor.getEncoder().getPosition();
+        SmartDashboard.putNumber("Primary Arm Encoder", position);
+        return position;
     }
 
     public double getSecondaryEncoderPosition() {
-        return secondaryMotor.getEncoder().getPosition() % Constants.Arm.encoderTicksPerRevolution;
+        double position = secondaryMotor.getEncoder().getPosition();
+        SmartDashboard.putNumber("Secondary Arm Encoder", position);
+        return position;
     }
 
     
@@ -106,6 +111,7 @@ public class ArmSubsystem extends SubsystemBase {
      */
     public boolean hasReachedTarget() {
         SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
+        SmartDashboard.putNumber("Secondary Arm Distance to Target", secondaryEncoderTarget-getSecondaryEncoderPosition());
         return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.allowedEncoderError) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.allowedEncoderError);
     }
 
@@ -114,7 +120,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public boolean getPrimaryReverseLimitSwitch() {
-        return primaryLimitSwitchReverse.get();
+        return !primaryLimitSwitchReverse.get();
     }
 
     public boolean getSecondaryLimitSwitch() {
@@ -137,14 +143,14 @@ public class ArmSubsystem extends SubsystemBase {
         double secondaryDelta = secondaryEncoderTarget - getSecondaryEncoderPosition();
 
         // move the motors if not in allowed error
-        if (primaryDelta > Constants.Arm.allowedEncoderError) {
+        if (Math.abs(primaryDelta) > Constants.Arm.allowedEncoderError) {
             double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
             setPrimaryMotor(direction);
         } else {
             primaryMotor.stopMotor();
         }
-        if (secondaryDelta > Constants.Arm.allowedEncoderError) {
-            double direction = (int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.secondaryArmMaxSpeed;
+        if (Math.abs(secondaryDelta) > Constants.Arm.allowedEncoderError) {
+            double direction = -(int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.secondaryArmMaxSpeed;
             setSecondaryMotor(direction);
         } else {
             secondaryMotor.stopMotor();
@@ -162,8 +168,8 @@ public class ArmSubsystem extends SubsystemBase {
      * Resets the encoders to zero
      */
     public void resetEncoders() {
-        primaryMotor.getEncoder().setPosition(0);
-        secondaryMotor.getEncoder().setPosition(0);
+        primaryMotor.getEncoder().setPosition(Constants.Arm.primaryArmEncoderZero);
+        secondaryMotor.getEncoder().setPosition(Constants.Arm.secondaryArmEncoderZero);
     }
 
     /*
