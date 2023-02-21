@@ -3,11 +3,11 @@ package frc.robot.commands.april_tag;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.AprilTagSubsystem;
 
-public class CalculateRobotPosition extends CommandBase {
+public class UpdateRobotPositionCommand extends CommandBase {
 
     private final AprilTagSubsystem aprilTagSubsystem;
 
-    public CalculateRobotPosition(AprilTagSubsystem aprilTagSubsystem) {
+    public UpdateRobotPositionCommand(AprilTagSubsystem aprilTagSubsystem) {
         this.aprilTagSubsystem = aprilTagSubsystem;
         addRequirements(aprilTagSubsystem);
     }

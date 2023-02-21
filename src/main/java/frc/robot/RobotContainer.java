@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
-import frc.robot.commands.april_tag.CalculateRobotPosition;
+import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.InverseKinematicsCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
@@ -32,6 +32,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick operator = new Joystick(1);
+    private final Joystick control = new Joystick(2);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -58,7 +59,7 @@ public class RobotContainer {
     private final JoystickButton runIntakeReverse = new JoystickButton(operator, 10);
 
     /* April Tag Buttons */
-    private final JoystickButton calculateRobotPosition = new JoystickButton(operator, 1);
+    private final JoystickButton calculateRobotPosition = new JoystickButton(control, 0);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -79,7 +80,6 @@ public class RobotContainer {
             )
         );
 
-        s_AprilTag.setDefaultCommand(new CalculateRobotPosition(s_AprilTag));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -108,6 +108,9 @@ public class RobotContainer {
         moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
         runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
         runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
+
+        /* April Tag Buttons */
+        calculateRobotPosition.whileTrue(new UpdateRobotPositionCommand(s_AprilTag));
     }
 
     /**
