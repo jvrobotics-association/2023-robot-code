@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
+import frc.robot.commands.april_tag.CalculateRobotPosition;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.InverseKinematicsCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
@@ -56,10 +57,14 @@ public class RobotContainer {
     private final JoystickButton runIntakeFoward = new JoystickButton(operator, 8);
     private final JoystickButton runIntakeReverse = new JoystickButton(operator, 10);
 
+    /* April Tag Buttons */
+    private final JoystickButton calculateRobotPosition = new JoystickButton(operator, 1);
+
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final ClawSubsystem s_Claw = new ClawSubsystem();
+    private final AprilTagSubsystem s_AprilTag = new AprilTagSubsystem(s_Swerve);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -73,6 +78,8 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+
+        s_AprilTag.setDefaultCommand(new CalculateRobotPosition(s_AprilTag));
 
         // Configure the button bindings
         configureButtonBindings();
