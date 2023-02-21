@@ -28,7 +28,7 @@ public class CalibrateArmCommand extends CommandBase {
     // The arm is done moving when both motors are stopped.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isPrimaryMotorStoppedBackwards() && armSubsystem.isSecondaryMotorStopped();
+        return armSubsystem.isPrimaryMotorStoppedBackwards() && armSubsystem.isSecondaryMotorStoppedDown();
         // return armSubsystem.isPrimaryMotorStoppedForward();
     }
 

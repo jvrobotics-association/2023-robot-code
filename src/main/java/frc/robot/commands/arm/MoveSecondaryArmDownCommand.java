@@ -16,7 +16,7 @@ public class MoveSecondaryArmDownCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (armSubsystem.isSecondaryMotorStopped())
+        if (armSubsystem.isSecondaryMotorStoppedDown())
             return;
         armSubsystem.setSecondaryMotor(-0.3);
     }
@@ -24,7 +24,7 @@ public class MoveSecondaryArmDownCommand extends CommandBase {
     // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isSecondaryMotorStopped();
+        return armSubsystem.isSecondaryMotorStoppedDown();
     }
 
     // Called once the command ends or is interrupted.

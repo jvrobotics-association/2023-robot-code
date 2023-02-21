@@ -15,7 +15,15 @@ public class MoveWristDownCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        if (clawSubsystem.isWristMotorStoppedDown())
+            return;
         clawSubsystem.setWristMotor(0.3);
+    }
+
+    // If the arm is stopped, the command is finished.
+    @Override
+    public boolean isFinished() {
+        return clawSubsystem.isWristMotorStoppedDown();
     }
 
     // Called once the command ends or is interrupted.

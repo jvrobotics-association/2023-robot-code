@@ -15,7 +15,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private DigitalInput primaryLimitSwitchForward = new DigitalInput(Constants.Arm.primaryLimitSwitchForwardId);
     private DigitalInput primaryLimitSwitchReverse = new DigitalInput(Constants.Arm.primaryLimitSwitchReverseId);
-    private DigitalInput secondaryLimitSwitch = new DigitalInput(Constants.Arm.secondaryLimitSwitchForwardId);
+    private DigitalInput secondaryLimitSwitchUp = new DigitalInput(Constants.Arm.secondaryLimitSwitchUpId);
+    private DigitalInput secondaryLimitSwitchDown = new DigitalInput(Constants.Arm.secondaryLimitSwitchDownId);
 
 
     // define the motors and encoders here for the primary, secondary, and wrist
@@ -55,8 +56,15 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @return Whether the secondary motor is stopped
      */
-    public boolean isSecondaryMotorStopped() {
-        boolean isStopped = getSecondaryLimitSwitch();
+    public boolean isSecondaryMotorStoppedDown() {
+        boolean isStopped = getSecondaryLimitSwitchDown();
+        if (isStopped)
+            secondaryMotor.set(0);
+        return isStopped;
+    }
+
+    public boolean isSecondaryMotorStoppedUp() {
+        boolean isStopped = getSecondaryLimitSwitchUp();
         if (isStopped)
             secondaryMotor.set(0);
         return isStopped;
@@ -79,8 +87,13 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setSecondaryMotor(double speed) {
-        if (getSecondaryLimitSwitch()) {
+        if (getSecondaryLimitSwitchDown()) {
             if (speed < 0) {
+                speed = 0;
+            }
+        }
+        if (getSecondaryLimitSwitchUp()) {
+            if (speed > 0) {
                 speed = 0;
             }
         }
@@ -123,8 +136,12 @@ public class ArmSubsystem extends SubsystemBase {
         return !primaryLimitSwitchReverse.get();
     }
 
-    public boolean getSecondaryLimitSwitch() {
-        return !secondaryLimitSwitch.get();
+    public boolean getSecondaryLimitSwitchUp() {
+        return !secondaryLimitSwitchUp.get();
+    }
+
+    public boolean getSecondaryLimitSwitchDown() {
+        return !secondaryLimitSwitchDown.get();
     }
 
     

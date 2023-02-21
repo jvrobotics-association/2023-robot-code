@@ -21,9 +21,8 @@ public final class Constants {
     public static final class Claw {
         public static final int wristMotorId = 16;
         public static final int intakeMotorId = 17;
-        public static final int wristLimitSwitchForwardId = 3;
-        public static final int solenoidForwardId = 0;
-        public static final int solenoidReverseId = 1;
+        public static final int wristLimitSwitchUpId = 8;
+        public static final int wristLimitSwitchDownId = 9;
         public static final double wristGearRatio = 20.0;
         public static final double clawLength = Units.inchesToMeters(16.0);
     }
@@ -31,9 +30,10 @@ public final class Constants {
     public static final class Arm {
         public static final int primaryArmMotorId = 14;
         public static final int secondaryArmMotorId = 15;
-        public static final int primaryLimitSwitchForwardId = 1;
-        public static final int primaryLimitSwitchReverseId = 0;
-        public static final int secondaryLimitSwitchForwardId = 2;
+        public static final int primaryLimitSwitchForwardId = 2;
+        public static final int primaryLimitSwitchReverseId = 1;
+        public static final int secondaryLimitSwitchUpId = 0;
+        public static final int secondaryLimitSwitchDownId = 7;
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 5.0;
 
