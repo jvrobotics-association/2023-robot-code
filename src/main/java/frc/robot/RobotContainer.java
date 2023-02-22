@@ -64,7 +64,7 @@ public class RobotContainer {
     private final JoystickButton runIntakeReverse = new JoystickButton(operator, 10);
 
     /* April Tag Buttons */
-    private final JoystickButton calculateRobotPosition = new JoystickButton(control, 0);
+    private final JoystickButton calculateRobotPosition = new JoystickButton(control, 1);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -73,12 +73,10 @@ public class RobotContainer {
     private final AprilTagSubsystem s_AprilTag = new AprilTagSubsystem(s_Swerve);
 
     /* Autonomous */
-    // A simple auto routine that drives forward a specified distance, and then
-    // stops.
+    // Moves in a S shape
     private final Command exampleAuto = new ExampleAuto(s_Swerve);
 
-    // A complex auto routine that drives forward, drops a hatch, and then drives
-    // backward.
+    // Moves in a diamond shape
     private final Command diamondAuto = new DiamondAuto(s_Swerve);
 
     // A chooser for autonomous commands
@@ -142,7 +140,9 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return autonomousChooser.getSelected();
+        Command selection = autonomousChooser.getSelected();
+        // System.out.println(selection.getName());
+        return selection;
     }
 
     /*
