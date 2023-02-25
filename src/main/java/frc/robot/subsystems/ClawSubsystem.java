@@ -17,6 +17,8 @@ public class ClawSubsystem extends SubsystemBase {
     private final DigitalInput wristLimitSwitchUp;
     private final DigitalInput wristLimitSwitchDown;
 
+    private double wristEncoderTarget = 0;
+
     public ClawSubsystem() {
         // Initialize the motors and solenoids
         intakeMotor = new CANSparkMax(Constants.Claw.intakeMotorId, MotorType.kBrushless);
@@ -53,7 +55,7 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
     public boolean isWristMotorStopped() {
-        boolean isStopped = getWristLimitSwitchUp() || getWristLimitSwitchDown();
+        boolean isStopped = getWristLimitSwitchUp() | getWristLimitSwitchDown();
         if (isStopped)
             wristMotor.set(0);
         return isStopped;
@@ -72,4 +74,34 @@ public class ClawSubsystem extends SubsystemBase {
             wristMotor.set(0);
         return isStopped;
     }
+
+    public void setWristEncoderTarget(double target) {
+        wristEncoderTarget = target;
+    }
+
+    public double getWristEncoder() {
+        return wristMotor.getEncoder().getPosition();
+    }
+
+    public void moveToTarget() {
+        if (getWristEncoder() < wristEncoderTarget) {
+            setWristMotor(Constants.Claw.wristMotorSpeed);
+        } else if (getWristEncoder() > wristEncoderTarget) {
+            setWristMotor(-Constants.Claw.wristMotorSpeed);
+        } else {
+            stopWristMotor();
+        }
+    }
+
+    public void resetEncoder() {
+        wristMotor.getEncoder().setPosition(0);
+    }
+
+    public boolean hasReachedTarget() {
+
+        isWristMotorStopped();
+
+        return Math.abs(getWristEncoder() - wristEncoderTarget) < Constants.Claw.wristMotorTolerance;
+    }
+
 }

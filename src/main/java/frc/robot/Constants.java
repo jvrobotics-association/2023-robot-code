@@ -25,25 +25,29 @@ public final class Constants {
         public static final int wristLimitSwitchDownId = 9;
         public static final double wristGearRatio = 20.0;
         public static final double clawLength = Units.inchesToMeters(16.0);
+        public static final double wristMotorSpeed = 0.2;
+        public static final double wristMotorTolerance = 5.0;
     }
 
     public static enum ArmPositions {
 
-        BACK_POLE(0.0, 0.0),
-        FRONT_POLE(0.0, 0.0),
-        BACK_SHELF(0.0, 0.0),
-        FRONT_SHELF(0.0, 0.0),
-        FLOOR_DROP(0.0, 0.0),
-        FLOOR_PICKUP_TOP(0.0, 0.0),
-        STARTING_POSITION(0.0, 0.0),
-        SLIDER_PICKUP(0.0, 0.0);
+        BACK_POLE(0.0, 0.0, 0.0),
+        FRONT_POLE(0.0, 0.0, 0.0),
+        BACK_SHELF(0.0, 0.0, 0.0),
+        FRONT_SHELF(0.0, 0.0, 0.0),
+        FLOOR_DROP(0.0, 0.0, 0.0),
+        FLOOR_PICKUP_TOP(0.0, 0.0, 0.0),
+        STARTING_POSITION(0.0, 0.0, 0.0),
+        SLIDER_PICKUP(0.0, 0.0, 0.0);
 
         private final double primaryArmAngle;
         private final double secondaryArmAngle;
+        private final double wristAngle;
 
-        ArmPositions(double primaryArmAngle, double secondaryArmAngle) {
+        ArmPositions(double primaryArmAngle, double secondaryArmAngle, double wristAngle) {
             this.primaryArmAngle = primaryArmAngle;
             this.secondaryArmAngle = secondaryArmAngle;
+            this.wristAngle = wristAngle;
         }
 
         public double getPrimaryArmAngle() {
@@ -54,9 +58,13 @@ public final class Constants {
             return secondaryArmAngle;
         }
 
+        public double getWristAngle() {
+            return wristAngle;
+        }
+
         // get both arm angles in a list
         public List<Double> getArmAngles() {
-            return List.of(primaryArmAngle, secondaryArmAngle);
+            return List.of(primaryArmAngle, secondaryArmAngle, wristAngle);
         }
 
     }

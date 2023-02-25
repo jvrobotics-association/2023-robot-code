@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
@@ -21,6 +21,7 @@ import frc.robot.commands.claw.MoveWristDownCommand;
 import frc.robot.commands.claw.MoveWristUpCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
+import frc.robot.commands.combined.MoveToPresetArmPosition;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -58,10 +59,20 @@ public class RobotContainer {
     private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
     /* Claw Buttons */
-    private final JoystickButton moveWristUp = new JoystickButton(operator, 7);
-    private final JoystickButton moveWristDown = new JoystickButton(operator, 9);
-    private final JoystickButton runIntakeFoward = new JoystickButton(operator, 8);
-    private final JoystickButton runIntakeReverse = new JoystickButton(operator, 10);
+    private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
+    private final JoystickButton moveWristDown = new JoystickButton(operator, 3);
+    private final JoystickButton runIntakeFoward = new JoystickButton(operator, 1);
+    private final JoystickButton runIntakeReverse = new JoystickButton(operator, 2);
+
+    /* Preset Position Buttons */
+    private final JoystickButton backPole = new JoystickButton(operator, 7);
+    private final JoystickButton frontPole = new JoystickButton(operator, 9);
+    private final JoystickButton backShelf = new JoystickButton(operator, 8);
+    private final JoystickButton frontShelf = new JoystickButton(operator, 10);
+    private final JoystickButton floorDrop = new JoystickButton(operator, 11);
+    private final JoystickButton floorPickupTop = new JoystickButton(operator, 12);
+    private final JoystickButton startingPosition = new JoystickButton(operator, 6);
+    private final JoystickButton sliderPickup = new JoystickButton(operator, 4);
 
     /* April Tag Buttons */
     private final JoystickButton calculateRobotPosition = new JoystickButton(control, 1);
@@ -128,6 +139,16 @@ public class RobotContainer {
         moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
         runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
         runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
+
+        /* Preset Position Buttons */
+        backPole.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
+        frontPole.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
+        backShelf.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
+        frontShelf.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
+        floorDrop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
+        floorPickupTop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
+        startingPosition.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.STARTING_POSITION));
+        sliderPickup.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
 
         /* April Tag Buttons */
         calculateRobotPosition.whileTrue(new UpdateRobotPositionCommand(s_AprilTag));

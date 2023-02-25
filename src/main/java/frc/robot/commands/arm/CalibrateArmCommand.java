@@ -42,6 +42,7 @@ public class CalibrateArmCommand extends CommandBase {
         armSubsystem.setSecondaryMotor(0);
         clawSubsystem.setWristMotor(0);
         armSubsystem.resetEncoders();
+        clawSubsystem.resetEncoder();
     }
 
 }
