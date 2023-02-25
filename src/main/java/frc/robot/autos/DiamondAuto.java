@@ -1,6 +1,11 @@
 package frc.robot.autos;
 
 import frc.robot.Constants;
+import frc.robot.Constants.ArmPositions;
+import frc.robot.autos.arm.SetArmPositionAuto;
+import frc.robot.commands.claw.ReverseClawIntakeCommand;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.Swerve;
 
 import java.util.List;
@@ -13,12 +18,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class DiamondAuto extends SequentialCommandGroup {
-    public DiamondAuto(Swerve s_Swerve){
+    public DiamondAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -44,18 +50,20 @@ public class DiamondAuto extends SequentialCommandGroup {
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
                 exampleTrajectory,
-                s_Swerve::getPose,
+                swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
                 new PIDController(Constants.AutoConstants.kPYController, 0, 0),
                 thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
+                swerve::setModuleStates,
+                swerve);
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-            swerveControllerCommand,
-            new InstantCommand(() -> s_Swerve.drive(new Translation2d(), 0.0, false, false))
+            new InstantCommand(() -> swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+            Commands.parallel(swerveControllerCommand, new SetArmPositionAuto(armSubsystem, ArmPositions.BACK_POLE)),
+            new ReverseClawIntakeCommand(clawSubsystem),
+            new SetArmPositionAuto(armSubsystem, ArmPositions.STARTING_POSITION)
+            
         );
     }
 }

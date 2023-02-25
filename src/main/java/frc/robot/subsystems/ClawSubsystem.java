@@ -44,15 +44,30 @@ public class ClawSubsystem extends SubsystemBase {
         wristMotor.set(0);
     }
 
+    public boolean getWristLimitSwitchUp() {
+        return !wristLimitSwitchUp.get();
+    }
+
+    public boolean getWristLimitSwitchDown() {
+        return !wristLimitSwitchDown.get();
+    }
+
+    public boolean isWristMotorStopped() {
+        boolean isStopped = getWristLimitSwitchUp() || getWristLimitSwitchDown();
+        if (isStopped)
+            wristMotor.set(0);
+        return isStopped;
+    }
+
     public boolean isWristMotorStoppedUp() {
-        boolean isStopped = !wristLimitSwitchUp.get();
+        boolean isStopped = getWristLimitSwitchUp();
         if (isStopped)
             wristMotor.set(0);
         return isStopped;
     }
 
     public boolean isWristMotorStoppedDown() {
-        boolean isStopped = !wristLimitSwitchDown.get();
+        boolean isStopped = getWristLimitSwitchDown();
         if (isStopped)
             wristMotor.set(0);
         return isStopped;

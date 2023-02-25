@@ -50,10 +50,10 @@ public class RobotContainer {
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
     /* Arm Buttons */
-    private final JoystickButton primaryArmForward = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton primaryArmReverse = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton secondaryArmUp = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton secondaryArmDown = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
+    private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
+    private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
+    private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
     private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
     private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
@@ -77,7 +77,7 @@ public class RobotContainer {
     private final Command exampleAuto = new ExampleAuto(s_Swerve);
 
     // Moves in a diamond shape
-    private final Command diamondAuto = new DiamondAuto(s_Swerve);
+    private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -121,7 +121,7 @@ public class RobotContainer {
         secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
         inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
-        calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm));
+        calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
 
         /* Claw Buttons */
         moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));

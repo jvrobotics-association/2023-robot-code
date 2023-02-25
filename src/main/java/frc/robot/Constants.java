@@ -27,13 +27,47 @@ public final class Constants {
         public static final double clawLength = Units.inchesToMeters(16.0);
     }
 
+    public static enum ArmPositions {
+
+        BACK_POLE(0.0, 0.0),
+        FRONT_POLE(0.0, 0.0),
+        BACK_SHELF(0.0, 0.0),
+        FRONT_SHELF(0.0, 0.0),
+        FLOOR_DROP(0.0, 0.0),
+        FLOOR_PICKUP_TOP(0.0, 0.0),
+        STARTING_POSITION(0.0, 0.0),
+        SLIDER_PICKUP(0.0, 0.0);
+
+        private final double primaryArmAngle;
+        private final double secondaryArmAngle;
+
+        ArmPositions(double primaryArmAngle, double secondaryArmAngle) {
+            this.primaryArmAngle = primaryArmAngle;
+            this.secondaryArmAngle = secondaryArmAngle;
+        }
+
+        public double getPrimaryArmAngle() {
+            return primaryArmAngle;
+        }
+
+        public double getSecondaryArmAngle() {
+            return secondaryArmAngle;
+        }
+
+        // get both arm angles in a list
+        public List<Double> getArmAngles() {
+            return List.of(primaryArmAngle, secondaryArmAngle);
+        }
+
+    }
+
     public static final class Arm {
         public static final int primaryArmMotorId = 14;
         public static final int secondaryArmMotorId = 15;
-        public static final int primaryLimitSwitchForwardId = 2;
+        public static final int primaryLimitSwitchForwardId = 0;
         public static final int primaryLimitSwitchReverseId = 1;
-        public static final int secondaryLimitSwitchUpId = 0;
-        public static final int secondaryLimitSwitchDownId = 7;
+        public static final int secondaryLimitSwitchUpId = 2;
+        public static final int secondaryLimitSwitchDownId = 3;
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 5.0;
 
@@ -48,8 +82,8 @@ public final class Constants {
         public static final double primaryArmGearRatio = 500.0;
         public static final double secondaryArmGearRatio = 400.0;
 
-        public static final double primaryArmEncoderZero = 148.611111;
-        public static final double secondaryArmEncoderZero = -22.2222222;
+        public static final double primaryArmEncoderZero = 0;
+        public static final double secondaryArmEncoderZero = 0;
     }
 
     public static final class Swerve {

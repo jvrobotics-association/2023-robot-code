@@ -84,6 +84,7 @@ public class ArmSubsystem extends SubsystemBase {
             }
         }
         primaryMotor.set(speed);
+        SmartDashboard.putNumber("Primary Arm Encoder", getPrimaryEncoderPosition());
     }
 
     public void setSecondaryMotor(double speed) {
@@ -99,10 +100,9 @@ public class ArmSubsystem extends SubsystemBase {
         }
         speed = -speed;
         secondaryMotor.set(speed);
+        SmartDashboard.putNumber("Secondary Arm Encoder", getSecondaryEncoderPosition());
     }
 
-
-    // TODO: Check to see if this is correct
     // gets the encoder positions
     public double getPrimaryEncoderPosition() {
         double position = primaryMotor.getEncoder().getPosition();
@@ -123,8 +123,14 @@ public class ArmSubsystem extends SubsystemBase {
      * @return true if both joints have reached the target positions
      */
     public boolean hasReachedTarget() {
-        SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
-        SmartDashboard.putNumber("Secondary Arm Distance to Target", secondaryEncoderTarget-getSecondaryEncoderPosition());
+        // SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
+        // SmartDashboard.putNumber("Secondary Arm Distance to Target", secondaryEncoderTarget-getSecondaryEncoderPosition());
+        // check to make sure that the arms are not past the limit switches
+        isPrimaryMotorStoppedBackwards();
+        isPrimaryMotorStoppedForward();
+        isSecondaryMotorStoppedDown();
+        isSecondaryMotorStoppedUp();
+
         return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.allowedEncoderError) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.allowedEncoderError);
     }
 
@@ -178,6 +184,11 @@ public class ArmSubsystem extends SubsystemBase {
         // calculate the target positions for the motors
         secondaryEncoderTarget = convertThetaToEncoder(secondaryThetaFromPosition(position), 0, Constants.Arm.secondaryArmGearRatio);
         primaryEncoderTarget = convertThetaToEncoder(primaryThetaFromPosition(position, secondaryThetaFromPosition(position)), 0, Constants.Arm.primaryArmGearRatio);
+    }
+
+    public void setTargetEncoderValues(double primaryTarget, double secondaryTarget) {
+        primaryEncoderTarget = primaryTarget;
+        secondaryEncoderTarget = secondaryTarget;
     }
     
 
