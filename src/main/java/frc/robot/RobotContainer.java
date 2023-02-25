@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -45,6 +47,10 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+    private boolean isRobotCentric = true;
+
+    private final BooleanSupplier isRobotCentricSupplier = () -> isRobotCentric;
+
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
@@ -55,7 +61,7 @@ public class RobotContainer {
     private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
     private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
     private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
-    private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
+    // private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
     private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
     /* Claw Buttons */
@@ -103,7 +109,7 @@ public class RobotContainer {
                         () -> -driver.getRawAxis(translationAxis),
                         () -> -driver.getRawAxis(strafeAxis),
                         () -> -driver.getRawAxis(rotationAxis),
-                        () -> robotCentric.getAsBoolean()));
+                        () -> isRobotCentricSupplier.getAsBoolean()));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -125,13 +131,15 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
+        fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
 
         /* Arm Buttons */
         primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
         primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
         secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
-        inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
+        // inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
         calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
 
         /* Claw Buttons */
@@ -147,7 +155,7 @@ public class RobotContainer {
         frontShelf.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
         floorDrop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
         floorPickupTop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
-        startingPosition.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.STARTING_POSITION));
+        startingPosition.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
         sliderPickup.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
 
         /* April Tag Buttons */

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -39,6 +40,7 @@ public class ClawSubsystem extends SubsystemBase {
 
     // Sets the speed of the wrist motor
     public void setWristMotor(double speed) {
+        SmartDashboard.putNumber("Wrist Motor Encoder", getWristPosition());
         wristMotor.set(speed);
     }
 
@@ -79,14 +81,14 @@ public class ClawSubsystem extends SubsystemBase {
         wristEncoderTarget = target;
     }
 
-    public double getWristEncoder() {
+    public double getWristPosition() {
         return wristMotor.getEncoder().getPosition();
     }
 
     public void moveToTarget() {
-        if (getWristEncoder() < wristEncoderTarget) {
+        if (getWristPosition() < wristEncoderTarget) {
             setWristMotor(Constants.Claw.wristMotorSpeed);
-        } else if (getWristEncoder() > wristEncoderTarget) {
+        } else if (getWristPosition() > wristEncoderTarget) {
             setWristMotor(-Constants.Claw.wristMotorSpeed);
         } else {
             stopWristMotor();
@@ -99,9 +101,10 @@ public class ClawSubsystem extends SubsystemBase {
 
     public boolean hasReachedTarget() {
 
-        isWristMotorStopped();
+        isWristMotorStoppedUp();
+        isWristMotorStoppedDown();
 
-        return Math.abs(getWristEncoder() - wristEncoderTarget) < Constants.Claw.wristMotorTolerance;
+        return Math.abs(getWristPosition() - wristEncoderTarget) <= Constants.Claw.wristMotorTolerance;
     }
 
 }

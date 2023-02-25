@@ -131,7 +131,7 @@ public class ArmSubsystem extends SubsystemBase {
         isSecondaryMotorStoppedDown();
         isSecondaryMotorStoppedUp();
 
-        return (primaryEncoderTarget - getPrimaryEncoderPosition() <= Constants.Arm.allowedEncoderError) && (secondaryEncoderTarget - getSecondaryEncoderPosition() <= Constants.Arm.allowedEncoderError);
+        return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError) & (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
     }
 
     public boolean getPrimaryForwardLimitSwitch() {
@@ -167,7 +167,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         // move the motors if not in allowed error
         if (Math.abs(primaryDelta) > Constants.Arm.allowedEncoderError) {
-            double direction = -(int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
+            double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
             setPrimaryMotor(direction);
         } else {
             primaryMotor.stopMotor();
