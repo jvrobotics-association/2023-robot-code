@@ -149,14 +149,14 @@ public class RobotContainer {
         runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
 
         /* Preset Position Buttons */
-        backPole.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
-        frontPole.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
-        backShelf.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
-        frontShelf.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
-        floorDrop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
-        floorPickupTop.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
+        backPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
+        frontPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
+        backShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
+        frontShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
+        floorDrop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
+        floorPickupTop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
         startingPosition.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
-        sliderPickup.whileTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
+        sliderPickup.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
 
         /* April Tag Buttons */
         calculateRobotPosition.whileTrue(new UpdateRobotPositionCommand(s_AprilTag));

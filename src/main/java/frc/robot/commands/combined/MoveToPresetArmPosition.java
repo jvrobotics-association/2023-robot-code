@@ -37,6 +37,13 @@ public class MoveToPresetArmPosition extends CommandBase {
     public boolean isFinished() {
         return armSubsystem.hasReachedTarget() & clawSubsystem.hasReachedTarget();
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        armSubsystem.setPrimaryMotor(0.0);
+        armSubsystem.setSecondaryMotor(0.0);
+        clawSubsystem.setWristMotor(0.0);
+    }
     
     
 }
