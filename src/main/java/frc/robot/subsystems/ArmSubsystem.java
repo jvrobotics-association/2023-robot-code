@@ -126,10 +126,10 @@ public class ArmSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
         // SmartDashboard.putNumber("Secondary Arm Distance to Target", secondaryEncoderTarget-getSecondaryEncoderPosition());
         // check to make sure that the arms are not past the limit switches
-        isPrimaryMotorStoppedBackwards();
-        isPrimaryMotorStoppedForward();
-        isSecondaryMotorStoppedDown();
-        isSecondaryMotorStoppedUp();
+        // isPrimaryMotorStoppedBackwards();
+        // isPrimaryMotorStoppedForward();
+        // isSecondaryMotorStoppedDown();
+        // isSecondaryMotorStoppedUp();
 
         return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError) & (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
     }
@@ -168,13 +168,31 @@ public class ArmSubsystem extends SubsystemBase {
         // move the motors if not in allowed error
         if (Math.abs(primaryDelta) > Constants.Arm.allowedEncoderError) {
             double direction = (int) (primaryDelta / Math.abs(primaryDelta)) * Constants.Arm.primaryArmMaxSpeed;
-            setPrimaryMotor(direction);
+
+            boolean hasStopped = false;
+
+            if (getPrimaryForwardLimitSwitch() && direction > 0) {
+                hasStopped = true;
+            } else if (getPrimaryReverseLimitSwitch() && direction < 0) {
+                hasStopped = true;
+            }        
+
+            setPrimaryMotor(hasStopped ? 0 : direction);
         } else {
             primaryMotor.stopMotor();
         }
         if (Math.abs(secondaryDelta) > Constants.Arm.allowedEncoderError) {
             double direction = -(int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.secondaryArmMaxSpeed;
-            setSecondaryMotor(direction);
+
+            boolean hasStopped = false;
+
+            if (getSecondaryLimitSwitchDown() && direction < 0) {
+                hasStopped = true;
+            } else if (getSecondaryLimitSwitchUp() && direction > 0) {
+                hasStopped = true;
+            }
+
+            setSecondaryMotor(hasStopped ? 0 : direction);
         } else {
             secondaryMotor.stopMotor();
         }

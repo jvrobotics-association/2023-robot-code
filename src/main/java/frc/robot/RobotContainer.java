@@ -62,7 +62,7 @@ public class RobotContainer {
     private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
     private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
     // private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
-    private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
+    // private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
     /* Claw Buttons */
     private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
@@ -140,7 +140,7 @@ public class RobotContainer {
         secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
         // inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
-        calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
+        // calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
 
         /* Claw Buttons */
         moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));

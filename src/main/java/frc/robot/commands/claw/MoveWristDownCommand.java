@@ -17,7 +17,7 @@ public class MoveWristDownCommand extends CommandBase {
     public void initialize() {
         if (clawSubsystem.isWristMotorStoppedDown())
             return;
-        clawSubsystem.setWristMotor(0.3);
+        clawSubsystem.setWristMotor(0.15);
     }
 
     // If the arm is stopped, the command is finished.

@@ -1,3 +1,6 @@
+
+
+
 package frc.robot;
 
 import java.util.List;
@@ -31,7 +34,7 @@ public final class Constants {
 
     public static enum ArmPositions {
 
-        BACK_POLE(0.0, 0.0, 0.0),
+        BACK_POLE(63.9, -181.4, 34.9),
         FRONT_POLE(0.0, 0.0, 0.0),
         BACK_SHELF(0.0, 0.0, 0.0),
         FRONT_SHELF(0.0, 0.0, 0.0),
@@ -81,7 +84,7 @@ public final class Constants {
 
         // These values are in percent output (0.0 to 1.0)
         public static final double primaryArmMaxSpeed = 0.3;
-        public static final double secondaryArmMaxSpeed = 0.3;
+        public static final double secondaryArmMaxSpeed = 0.5;
 
         public static final double primaryArmLength = Units.inchesToMeters(36.0);
         public static final double secondaryArmLength = Units.inchesToMeters(30.0);

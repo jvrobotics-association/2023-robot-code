@@ -1,6 +1,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 
@@ -21,9 +22,9 @@ public class CalibrateArmCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        armSubsystem.setPrimaryMotor(-0.3);
-        armSubsystem.setSecondaryMotor(-0.2);
-        clawSubsystem.setWristMotor(-0.3);
+        armSubsystem.setPrimaryMotor(-Constants.Arm.primaryArmMaxSpeed);
+        armSubsystem.setSecondaryMotor(-Constants.Arm.secondaryArmMaxSpeed);
+        clawSubsystem.setWristMotor(-Constants.Claw.wristMotorSpeed);
         // armSubsystem.resetEncoders();
     }
 
