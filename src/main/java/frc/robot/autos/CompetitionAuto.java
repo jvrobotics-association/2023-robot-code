@@ -1,13 +1,5 @@
 package frc.robot.autos;
 
-import frc.robot.Constants;
-import frc.robot.Constants.ArmPositions;
-import frc.robot.commands.claw.ReverseClawIntakeCommand;
-import frc.robot.commands.combined.MoveToPresetArmPosition;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.Swerve;
-
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -22,9 +14,17 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants;
+import frc.robot.Constants.ArmPositions;
+import frc.robot.commands.arm.CalibrateArmCommand;
+import frc.robot.commands.claw.ReverseClawIntakeCommand;
+import frc.robot.commands.combined.MoveToPresetArmPosition;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.Swerve;
 
-public class DiamondAuto extends SequentialCommandGroup {
-    public DiamondAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem){
+public class CompetitionAuto extends SequentialCommandGroup {
+    public CompetitionAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -32,6 +32,7 @@ public class DiamondAuto extends SequentialCommandGroup {
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
+        // TODO: replace with actual trajectory
         Trajectory exampleTrajectory =
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
@@ -60,10 +61,12 @@ public class DiamondAuto extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(() -> swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-            Commands.parallel(swerveControllerCommand, new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE)),
+            new CalibrateArmCommand(armSubsystem, clawSubsystem),
+            new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE),
             new ReverseClawIntakeCommand(clawSubsystem),
-            new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.STARTING_POSITION)
-            
+            new CalibrateArmCommand(armSubsystem, clawSubsystem),
+            swerveControllerCommand
+            // TODO: add auto leveling command for charging station
         );
     }
 }
