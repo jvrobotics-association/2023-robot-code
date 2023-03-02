@@ -90,10 +90,18 @@ public class Swerve extends SubsystemBase {
     public void levelRobotPitch() {
         double pitch = getPitch();
 
-        // check to see if the robot is going to fall of the back of the table
+        // check to see if the robot is going to fall off the table
         Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
         if (isRed) {
-        
+            if (Math.abs(Constants.AutoConstants.kRedChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+                drive(new Translation2d(0, 0), 0, false, true);
+                return;
+            }
+        } else {
+            if (Math.abs(Constants.AutoConstants.kBlueChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+                drive(new Translation2d(0, 0), 0, false, true);
+                return;
+            }
         }
 
         if (pitch > AutoConstants.kRobotPitchTolerance) {
