@@ -229,10 +229,21 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+        public static final double kRobotPitchTolerance = 0.5;
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
+
+        // note this is the distance between the charging station closest corner to the origin and the origin of the field coordinate system
+        public static final double kRedChargingStationX = 0;
+        public static final double kRedChargingStationY = 0;
+        public static final double kBlueChargingStationX = 0;
+        public static final double kBlueChargingStationY = 0;
+
+        // width is the x dimension, length is the y dimension
+        public static final double kChargingStationWidth = Units.feetToMeters(4.0);
+        public static final double kChargingStationLength = Units.feetToMeters(8.0);
 
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(

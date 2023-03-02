@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -10,10 +11,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +26,11 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
 
+    public boolean isRed = true;
+
     public Swerve() {
+        isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.configFactoryDefault();
         zeroGyro();
@@ -73,6 +80,30 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }    
+
+    public double getPitch () {
+        double[] ypr = new double[3];
+        gyro.getYawPitchRoll(ypr);
+        return ypr[1];
+    }
+
+    public void levelRobotPitch() {
+        double pitch = getPitch();
+
+        // check to see if the robot is going to fall of the back of the table
+        Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
+        if (isRed) {
+        
+        }
+
+        if (pitch > AutoConstants.kRobotPitchTolerance) {
+            drive(new Translation2d(0, 0.2), 0, false, true);
+        } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
+            drive(new Translation2d(0, -0.2), 0, false, true);
+        } else {
+            drive(new Translation2d(0, 0), 0, false, true);
+        }
+    }
 
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
