@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     ctreConfigs = new CTREConfigs();
     PortForwarder.add(5800, "photonvision.local", 5800);
+    PortForwarder.add(1182, "photonvision.local", 1182);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
