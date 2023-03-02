@@ -95,6 +95,9 @@ public final class Constants {
 
         public static final double primaryArmEncoderZero = 0;
         public static final double secondaryArmEncoderZero = 0;
+
+        public static final double zeroAreaPrimaryEncoderValue = 20;
+        public static final double zeroAreaSecondaryEncoderValue = -70;
     }
 
     public static final class Swerve {

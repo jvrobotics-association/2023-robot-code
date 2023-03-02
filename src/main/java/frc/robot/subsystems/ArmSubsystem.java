@@ -134,13 +134,23 @@ public class ArmSubsystem extends SubsystemBase {
 
         return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError) & (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
     }
+    
 
     public boolean hasReachedPrimaryTarget() {
         return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
     }
 
+    public boolean isPrimaryOffZeroArea() {
+        return (getPrimaryEncoderPosition() > Constants.Arm.zeroAreaPrimaryEncoderValue);
+        
+    }
+
     public boolean hasReachedSecondaryTarget() {
         return (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
+    }
+
+    public boolean isSecondaryOffZeroArea() {
+        return (getSecondaryEncoderPosition() < Constants.Arm.zeroAreaSecondaryEncoderValue);
     }
 
     public boolean getPrimaryForwardLimitSwitch() {

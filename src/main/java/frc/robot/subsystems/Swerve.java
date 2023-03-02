@@ -91,22 +91,22 @@ public class Swerve extends SubsystemBase {
 
         // check to see if the robot is going to fall off the table
         Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
-        if (isRed) {
-            if (Math.abs(Constants.AutoConstants.kRedChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
-                drive(new Translation2d(0, 0), 0, false, true);
-                return;
-            }
-        } else {
-            if (Math.abs(Constants.AutoConstants.kBlueChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
-                drive(new Translation2d(0, 0), 0, false, true);
-                return;
-            }
-        }
+        // if (isRed) {
+        //     if (Math.abs(Constants.AutoConstants.kRedChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+        //         drive(new Translation2d(0, 0), 0, false, true);
+        //         return;
+        //     }
+        // } else {
+        //     if (Math.abs(Constants.AutoConstants.kBlueChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+        //         drive(new Translation2d(0, 0), 0, false, true);
+        //         return;
+        //     }
+        // }
 
         if (pitch > AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(0, 0.2), 0, false, true);
+            drive(new Translation2d(-0.1, 0), 0, false, true);
         } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(0, -0.2), 0, false, true);
+            drive(new Translation2d(0.1, 0), 0, false, true);
         } else {
             drive(new Translation2d(0, 0), 0, false, true);
         }

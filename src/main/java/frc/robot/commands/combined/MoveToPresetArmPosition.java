@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.commands.arm.MovePrimaryArmToPreset;
 import frc.robot.commands.arm.MoveSecondaryArmToPreset;
+import frc.robot.commands.arm.MoveSecondaryOffZeroArea;
 import frc.robot.commands.claw.MoveWristToPreset;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
@@ -31,17 +32,21 @@ public class MoveToPresetArmPosition extends SequentialCommandGroup {
         switch (targetPosition) {
             case FLOOR_DROP:
             case FLOOR_PICKUP_TOP:
+            case BACK_POLE:
                 addCommands(
-                        new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
+
+                        new MoveSecondaryOffZeroArea(armSubsystem),
                         new ParallelCommandGroup(
                                 new MovePrimaryArmToPreset(armSubsystem, targetPosition),
-                                new MoveWristToPreset(clawSubsystem, targetPosition)));
+                                new MoveWristToPreset(clawSubsystem, targetPosition),
+                                new MoveSecondaryArmToPreset(armSubsystem, targetPosition)));
                 break;
 
             default:
                 addCommands(
-                        new MovePrimaryArmToPreset(armSubsystem, targetPosition),
+                        
                         new ParallelCommandGroup(
+                            new MovePrimaryArmToPreset(armSubsystem, targetPosition),
                                 new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
                                 new MoveWristToPreset(clawSubsystem, targetPosition)));
                 break;

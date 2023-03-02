@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,7 +24,7 @@ public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
 
   private Command m_autonomousCommand;
-
+  private UsbCamera camera;
   private RobotContainer m_robotContainer;
 
   /**
@@ -35,6 +37,7 @@ public class Robot extends TimedRobot {
     ctreConfigs = new CTREConfigs();
     PortForwarder.add(5800, "photonvision.local", 5800);
     PortForwarder.add(1182, "photonvision.local", 1182);
+    camera = CameraServer.startAutomaticCapture();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
+import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Arm Buttons */
     private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
@@ -138,6 +140,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
+        levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
 
         /* Arm Buttons */
         primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
