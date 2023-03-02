@@ -1,7 +1,12 @@
 package frc.robot.commands.combined;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
+import frc.robot.commands.arm.MovePrimaryArmToPreset;
+import frc.robot.commands.arm.MoveSecondaryArmToPreset;
+import frc.robot.commands.claw.MoveWristToPreset;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 
@@ -11,45 +16,37 @@ import frc.robot.subsystems.ClawSubsystem;
  * This prevents colliding with frame and game elements.
  */
 
-public class MoveToPresetArmPosition extends CommandBase {
+public class MoveToPresetArmPosition extends SequentialCommandGroup {
 
     private final ArmSubsystem armSubsystem;
     private final ArmPositions targetPosition;
     private final ClawSubsystem clawSubsystem;
 
-    public MoveToPresetArmPosition(ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, ArmPositions targetPosition) {
+    public MoveToPresetArmPosition(ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem,
+            ArmPositions targetPosition) {
         this.armSubsystem = armSubsystem;
         this.clawSubsystem = clawSubsystem;
         this.targetPosition = targetPosition;
-        addRequirements(armSubsystem);
-        addRequirements(clawSubsystem);
+        addRequirements(armSubsystem, clawSubsystem);
+
+        switch (targetPosition) {
+            case FLOOR_DROP:
+            case FLOOR_PICKUP_TOP:
+                addCommands(
+                        new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
+                        new ParallelCommandGroup(
+                                new MovePrimaryArmToPreset(armSubsystem, targetPosition),
+                                new MoveWristToPreset(clawSubsystem, targetPosition)));
+                break;
+
+            default:
+                addCommands(
+                        new MovePrimaryArmToPreset(armSubsystem, targetPosition),
+                        new ParallelCommandGroup(
+                                new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
+                                new MoveWristToPreset(clawSubsystem, targetPosition)));
+                break;
+        }
     }
 
-    @Override
-    public void initialize() {
-        armSubsystem.setTargetEncoderValues(targetPosition.getPrimaryArmAngle(), targetPosition.getSecondaryArmAngle());
-        armSubsystem.moveToTarget();
-        clawSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
-        clawSubsystem.moveToTarget();
-    }
-
-    @Override
-    public void execute() {
-        armSubsystem.moveToTarget();
-        clawSubsystem.moveToTarget();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return armSubsystem.hasReachedTarget() & clawSubsystem.hasReachedTarget();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        armSubsystem.setPrimaryMotor(0.0);
-        armSubsystem.setSecondaryMotor(0.0);
-        clawSubsystem.setWristMotor(0.0);
-    }
-    
-    
 }
