@@ -83,11 +83,13 @@ public class Swerve extends SubsystemBase {
     public double getPitch () {
         double[] ypr = new double[3];
         gyro.getYawPitchRoll(ypr);
+        SmartDashboard.putNumber("Pitch", ypr[1]);
         return ypr[1];
     }
 
     public void levelRobotPitch() {
         double pitch = getPitch();
+
 
         // check to see if the robot is going to fall off the table
         Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
