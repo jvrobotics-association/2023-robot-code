@@ -14,7 +14,6 @@ import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
-import frc.robot.commands.arm.InverseKinematicsCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
 import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
 import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
