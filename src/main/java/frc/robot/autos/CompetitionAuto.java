@@ -10,11 +10,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmPositions;
+import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
@@ -23,7 +25,7 @@ import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.Swerve;
 
 public class CompetitionAuto extends SequentialCommandGroup {
-    public CompetitionAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem){
+    public CompetitionAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, boolean isRed){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -31,16 +33,22 @@ public class CompetitionAuto extends SequentialCommandGroup {
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
-        // TODO: replace with actual trajectory
-        Trajectory exampleTrajectory =
-            TrajectoryGenerator.generateTrajectory(
+        Trajectory trajectory =
+            isRed ? TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(Units.inchesToMeters((54*12+3.25)-84.1), Units.inchesToMeters(194.7), new Rotation2d(180)),
                 // Make the 3 other points
-                List.of(new Translation2d(1, 1), new Translation2d(2, 0), new Translation2d(1, -1)),
+                List.of(new Translation2d(Units.inchesToMeters(20+17.5) + Constants.AutoConstants.kRedChargingStationX, Units.inchesToMeters(12)+Constants.AutoConstants.kRedChargingStationY)),
                 // End at the origin
-                new Pose2d(0, 0, new Rotation2d(0)),
-                config);
+                new Pose2d(Constants.AutoConstants.kRedChargingStationX, Units.inchesToMeters(12)+Constants.AutoConstants.kRedChargingStationY, new Rotation2d(0)),
+                config) : TrajectoryGenerator.generateTrajectory(
+                    // Start at the origin facing the +X direction
+                    new Pose2d(Units.inchesToMeters(84.1), Units.inchesToMeters(194.7), new Rotation2d(0)),
+                    // Make the 3 other points
+                    List.of(new Translation2d((-Units.inchesToMeters(20+17.5)) + Constants.AutoConstants.kBlueChargingStationX, Units.inchesToMeters(12)+Constants.AutoConstants.kBlueChargingStationY)),
+                    // End at the origin
+                    new Pose2d(Constants.AutoConstants.kBlueChargingStationX, Units.inchesToMeters(12)+Constants.AutoConstants.kBlueChargingStationY, new Rotation2d(180)),
+                    config);
 
         var thetaController =
             new ProfiledPIDController(
@@ -49,7 +57,7 @@ public class CompetitionAuto extends SequentialCommandGroup {
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
-                exampleTrajectory,
+                trajectory,
                 swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -59,13 +67,13 @@ public class CompetitionAuto extends SequentialCommandGroup {
                 swerve);
 
         addCommands(
-            new InstantCommand(() -> swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+            new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
             new CalibrateArmCommand(armSubsystem, clawSubsystem),
             new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE),
             new ReverseClawIntakeCommand(clawSubsystem),
             new CalibrateArmCommand(armSubsystem, clawSubsystem),
-            swerveControllerCommand
-            // TODO: add auto leveling command for charging station
+            swerveControllerCommand,
+            new LevelChargingStationAuto(swerve)
         );
     }
 }

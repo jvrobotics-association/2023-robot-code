@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -36,6 +37,9 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+    private final boolean isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick operator = new Joystick(1);
@@ -94,7 +98,7 @@ public class RobotContainer {
 
     // Moves in a diamond shape
     private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
-    private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw);
+    private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -188,5 +192,9 @@ public class RobotContainer {
 
     public ClawSubsystem getClaw() {
         return s_Claw;
+    }
+
+    public AprilTagSubsystem getAprilTag() {
+        return s_AprilTag;
     }
 }
