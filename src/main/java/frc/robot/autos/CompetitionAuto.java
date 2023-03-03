@@ -87,7 +87,7 @@ public class CompetitionAuto extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> swerve.resetOdometry(moveForwardTrajectory.getInitialPose())),
                 new CalibrateArmCommand(armSubsystem, clawSubsystem),
-                new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE),
+                new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.FRONT_POLE),
                 moveForwardSwerve,
                 new ReverseClawIntakeCommand(clawSubsystem),
                 new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),

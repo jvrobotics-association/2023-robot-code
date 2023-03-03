@@ -81,8 +81,8 @@ public class RobotContainer {
     /* Preset Position Buttons */
     private final JoystickButton backPole = new JoystickButton(operator, 7);
     private final JoystickButton frontPole = new JoystickButton(operator, 9);
-    private final JoystickButton backShelf = new JoystickButton(operator, 8);
-    private final JoystickButton frontShelf = new JoystickButton(operator, 10);
+    private final JoystickButton backShelf = new JoystickButton(operator, 10);
+    private final JoystickButton frontShelf = new JoystickButton(operator, 8);
     private final JoystickButton floorDrop = new JoystickButton(operator, 11);
     private final JoystickButton floorPickupTop = new JoystickButton(operator, 12);
     private final JoystickButton startingPosition = new JoystickButton(operator, 6);

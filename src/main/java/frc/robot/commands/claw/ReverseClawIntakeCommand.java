@@ -15,7 +15,7 @@ public class ReverseClawIntakeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        clawSubsystem.setIntakeMotor(0.5);
+        clawSubsystem.setIntakeMotor(0.25);
     }
 
     @Override

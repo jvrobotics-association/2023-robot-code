@@ -34,16 +34,16 @@ public final class Constants {
 
     public static enum ArmPositions {
 
-        BACK_POLE(61.3, -177.2, 38.6),
-        FRONT_POLE(14.7, -76.6, 27.4),
-        BACK_SHELF(15.7, -55.8, 30.0),
+        BACK_POLE(61.9, -181.6, 38.6),
+        FRONT_POLE(14.7, -87.6, 30.9),
+        BACK_SHELF(16.7, -63.5, 29.1),
         FRONT_SHELF(66.5, -165.2, 44.6),
-        FLOOR_DROP(58.2, -33.0, 18.5),
-        FLOOR_PICKUP_TOP(58.2, -74.8, 47.6),
+        FLOOR_DROP(63.5, -27.8, 16.6),
+        FLOOR_PICKUP_TOP(40.1, -32.7, 42.0),
         STARTING_POSITION(0.0, 0.0, 0.0),
         SLIDER_PICKUP(0.0, -82.2, 36.0),
         // TODO: find the correct values for these
-        KNOWN_GOOD_CONFIGURATION(35.5, -50.0, 0.0);
+        KNOWN_GOOD_CONFIGURATION(35.5, -50.0, 20.0);
 
         private final double primaryArmAngle;
         private final double secondaryArmAngle;
