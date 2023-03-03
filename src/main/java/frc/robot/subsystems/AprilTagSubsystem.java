@@ -18,6 +18,8 @@ public class AprilTagSubsystem extends SubsystemBase {
     public Swerve swerve;
     public PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
+    public boolean disableUpdate = false;
+
     public AprilTagSubsystem(Swerve _swerve) {
         this.swerve = _swerve;
         // chose the april tag pipeline
@@ -70,6 +72,9 @@ public class AprilTagSubsystem extends SubsystemBase {
     }
 
     public void updateRobotPosition() {
+        if (disableUpdate) {
+            return;
+        }
         Pose3d robotPose = calculateRobotPosition();
 
         if (robotPose != null) {
