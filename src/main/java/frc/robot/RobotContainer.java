@@ -25,6 +25,7 @@ import frc.robot.commands.claw.MoveWristUpCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
+import frc.robot.commands.drive.StraightenRobot;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -60,7 +61,8 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-    private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton alignRobot = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Arm Buttons */
     private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
@@ -143,6 +145,7 @@ public class RobotContainer {
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
         levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
+        alignRobot.whileTrue(new StraightenRobot(s_Swerve, this));
 
         /* Arm Buttons */
         primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
