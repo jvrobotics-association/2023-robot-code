@@ -71,9 +71,9 @@ public class CompetitionAuto extends SequentialCommandGroup {
             new CalibrateArmCommand(armSubsystem, clawSubsystem),
             new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE),
             new ReverseClawIntakeCommand(clawSubsystem),
-            new CalibrateArmCommand(armSubsystem, clawSubsystem),
-            swerveControllerCommand,
-            new LevelChargingStationAuto(swerve)
+            new CalibrateArmCommand(armSubsystem, clawSubsystem)
+            // swerveControllerCommand,
+            // new LevelChargingStationAuto(swerve)
         );
     }
 }
