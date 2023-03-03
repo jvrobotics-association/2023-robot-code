@@ -251,7 +251,7 @@ public final class Constants {
         public static final double kBlueChargingStationX = Units.inchesToMeters(60.00) + kChargingStationLength/2;
         public static final double kBlueChargingStationY = Units.inchesToMeters(154.00);
 
-        public static final double kRobotPitchMovement = 0.04; // this is the distance the robot moves in the x direction when it pitches        
+        public static final double kRobotPitchMovement = 0.07; // this is the distance the robot moves in the x direction when it pitches        
 
         // this measurement is in meters and is the allowed distance the robot can travel from the center of the charging station to try to level itself
         public static final double kAllowedChargingStationMovementFromCenter = 0.25;

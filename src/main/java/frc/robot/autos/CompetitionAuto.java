@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
