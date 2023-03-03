@@ -1,12 +1,7 @@
 package frc.robot.commands.combined;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.commands.arm.MovePrimaryArmToPreset;
-import frc.robot.commands.arm.MoveSecondaryArmToPreset;
-import frc.robot.commands.arm.MoveSecondaryOffZeroArea;
-import frc.robot.commands.claw.MoveWristToPreset;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 
@@ -30,15 +25,9 @@ public class MoveToPresetArmPosition extends SequentialCommandGroup {
         addRequirements(armSubsystem, clawSubsystem);
 
         addCommands(
-                new ParallelCommandGroup(
-                        new MovePrimaryArmToPreset(armSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
-                        new MoveWristToPreset(clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
-                        new MoveSecondaryArmToPreset(armSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION)),
+                new MoveAllToTargetCommand(armSubsystem, clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
 
-                new ParallelCommandGroup(
-                        new MovePrimaryArmToPreset(armSubsystem, targetPosition),
-                        new MoveWristToPreset(clawSubsystem, targetPosition),
-                        new MoveSecondaryArmToPreset(armSubsystem, targetPosition)));
+                new MoveAllToTargetCommand(armSubsystem, clawSubsystem, targetPosition));
     }
 
 }
