@@ -105,13 +105,16 @@ public class Swerve extends SubsystemBase {
         //     }
         // }
 
+        double expectedMovement = 0;
+
         if (pitch > AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(-0.1, 0), 0, false, true);
+            expectedMovement = -AutoConstants.kRobotPitchMovement;
         } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(0.1, 0), 0, false, true);
-        } else {
-            drive(new Translation2d(0, 0), 0, false, true);
-        }
+            expectedMovement = AutoConstants.kRobotPitchMovement;
+        } 
+
+        SmartDashboard.putNumber("Level Expected Movement", expectedMovement);
+        // drive(new Translation2d(expectedMovement, 0), 0, false, true);
     }
 
     public Pose2d getPose() {

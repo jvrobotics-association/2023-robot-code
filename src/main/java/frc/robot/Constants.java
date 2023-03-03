@@ -232,7 +232,7 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-        public static final double kRobotPitchTolerance = 0.5;
+        public static final double kRobotPitchTolerance = 5;
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;
@@ -248,7 +248,7 @@ public final class Constants {
         public static final double kBlueChargingStationX = Units.inchesToMeters(60.00) + kChargingStationLength/2;
         public static final double kBlueChargingStationY = Units.inchesToMeters(154.00);
 
-        
+        public static final double kRobotPitchMovement = 0.5; // this is the distance the robot moves in the x direction when it pitches        
 
         // this measurement is in meters and is the allowed distance the robot can travel from the center of the charging station to try to level itself
         public static final double kAllowedChargingStationMovementFromCenter = 0.25;
