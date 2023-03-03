@@ -103,7 +103,8 @@ public class RobotContainer {
 
     // Moves in a diamond shape
     // private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
-    private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
+    // private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
+    private final Command simpleAuto = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -125,9 +126,10 @@ public class RobotContainer {
         configureButtonBindings();
 
         // Add commands to the autonomous command chooser
-        autonomousChooser.setDefaultOption("Competition Auto", competitionAuto);
+        // autonomousChooser.setDefaultOption("Competition Auto", competitionAuto);
         // autonomousChooser.addOption("Example Auto", exampleAuto);
         // autonomousChooser.addOption("Diamond Auto", diamondAuto);
+        autonomousChooser.setDefaultOption("Simple Auto", simpleAuto);
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
 

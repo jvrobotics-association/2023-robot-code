@@ -82,9 +82,11 @@ public class Swerve extends SubsystemBase {
     public double getPitch() {
         double[] ypr = new double[3];
         gyro.getYawPitchRoll(ypr);
-        SmartDashboard.putNumber("Pitch", ypr[1]);
-        return ypr[1];
+        SmartDashboard.putNumber("Pitch", ypr[2]);
+        return ypr[2];
     }
+
+
 
     public void levelRobotPitch() {
         double pitch = getPitch();
@@ -108,13 +110,13 @@ public class Swerve extends SubsystemBase {
         double expectedMovement = 0;
 
         if (pitch > AutoConstants.kRobotPitchTolerance) {
-            expectedMovement = -AutoConstants.kRobotPitchMovement;
-        } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
             expectedMovement = AutoConstants.kRobotPitchMovement;
+        } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
+            expectedMovement = -AutoConstants.kRobotPitchMovement;
         }
 
         SmartDashboard.putNumber("Level Expected Movement", expectedMovement);
-        // drive(new Translation2d(expectedMovement, 0), 0, false, true);
+        drive(new Translation2d(expectedMovement, 0), 0, false, true);
     }
 
     public Pose2d getPose() {
@@ -162,10 +164,12 @@ public class Swerve extends SubsystemBase {
 
     public void spinRobotToTarget(double angle, double strafe) {
         int direction = (int) Math.signum(angle - getYaw().getDegrees());
-        if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone) {
+        if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone
+                || Math.abs(angle + 180 - ((getYaw().getDegrees() + 180) % 360)) < Constants.Swerve.gyroDeadZone) {
             drive(new Translation2d(0, strafe * 0.1), 0, false, true);
         } else {
-            drive(new Translation2d(0, strafe * 0.1), direction * Constants.Swerve.maxAngularVelocity * 0.2, false, true);
+            drive(new Translation2d(0, strafe * 0.1), direction * Constants.Swerve.maxAngularVelocity * 0.5, false,
+                    true);
         }
     }
 
