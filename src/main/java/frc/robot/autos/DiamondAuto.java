@@ -2,8 +2,8 @@ package frc.robot.autos;
 
 import frc.robot.Constants;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.autos.arm.SetArmPositionAuto;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
+import frc.robot.commands.combined.MoveToPresetArmPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -60,9 +60,9 @@ public class DiamondAuto extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(() -> swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-            Commands.parallel(swerveControllerCommand, new SetArmPositionAuto(armSubsystem, ArmPositions.BACK_POLE)),
+            Commands.parallel(swerveControllerCommand, new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.BACK_POLE)),
             new ReverseClawIntakeCommand(clawSubsystem),
-            new SetArmPositionAuto(armSubsystem, ArmPositions.STARTING_POSITION)
+            new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.STARTING_POSITION)
             
         );
     }

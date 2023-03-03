@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
+import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
-import frc.robot.commands.arm.InverseKinematicsCommand;
 import frc.robot.commands.arm.MovePrimaryArmBackwardsCommand;
 import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
 import frc.robot.commands.arm.MoveSecondaryArmDownCommand;
@@ -37,6 +38,10 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+    private final boolean isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+    private boolean isYLocked = false;
+
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick operator = new Joystick(1);
@@ -55,6 +60,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Arm Buttons */
     private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
@@ -95,6 +101,7 @@ public class RobotContainer {
 
     // Moves in a diamond shape
     private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
+    private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -109,13 +116,15 @@ public class RobotContainer {
                         () -> -driver.getRawAxis(translationAxis),
                         () -> -driver.getRawAxis(strafeAxis),
                         () -> -driver.getRawAxis(rotationAxis),
-                        () -> isRobotCentricSupplier.getAsBoolean()));
+                        () -> isRobotCentricSupplier.getAsBoolean(),
+                        () -> isYLocked));
 
         // Configure the button bindings
         configureButtonBindings();
 
         // Add commands to the autonomous command chooser
-        autonomousChooser.setDefaultOption("Example Auto", exampleAuto);
+        autonomousChooser.setDefaultOption("Competition Auto", competitionAuto);
+        autonomousChooser.addOption("Example Auto", exampleAuto);
         autonomousChooser.addOption("Diamond Auto", diamondAuto);
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
@@ -133,6 +142,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
+        levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
 
         /* Arm Buttons */
         primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
@@ -187,5 +197,17 @@ public class RobotContainer {
 
     public ClawSubsystem getClaw() {
         return s_Claw;
+    }
+
+    public AprilTagSubsystem getAprilTag() {
+        return s_AprilTag;
+    }
+
+    public boolean getYLock() {
+        return isYLocked;
+    }
+
+    public void setYLock(boolean value) {
+        isYLocked = value;
     }
 }

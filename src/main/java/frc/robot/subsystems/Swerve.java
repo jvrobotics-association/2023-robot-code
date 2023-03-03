@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
-import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -84,22 +83,32 @@ public class Swerve extends SubsystemBase {
     public double getPitch () {
         double[] ypr = new double[3];
         gyro.getYawPitchRoll(ypr);
+        SmartDashboard.putNumber("Pitch", ypr[1]);
         return ypr[1];
     }
 
     public void levelRobotPitch() {
         double pitch = getPitch();
 
-        // check to see if the robot is going to fall of the back of the table
+
+        // check to see if the robot is going to fall off the table
         Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
-        if (isRed) {
-        
-        }
+        // if (isRed) {
+        //     if (Math.abs(Constants.AutoConstants.kRedChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+        //         drive(new Translation2d(0, 0), 0, false, true);
+        //         return;
+        //     }
+        // } else {
+        //     if (Math.abs(Constants.AutoConstants.kBlueChargingStationX - robotPos.getX()) > AutoConstants.kAllowedChargingStationMovementFromCenter) {
+        //         drive(new Translation2d(0, 0), 0, false, true);
+        //         return;
+        //     }
+        // }
 
         if (pitch > AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(0, 0.2), 0, false, true);
+            drive(new Translation2d(-0.1, 0), 0, false, true);
         } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
-            drive(new Translation2d(0, -0.2), 0, false, true);
+            drive(new Translation2d(0.1, 0), 0, false, true);
         } else {
             drive(new Translation2d(0, 0), 0, false, true);
         }
@@ -141,6 +150,11 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
         }
+    }
+
+    public void spinRobotToTarget(double angle) {
+        int direction = (int) Math.signum(angle - getYaw().getDegrees());
+        drive(new Translation2d(), direction * Constants.Swerve.maxAngularVelocity * 0.5, false, true);
     }
 
     @Override

@@ -122,6 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @return true if both joints have reached the target positions
      */
+    @Deprecated
     public boolean hasReachedTarget() {
         // SmartDashboard.putNumber("Primary Arm Distance to Target", primaryEncoderTarget-getPrimaryEncoderPosition());
         // SmartDashboard.putNumber("Secondary Arm Distance to Target", secondaryEncoderTarget-getSecondaryEncoderPosition());
@@ -132,6 +133,24 @@ public class ArmSubsystem extends SubsystemBase {
         // isSecondaryMotorStoppedUp();
 
         return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError) & (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
+    }
+    
+
+    public boolean hasReachedPrimaryTarget() {
+        return (Math.abs(primaryEncoderTarget - getPrimaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
+    }
+
+    public boolean isPrimaryOffZeroArea() {
+        return (getPrimaryEncoderPosition() > Constants.Arm.zeroAreaPrimaryEncoderValue);
+        
+    }
+
+    public boolean hasReachedSecondaryTarget() {
+        return (Math.abs(secondaryEncoderTarget - getSecondaryEncoderPosition()) <= Constants.Arm.allowedEncoderError);
+    }
+
+    public boolean isSecondaryOffZeroArea() {
+        return (getSecondaryEncoderPosition() < Constants.Arm.zeroAreaSecondaryEncoderValue);
     }
 
     public boolean getPrimaryForwardLimitSwitch() {
@@ -160,10 +179,10 @@ public class ArmSubsystem extends SubsystemBase {
     /*
      * Moves the arm joints to the target encoder positions
      */
-    public void moveToTarget() {
+    public void movePrimaryToTarget() {
         // stores the distance that the primary and secondary joints need to travel
         double primaryDelta = primaryEncoderTarget - getPrimaryEncoderPosition();
-        double secondaryDelta = secondaryEncoderTarget - getSecondaryEncoderPosition();
+        
 
         // move the motors if not in allowed error
         if (Math.abs(primaryDelta) > Constants.Arm.allowedEncoderError) {
@@ -181,6 +200,13 @@ public class ArmSubsystem extends SubsystemBase {
         } else {
             primaryMotor.stopMotor();
         }
+    
+    }
+
+    public void moveSecondaryToTarget() {
+
+        double secondaryDelta = secondaryEncoderTarget - getSecondaryEncoderPosition();
+
         if (Math.abs(secondaryDelta) > Constants.Arm.allowedEncoderError) {
             double direction = -(int) (secondaryDelta / Math.abs(secondaryDelta)) * Constants.Arm.secondaryArmMaxSpeed;
 

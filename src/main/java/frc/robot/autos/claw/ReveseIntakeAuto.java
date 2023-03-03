@@ -20,7 +20,7 @@ public class ReveseIntakeAuto extends CommandBase {
     @Override
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
-        clawSubsystem.setIntakeMotor(-1.0);
+        clawSubsystem.setIntakeMotor(-0.5);
     }
 
     @Override

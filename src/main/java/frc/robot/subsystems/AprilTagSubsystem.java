@@ -20,6 +20,7 @@ public class AprilTagSubsystem extends SubsystemBase {
 
     public AprilTagSubsystem(Swerve _swerve) {
         this.swerve = _swerve;
+        // chose the april tag pipeline
         photonCamera.setPipelineIndex(0);
     }
 
@@ -48,14 +49,17 @@ public class AprilTagSubsystem extends SubsystemBase {
                 return null;
             }
 
+            // Create a transform for the camera
             Transform3d cameraPose = new Transform3d(
                     new Translation3d(Constants.Camera.cameraXOffset, Constants.Camera.cameraYOffset,
                             Constants.Camera.cameraHeight),
                     new Rotation3d(Constants.Camera.cameraPitch, 0, 0));
 
+            // Calculate the robot's position on the field
             Pose3d robotOnFieldPose = PhotonUtils.estimateFieldToRobotAprilTag(targetTransform.inverse(), tag.pose,
                     cameraPose);
 
+            // Print the robot's position to the SmartDashboard
             SmartDashboard.putString("Estimated Robot Position", robotOnFieldPose.toString());
 
             return robotOnFieldPose;

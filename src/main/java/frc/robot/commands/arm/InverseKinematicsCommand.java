@@ -29,12 +29,13 @@ public class InverseKinematicsCommand extends CommandBase {
 
     @Override
     public void execute() {
-        armSubsystem.moveToTarget();
+        // armSubsystem.moveToTarget();
     }
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.hasReachedTarget();
+        // return armSubsystem.hasReachedTarget();
+        return true;
     }
     
 }

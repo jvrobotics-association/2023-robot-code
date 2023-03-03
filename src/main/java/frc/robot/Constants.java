@@ -34,14 +34,14 @@ public final class Constants {
 
     public static enum ArmPositions {
 
-        BACK_POLE(63.9, -181.4, 34.9),
-        FRONT_POLE(0.0, 0.0, 0.0),
-        BACK_SHELF(0.0, 0.0, 0.0),
-        FRONT_SHELF(0.0, 0.0, 0.0),
-        FLOOR_DROP(0.0, 0.0, 0.0),
-        FLOOR_PICKUP_TOP(0.0, 0.0, 0.0),
+        BACK_POLE(61.3, -177.2, 38.6),
+        FRONT_POLE(14.7, -76.6, 27.4),
+        BACK_SHELF(15.7, -55.8, 30.0),
+        FRONT_SHELF(66.5, -165.2, 44.6),
+        FLOOR_DROP(58.2, -33.0, 18.5),
+        FLOOR_PICKUP_TOP(58.2, -74.8, 47.6),
         STARTING_POSITION(0.0, 0.0, 0.0),
-        SLIDER_PICKUP(0.0, 0.0, 0.0);
+        SLIDER_PICKUP(0.0, -82.2, 36.0);
 
         private final double primaryArmAngle;
         private final double secondaryArmAngle;
@@ -95,6 +95,9 @@ public final class Constants {
 
         public static final double primaryArmEncoderZero = 0;
         public static final double secondaryArmEncoderZero = 0;
+
+        public static final double zeroAreaPrimaryEncoderValue = 20;
+        public static final double zeroAreaSecondaryEncoderValue = -70;
     }
 
     public static final class Swerve {
@@ -175,7 +178,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = 0.5; // TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 0.5; // TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 0.25; // TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
@@ -235,15 +238,21 @@ public final class Constants {
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
 
-        // note this is the distance between the charging station closest corner to the origin and the origin of the field coordinate system
-        public static final double kRedChargingStationX = 0;
-        public static final double kRedChargingStationY = 0;
-        public static final double kBlueChargingStationX = 0;
-        public static final double kBlueChargingStationY = 0;
-
         // width is the x dimension, length is the y dimension
         public static final double kChargingStationWidth = Units.feetToMeters(4.0);
         public static final double kChargingStationLength = Units.feetToMeters(8.0);
+
+        // note this is the distance between the charging station center and the origin of the field coordinate system
+        public static final double kRedChargingStationX = Units.inchesToMeters(60.00) + kChargingStationLength/2;
+        public static final double kRedChargingStationY = Units.inchesToMeters(499.00);
+        public static final double kBlueChargingStationX = Units.inchesToMeters(60.00) + kChargingStationLength/2;
+        public static final double kBlueChargingStationY = Units.inchesToMeters(154.00);
+
+        
+
+        // this measurement is in meters and is the allowed distance the robot can travel from the center of the charging station to try to level itself
+        public static final double kAllowedChargingStationMovementFromCenter = 0.25;
+
 
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -271,9 +280,9 @@ public final class Constants {
     }
 
     public static final class Camera {
-        public static final double cameraHeight = 1.0;
-        public static final double cameraXOffset = 0.0;
-        public static final double cameraYOffset = 0.0;
+        public static final double cameraHeight = Units.inchesToMeters(22 + 3.0/16.0);
+        public static final double cameraXOffset = Units.inchesToMeters(10.25);
+        public static final double cameraYOffset = Units.inchesToMeters(2.75);
         public static final double cameraPitch = 0.0;
     }
 }
