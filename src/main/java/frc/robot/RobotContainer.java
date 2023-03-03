@@ -53,7 +53,7 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    private boolean isRobotCentric = true;
+    private boolean isRobotCentric = false;
 
     private final BooleanSupplier isRobotCentricSupplier = () -> isRobotCentric;
 

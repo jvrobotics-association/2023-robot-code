@@ -43,7 +43,7 @@ public final class Constants {
         STARTING_POSITION(0.0, 0.0, 0.0),
         SLIDER_PICKUP(0.0, -82.2, 36.0),
         // TODO: find the correct values for these
-        KNOWN_GOOD_CONFIGURATION(0.0, 0.0, 0.0);
+        KNOWN_GOOD_CONFIGURATION(35.5, -50.0, 0.0);
 
         private final double primaryArmAngle;
         private final double secondaryArmAngle;
@@ -82,11 +82,11 @@ public final class Constants {
         public static final int secondaryLimitSwitchUpId = 2;
         public static final int secondaryLimitSwitchDownId = 3;
         public static final int encoderTicksPerRevolution = 42;
-        public static final double allowedEncoderError = 5.0;
+        public static final double allowedEncoderError = 1.0;
 
         // These values are in percent output (0.0 to 1.0)
         public static final double primaryArmMaxSpeed = 0.3;
-        public static final double secondaryArmMaxSpeed = 0.75;
+        public static final double secondaryArmMaxSpeed = 0.5;
 
         public static final double primaryArmLength = Units.inchesToMeters(36.0);
         public static final double secondaryArmLength = Units.inchesToMeters(30.0);
