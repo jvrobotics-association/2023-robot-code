@@ -40,6 +40,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
 
     private final boolean isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+    private boolean isYLocked = false;
 
     /* Controllers */
     private final Joystick driver = new Joystick(0);
@@ -115,7 +116,8 @@ public class RobotContainer {
                         () -> -driver.getRawAxis(translationAxis),
                         () -> -driver.getRawAxis(strafeAxis),
                         () -> -driver.getRawAxis(rotationAxis),
-                        () -> isRobotCentricSupplier.getAsBoolean()));
+                        () -> isRobotCentricSupplier.getAsBoolean(),
+                        () -> isYLocked));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -199,5 +201,13 @@ public class RobotContainer {
 
     public AprilTagSubsystem getAprilTag() {
         return s_AprilTag;
+    }
+
+    public boolean getYLock() {
+        return isYLocked;
+    }
+
+    public void setYLock(boolean value) {
+        isYLocked = value;
     }
 }

@@ -152,6 +152,11 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void spinRobotToTarget(double angle) {
+        int direction = (int) Math.signum(angle - getYaw().getDegrees());
+        drive(new Translation2d(), direction * Constants.Swerve.maxAngularVelocity * 0.5, false, true);
+    }
+
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
