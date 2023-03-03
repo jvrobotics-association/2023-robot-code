@@ -29,28 +29,16 @@ public class MoveToPresetArmPosition extends SequentialCommandGroup {
         this.targetPosition = targetPosition;
         addRequirements(armSubsystem, clawSubsystem);
 
-        switch (targetPosition) {
-            case FLOOR_DROP:
-            case FLOOR_PICKUP_TOP:
-            case BACK_POLE:
-                addCommands(
+        addCommands(
+                new ParallelCommandGroup(
+                        new MovePrimaryArmToPreset(armSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
+                        new MoveWristToPreset(clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
+                        new MoveSecondaryArmToPreset(armSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION)),
 
-                        new MoveSecondaryOffZeroArea(armSubsystem),
-                        new ParallelCommandGroup(
-                                new MovePrimaryArmToPreset(armSubsystem, targetPosition),
-                                new MoveWristToPreset(clawSubsystem, targetPosition),
-                                new MoveSecondaryArmToPreset(armSubsystem, targetPosition)));
-                break;
-
-            default:
-                addCommands(
-                        
-                        new ParallelCommandGroup(
-                            new MovePrimaryArmToPreset(armSubsystem, targetPosition),
-                                new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
-                                new MoveWristToPreset(clawSubsystem, targetPosition)));
-                break;
-        }
+                new ParallelCommandGroup(
+                        new MovePrimaryArmToPreset(armSubsystem, targetPosition),
+                        new MoveWristToPreset(clawSubsystem, targetPosition),
+                        new MoveSecondaryArmToPreset(armSubsystem, targetPosition)));
     }
 
 }

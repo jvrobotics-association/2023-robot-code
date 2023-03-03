@@ -41,7 +41,9 @@ public final class Constants {
         FLOOR_DROP(58.2, -33.0, 18.5),
         FLOOR_PICKUP_TOP(58.2, -74.8, 47.6),
         STARTING_POSITION(0.0, 0.0, 0.0),
-        SLIDER_PICKUP(0.0, -82.2, 36.0);
+        SLIDER_PICKUP(0.0, -82.2, 36.0),
+        // TODO: find the correct values for these
+        KNOWN_GOOD_CONFIGURATION(0.0, 0.0, 0.0);
 
         private final double primaryArmAngle;
         private final double secondaryArmAngle;
@@ -84,7 +86,7 @@ public final class Constants {
 
         // These values are in percent output (0.0 to 1.0)
         public static final double primaryArmMaxSpeed = 0.3;
-        public static final double secondaryArmMaxSpeed = 0.5;
+        public static final double secondaryArmMaxSpeed = 0.75;
 
         public static final double primaryArmLength = Units.inchesToMeters(36.0);
         public static final double secondaryArmLength = Units.inchesToMeters(30.0);
