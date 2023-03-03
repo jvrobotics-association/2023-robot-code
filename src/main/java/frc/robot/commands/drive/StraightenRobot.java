@@ -1,5 +1,7 @@
 package frc.robot.commands.drive;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve;
@@ -8,12 +10,14 @@ public class StraightenRobot extends CommandBase {
 
     private final Swerve swerve;
     private final RobotContainer robotContainer;
+    private final DoubleSupplier strafeSup;
 
     private double target = 0;
 
-    public StraightenRobot(Swerve swerve, RobotContainer robotContainer) {
+    public StraightenRobot(Swerve swerve, RobotContainer robotContainer, DoubleSupplier strafeSup) {
         this.swerve = swerve;
         this.robotContainer = robotContainer;
+        this.strafeSup = strafeSup;
         addRequirements(swerve);
     }
 
@@ -28,7 +32,7 @@ public class StraightenRobot extends CommandBase {
         } else {
             target = 360;
         }
-        swerve.spinRobotToTarget(target);
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble());
     }
 
     @Override
@@ -41,7 +45,7 @@ public class StraightenRobot extends CommandBase {
         } else {
             target = 360;
         }
-        swerve.spinRobotToTarget(target);
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble());
     }
 
     @Override
