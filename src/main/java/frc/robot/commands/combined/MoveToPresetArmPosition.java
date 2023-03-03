@@ -31,6 +31,7 @@ public class MoveToPresetArmPosition extends SequentialCommandGroup {
         switch (targetPosition) {
             case FLOOR_DROP:
             case FLOOR_PICKUP_TOP:
+            case BACK_POLE:
                 addCommands(
                         new MoveSecondaryArmToPreset(armSubsystem, targetPosition),
                         new ParallelCommandGroup(
