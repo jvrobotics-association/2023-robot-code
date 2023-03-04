@@ -154,8 +154,8 @@ public final class Constants {
          * loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
          */
-        public static final double openLoopRamp = 1.0;
-        public static final double closedLoopRamp = 1.0;
+        public static final double openLoopRamp = 0.25;
+        public static final double closedLoopRamp = 0.25;
 
         /* Angle Motor PID Values */
         public static final double angleKP = chosenModule.angleKP;
@@ -235,7 +235,7 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-        public static final double kRobotPitchTolerance = 2.0;
+        public static final double kRobotPitchTolerance = 1.0;
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;

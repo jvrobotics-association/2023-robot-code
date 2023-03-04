@@ -62,39 +62,39 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton alignRobot = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton alignRobot = new JoystickButton(control, 2);
 
-    /* Arm Buttons */
-    private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
-    private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
-    private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
-    private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
-    // private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
-    // private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
+    // /* Arm Buttons */
+    // private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
+    // private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
+    // private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
+    // private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
+    // // private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
+    // // private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
-    /* Claw Buttons */
-    private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
-    private final JoystickButton moveWristDown = new JoystickButton(operator, 3);
-    private final JoystickButton runIntakeFoward = new JoystickButton(operator, 1);
-    private final JoystickButton runIntakeReverse = new JoystickButton(operator, 2);
+    // /* Claw Buttons */
+    // private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
+    // private final JoystickButton moveWristDown = new JoystickButton(operator, 3);
+    // private final JoystickButton runIntakeFoward = new JoystickButton(operator, 1);
+    // private final JoystickButton runIntakeReverse = new JoystickButton(operator, 2);
 
-    /* Preset Position Buttons */
-    private final JoystickButton backPole = new JoystickButton(operator, 7);
-    private final JoystickButton frontPole = new JoystickButton(operator, 9);
-    private final JoystickButton backShelf = new JoystickButton(operator, 10);
-    private final JoystickButton frontShelf = new JoystickButton(operator, 8);
-    private final JoystickButton floorDrop = new JoystickButton(operator, 11);
-    private final JoystickButton floorPickupTop = new JoystickButton(operator, 12);
-    private final JoystickButton startingPosition = new JoystickButton(operator, 6);
-    private final JoystickButton sliderPickup = new JoystickButton(operator, 4);
+    // /* Preset Position Buttons */
+    // private final JoystickButton backPole = new JoystickButton(operator, 7);
+    // private final JoystickButton frontPole = new JoystickButton(operator, 9);
+    // private final JoystickButton backShelf = new JoystickButton(operator, 10);
+    // private final JoystickButton frontShelf = new JoystickButton(operator, 8);
+    // private final JoystickButton floorDrop = new JoystickButton(operator, 11);
+    // private final JoystickButton floorPickupTop = new JoystickButton(operator, 12);
+    // private final JoystickButton startingPosition = new JoystickButton(operator, 6);
+    // private final JoystickButton sliderPickup = new JoystickButton(operator, 4);
 
     /* April Tag Buttons */
     private final JoystickButton calculateRobotPosition = new JoystickButton(control, 1);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final ArmSubsystem s_Arm = new ArmSubsystem();
-    private final ClawSubsystem s_Claw = new ClawSubsystem();
+    // private final ArmSubsystem s_Arm = new ArmSubsystem();
+    // private final ClawSubsystem s_Claw = new ClawSubsystem();
     private final AprilTagSubsystem s_AprilTag = new AprilTagSubsystem(s_Swerve);
 
     /* Autonomous */
@@ -104,8 +104,8 @@ public class RobotContainer {
     // Moves in a diamond shape
     // private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
     // private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
-    private final Command simpleAutoMiddle = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FRONT_POLE);
-    private final Command simpleAutoBottom = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FLOOR_DROP);
+    // private final Command simpleAutoMiddle = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FRONT_POLE);
+    // private final Command simpleAutoBottom = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FLOOR_DROP);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -130,9 +130,9 @@ public class RobotContainer {
         // autonomousChooser.setDefaultOption("Competition Auto", competitionAuto);
         // autonomousChooser.addOption("Example Auto", exampleAuto);
         // autonomousChooser.addOption("Diamond Auto", diamondAuto);
-        autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
-        autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
-        SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+        // autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
+        // autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
+        // SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
 
     /**
@@ -151,29 +151,29 @@ public class RobotContainer {
         levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
         alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
 
-        /* Arm Buttons */
-        primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
-        primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
-        secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
-        secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
-        // inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
-        // calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
+        // /* Arm Buttons */
+        // primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
+        // primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
+        // secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
+        // secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
+        // // inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
+        // // calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
 
-        /* Claw Buttons */
-        moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
-        moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
-        runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
-        runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
+        // /* Claw Buttons */
+        // moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
+        // moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
+        // runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
+        // runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
 
-        /* Preset Position Buttons */
-        backPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
-        frontPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
-        backShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
-        frontShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
-        floorDrop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
-        floorPickupTop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
-        startingPosition.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
-        sliderPickup.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
+        // /* Preset Position Buttons */
+        // backPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
+        // frontPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
+        // backShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
+        // frontShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
+        // floorDrop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
+        // floorPickupTop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
+        // startingPosition.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
+        // sliderPickup.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
 
         /* April Tag Buttons */
         calculateRobotPosition.whileTrue(new UpdateRobotPositionCommand(s_AprilTag));
@@ -186,7 +186,8 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        Command selection = autonomousChooser.getSelected();
+        // Command selection = autonomousChooser.getSelected();
+        Command selection = new NoArmAuto(s_Swerve, isRed);
         // System.out.println(selection.getName());
         return selection;
     }
@@ -198,13 +199,13 @@ public class RobotContainer {
         return s_Swerve;
     }
 
-    public ArmSubsystem getArm() {
-        return s_Arm;
-    }
+    // public ArmSubsystem getArm() {
+    //     return s_Arm;
+    // }
 
-    public ClawSubsystem getClaw() {
-        return s_Claw;
-    }
+    // public ClawSubsystem getClaw() {
+    //     return s_Claw;
+    // }
 
     public AprilTagSubsystem getAprilTag() {
         return s_AprilTag;

@@ -110,9 +110,10 @@ public class Swerve extends SubsystemBase {
         double expectedMovement = 0;
 
         if (pitch > AutoConstants.kRobotPitchTolerance) {
-            expectedMovement = AutoConstants.kRobotPitchMovement;
+
+            expectedMovement = pitch / 180.0;
         } else if (pitch < -AutoConstants.kRobotPitchTolerance) {
-            expectedMovement = -AutoConstants.kRobotPitchMovement;
+            expectedMovement = pitch / 180.0;
         }
 
         SmartDashboard.putNumber("Level Expected Movement", expectedMovement);
@@ -166,9 +167,9 @@ public class Swerve extends SubsystemBase {
         int direction = (int) Math.signum(angle - getYaw().getDegrees());
         if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone
                 || Math.abs(angle + 180 - ((getYaw().getDegrees() + 180) % 360)) < Constants.Swerve.gyroDeadZone) {
-            drive(new Translation2d(0, strafe * 0.1), 0, false, true);
+            drive(new Translation2d(0, strafe * 1), 0, false, true);
         } else {
-            drive(new Translation2d(0, strafe * 0.1), direction * Constants.Swerve.maxAngularVelocity * 0.5, false,
+            drive(new Translation2d(0, strafe * 1), direction * Constants.Swerve.maxAngularVelocity * 0.5, false,
                     true);
         }
     }

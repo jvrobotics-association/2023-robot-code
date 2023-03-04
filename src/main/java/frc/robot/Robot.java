@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     ctreConfigs = new CTREConfigs();
     PortForwarder.add(5800, "photonvision.local", 5800);
     PortForwarder.add(1182, "photonvision.local", 1182);
-    camera = CameraServer.startAutomaticCapture();
+    // camera = CameraServer.startAutomaticCapture();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -76,8 +76,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    m_robotContainer.getSwerve().periodic();
-    m_robotContainer.getAprilTag().updateRobotPosition();
+    // m_robotContainer.getSwerve().periodic();
+    // m_robotContainer.getAprilTag().updateRobotPosition();
   }
 
   /**
