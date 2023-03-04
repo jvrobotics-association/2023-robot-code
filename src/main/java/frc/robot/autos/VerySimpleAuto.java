@@ -14,9 +14,9 @@ import frc.robot.subsystems.Swerve;
 public class VerySimpleAuto extends SequentialCommandGroup{
     
 
-    public VerySimpleAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, boolean isRed) {
+    public VerySimpleAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, boolean isRed, ArmPositions target) {
         addCommands(
-            new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.FRONT_POLE),
+            new MoveToPresetArmPosition(armSubsystem, clawSubsystem, target),
             new MoveRobotAuto(swerve, isRed ? 1 : -1, 1.0),
             new ReverseIntakeAuto(clawSubsystem),
             new CalibrateArmCommand(armSubsystem, clawSubsystem),
