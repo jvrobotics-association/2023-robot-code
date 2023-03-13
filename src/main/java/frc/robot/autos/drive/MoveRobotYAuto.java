@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
-public class MoveRobotAuto extends CommandBase {
+public class MoveRobotYAuto extends CommandBase {
 
     private final Swerve swerve;
     private double timestamp;
     private final int direction;
     private final double duration;
 
-    public MoveRobotAuto(Swerve swerve, int direction, double duration) {
+    public MoveRobotYAuto(Swerve swerve, int direction, double duration) {
         this.swerve = swerve;
         this.direction = direction;
         this.duration = duration;
@@ -29,7 +29,7 @@ public class MoveRobotAuto extends CommandBase {
 
     @Override
     public void execute() {
-        swerve.drive(new Translation2d(-0.2 * direction, 0), 0, true, true);
+        swerve.drive(new Translation2d(0, -0.2 * direction), 0, true, true);
     }
 
     @Override

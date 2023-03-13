@@ -181,7 +181,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = 0.5; // TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 0.25; // TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 0.5; // TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
@@ -231,8 +231,8 @@ public final class Constants {
 
     public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
                                               // tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 90;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 90;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
         public static final double kRobotPitchTolerance = 1.0;

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
+import frc.robot.autos.drive.AlignToAprilTag;
 import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
@@ -27,6 +28,7 @@ import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
 import frc.robot.commands.drive.StraightenRobot;
 import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.commands.drive.ZeroOdometry;
 import frc.robot.subsystems.*;
 
 /**
@@ -51,7 +53,8 @@ public class RobotContainer {
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    // private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int rotationAxis = 2;
 
     private boolean isRobotCentric = true;
 
@@ -63,6 +66,8 @@ public class RobotContainer {
     private final JoystickButton fieldCentric = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton alignRobot = new JoystickButton(control, 2);
+    private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
+    private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
     // /* Arm Buttons */
     // private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
@@ -117,9 +122,9 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_Swerve,
-                        () -> -driver.getRawAxis(translationAxis),
-                        () -> -driver.getRawAxis(strafeAxis),
-                        () -> -driver.getRawAxis(rotationAxis),
+                        () -> -operator.getRawAxis(translationAxis),
+                        () -> -operator.getRawAxis(strafeAxis),
+                        () -> -operator.getRawAxis(rotationAxis),
                         () -> isRobotCentricSupplier.getAsBoolean(),
                         () -> isYLocked));
 
@@ -150,6 +155,8 @@ public class RobotContainer {
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
         levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
         alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
+        alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
+        zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
 
         // /* Arm Buttons */
         // primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
