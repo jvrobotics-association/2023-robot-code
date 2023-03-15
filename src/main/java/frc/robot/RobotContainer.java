@@ -56,7 +56,7 @@ public class RobotContainer {
     // private final int rotationAxis = XboxController.Axis.kRightX.value;
     private final int rotationAxis = 2;
 
-    private boolean isRobotCentric = true;
+    private boolean isRobotCentric = false;
 
     private final BooleanSupplier isRobotCentricSupplier = () -> isRobotCentric;
 
@@ -154,7 +154,7 @@ public class RobotContainer {
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
         levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
-        alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
+        alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -operator.getRawAxis(strafeAxis)));
         alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
 

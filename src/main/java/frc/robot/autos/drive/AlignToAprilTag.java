@@ -62,11 +62,13 @@ public class AlignToAprilTag extends CommandBase {
     public void initialize() {
 
         new Rotation2d();
+
+        
         // set the new trajectory
         trajectory = TrajectoryGenerator.generateTrajectory(
             swerve.getPose(),
             List.of(),
-            new Pose2d(18.0, 4.14, Rotation2d.fromDegrees(180)),
+            new Pose2d(1.6, 3.71, Rotation2d.fromDegrees(180)),
             config
         );
 
