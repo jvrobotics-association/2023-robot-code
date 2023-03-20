@@ -25,7 +25,7 @@ public class MoveToPresetArmPosition extends SequentialCommandGroup {
         addRequirements(armSubsystem, clawSubsystem);
 
         addCommands(
-                new MoveAllToTargetCommand(armSubsystem, clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
+                // new MoveAllToTargetCommand(armSubsystem, clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
 
                 new MoveAllToTargetCommand(armSubsystem, clawSubsystem, targetPosition));
     }

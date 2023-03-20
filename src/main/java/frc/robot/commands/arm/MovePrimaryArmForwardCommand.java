@@ -16,21 +16,21 @@ public class MovePrimaryArmForwardCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (armSubsystem.isPrimaryMotorStoppedForward())
+        if (armSubsystem.isMotorStoppedForward())
             return;
-        armSubsystem.setPrimaryMotor(0.3);
+        armSubsystem.setMotor(0.3);
     }
 
     // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isPrimaryMotorStoppedForward();
+        return armSubsystem.isMotorStoppedForward();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setPrimaryMotor(0);
+        armSubsystem.setMotor(0);
     }
     
 }

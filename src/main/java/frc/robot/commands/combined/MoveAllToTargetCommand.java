@@ -20,29 +20,26 @@ public class MoveAllToTargetCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        armSubsystem.setTargetEncoderValues(targetPosition.getPrimaryArmAngle(), targetPosition.getSecondaryArmAngle());
-        armSubsystem.movePrimaryToTarget();
-        armSubsystem.moveSecondaryToTarget();
+        armSubsystem.setTargetEncoderValue(targetPosition.getArmAngle());
+        armSubsystem.moveToTarget();
         clawSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
         clawSubsystem.moveToTarget();
     }
 
     @Override
     public void execute() {
-        armSubsystem.movePrimaryToTarget();
-        armSubsystem.moveSecondaryToTarget();
+        armSubsystem.moveToTarget();
         clawSubsystem.moveToTarget();
     }
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.hasReachedPrimaryTarget() & armSubsystem.hasReachedSecondaryTarget() & clawSubsystem.hasReachedTarget();
+        return armSubsystem.hasReachedTarget() & clawSubsystem.hasReachedTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setPrimaryMotor(0);
-        armSubsystem.setSecondaryMotor(0);
+        armSubsystem.setMotor(0);
         clawSubsystem.setWristMotor(0);
     }
 }
