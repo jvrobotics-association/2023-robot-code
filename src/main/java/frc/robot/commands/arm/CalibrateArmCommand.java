@@ -24,8 +24,8 @@ public class CalibrateArmCommand extends CommandBase {
     public void initialize() {
         // armSubsystem.setPrimaryMotor(-Constants.Arm.primaryArmMaxSpeed);
         // armSubsystem.setSecondaryMotor(-Constants.Arm.secondaryArmMaxSpeed);
-        armSubsystem.setMotor(-Constants.Arm.maxSpeed);
-        clawSubsystem.setWristMotor(-Constants.Claw.wristMotorSpeed);
+        armSubsystem.setMotor(Constants.Arm.maxSpeed);
+        clawSubsystem.setWristMotor(Constants.Claw.wristMotorSpeed);
         // armSubsystem.resetEncoders();
     }
 
@@ -36,7 +36,7 @@ public class CalibrateArmCommand extends CommandBase {
     public boolean isFinished() {
         // return armSubsystem.isPrimaryMotorStoppedBackwards() & armSubsystem.isSecondaryMotorStoppedDown() & clawSubsystem.isWristMotorStoppedUp();
         // return armSubsystem.isPrimaryMotorStoppedForward();
-        return armSubsystem.isMotorStoppedBackwards() & clawSubsystem.isWristMotorStoppedUp();
+        return armSubsystem.isMotorStoppedForward() & clawSubsystem.isWristMotorStoppedDown();
     }
 
     @Override

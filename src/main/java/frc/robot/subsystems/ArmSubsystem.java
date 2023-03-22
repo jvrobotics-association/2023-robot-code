@@ -135,7 +135,7 @@ public class ArmSubsystem extends SubsystemBase {
                 speed = 0;
             }
         }
-        motor.set(speed);
+        motor.set(-speed);
         SmartDashboard.putNumber("Arm Encoder", getEncoderPosition());
     }
 

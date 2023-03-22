@@ -18,7 +18,7 @@ import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.MoveArmBackward;
-import frc.robot.commands.arm.MovePrimaryArmForwardCommand;
+import frc.robot.commands.arm.MoveArmForward;
 import frc.robot.commands.claw.MoveWristDownCommand;
 import frc.robot.commands.claw.MoveWristUpCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
@@ -67,19 +67,21 @@ public class RobotContainer {
     private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
     private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
-    // /* Arm Buttons */
+    /* Arm Buttons */
+    private final JoystickButton armForward = new JoystickButton(control, 4);
+    private final JoystickButton armBackward = new JoystickButton(control, 5);
     // private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
     // private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
     // private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
     // private final JoystickButton secondaryArmDown = new JoystickButton(control, 7);
     // // private final JoystickButton inverseArmKinematics = new JoystickButton(operator, 3);
-    // // private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
+    private final JoystickButton calibrateArm = new JoystickButton(operator, 4);
 
     // /* Claw Buttons */
-    // private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
-    // private final JoystickButton moveWristDown = new JoystickButton(operator, 3);
-    // private final JoystickButton runIntakeFoward = new JoystickButton(operator, 1);
-    // private final JoystickButton runIntakeReverse = new JoystickButton(operator, 2);
+    private final JoystickButton moveWristUp = new JoystickButton(operator, 5);
+    private final JoystickButton moveWristDown = new JoystickButton(operator, 3);
+    private final JoystickButton runIntakeFoward = new JoystickButton(operator, 1);
+    private final JoystickButton runIntakeReverse = new JoystickButton(operator, 2);
 
     // /* Preset Position Buttons */
     // private final JoystickButton backPole = new JoystickButton(operator, 7);
@@ -96,8 +98,8 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    // private final ArmSubsystem s_Arm = new ArmSubsystem();
-    // private final ClawSubsystem s_Claw = new ClawSubsystem();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final ClawSubsystem s_Claw = new ClawSubsystem();
     private final AprilTagSubsystem s_AprilTag = new AprilTagSubsystem(s_Swerve);
 
     /* Autonomous */
@@ -122,7 +124,7 @@ public class RobotContainer {
                         s_Swerve,
                         () -> -operator.getRawAxis(translationAxis),
                         () -> -operator.getRawAxis(strafeAxis),
-                        () -> -operator.getRawAxis(rotationAxis),
+                        () -> operator.getRawAxis(rotationAxis),
                         () -> isRobotCentricSupplier.getAsBoolean(),
                         () -> isYLocked));
 
@@ -156,19 +158,21 @@ public class RobotContainer {
         alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
 
-        // /* Arm Buttons */
+        /* Arm Buttons */
+        armForward.whileTrue(new MoveArmForward(s_Arm));
+        armBackward.whileTrue(new MoveArmBackward(s_Arm));
         // primaryArmForward.whileTrue(new MovePrimaryArmForwardCommand(s_Arm));
         // primaryArmReverse.whileTrue(new MovePrimaryArmBackwardsCommand(s_Arm));
         // secondaryArmUp.whileTrue(new MoveSecondaryArmUpCommand(s_Arm));
         // secondaryArmDown.whileTrue(new MoveSecondaryArmDownCommand(s_Arm));
         // // inverseArmKinematics.whileTrue(new InverseKinematicsCommand(s_Arm));
-        // // calibrateArm.whileTrue(new CalibrateArmCommand(s_Arm, s_Claw));
+        calibrateArm.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
 
-        // /* Claw Buttons */
-        // moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
-        // moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
-        // runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
-        // runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
+        /* Claw Buttons */
+        moveWristUp.whileTrue(new MoveWristUpCommand(s_Claw));
+        moveWristDown.whileTrue(new MoveWristDownCommand(s_Claw));
+        runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Claw));
+        runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Claw));
 
         // /* Preset Position Buttons */
         // backPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
@@ -204,13 +208,13 @@ public class RobotContainer {
         return s_Swerve;
     }
 
-    // public ArmSubsystem getArm() {
-    //     return s_Arm;
-    // }
+    public ArmSubsystem getArm() {
+        return s_Arm;
+    }
 
-    // public ClawSubsystem getClaw() {
-    //     return s_Claw;
-    // }
+    public ClawSubsystem getClaw() {
+        return s_Claw;
+    }
 
     public AprilTagSubsystem getAprilTag() {
         return s_AprilTag;

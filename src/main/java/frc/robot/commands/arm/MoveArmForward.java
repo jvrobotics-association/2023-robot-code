@@ -1,14 +1,15 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class MovePrimaryArmForwardCommand extends CommandBase {
+public class MoveArmForward extends CommandBase {
 
     // Required subsystems
     private final ArmSubsystem armSubsystem;
 
-    public MovePrimaryArmForwardCommand(ArmSubsystem _armSubsystem) {
+    public MoveArmForward(ArmSubsystem _armSubsystem) {
         this.armSubsystem = _armSubsystem;
         addRequirements(armSubsystem);
     }
@@ -18,7 +19,7 @@ public class MovePrimaryArmForwardCommand extends CommandBase {
     public void initialize() {
         if (armSubsystem.isMotorStoppedForward())
             return;
-        armSubsystem.setMotor(0.3);
+        armSubsystem.setMotor(Constants.Arm.manualMaxSpeed);
     }
 
     // If the arm is stopped, the command is finished.

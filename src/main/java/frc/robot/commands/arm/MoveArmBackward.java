@@ -1,6 +1,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class MoveArmBackward extends CommandBase {
@@ -18,7 +19,7 @@ public class MoveArmBackward extends CommandBase {
     public void initialize() {
         if (armSubsystem.isMotorStoppedBackwards())
             return;
-        armSubsystem.setMotor(-0.3);
+        armSubsystem.setMotor(-Constants.Arm.manualMaxSpeed);
     }
 
     // If the arm is stopped, the command is finished.
