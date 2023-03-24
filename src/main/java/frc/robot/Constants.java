@@ -30,6 +30,11 @@ public final class Constants {
         public static final double clawLength = Units.inchesToMeters(16.0);
         public static final double wristMotorSpeed = 0.50;
         public static final double wristMotorTolerance = 5.0;
+
+        public static final double wristNoGoZoneLowerBound = 0.0;
+        public static final double wristNoGoZoneUpperBound = 0.0;
+
+
     }
 
     public static enum ArmPositions {
@@ -90,6 +95,9 @@ public final class Constants {
         public static final int limitSwitchReverseId = 1;
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 1.0;
+
+        public static final double armNoGoZoneLowerBound = 0.0;
+        public static final double armNoGoZoneUpperBound = 0.0;
 
         // These values are in percent output (0.0 to 1.0)
         // public static final double primaryArmMaxSpeed = 0.3;

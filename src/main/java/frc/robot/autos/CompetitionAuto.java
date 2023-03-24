@@ -19,12 +19,11 @@ import frc.robot.Constants.ArmPositions;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.Swerve;
 
 public class CompetitionAuto extends SequentialCommandGroup {
-    public CompetitionAuto(Swerve swerve, ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, boolean isRed) {
+    public CompetitionAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, boolean isRed) {
         TrajectoryConfig config = new TrajectoryConfig(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -85,12 +84,12 @@ public class CompetitionAuto extends SequentialCommandGroup {
 
         addCommands(
                 new InstantCommand(() -> swerve.resetOdometry(moveForwardTrajectory.getInitialPose())),
-                new CalibrateArmCommand(armSubsystem, clawSubsystem),
+                new CalibrateArmCommand(grabberSubsystem),
                 // new MoveToPresetArmPosition(armSubsystem, clawSubsystem, ArmPositions.FRONT_POLE),
                 moveForwardSwerve,
-                new ReverseClawIntakeCommand(clawSubsystem),
+                new ReverseClawIntakeCommand(grabberSubsystem),
                 new InstantCommand(() -> swerve.resetOdometry(trajectory.getInitialPose())),
-                new CalibrateArmCommand(armSubsystem, clawSubsystem)
+                new CalibrateArmCommand(grabberSubsystem)
         // swerveControllerCommand,
         // new LevelChargingStationAuto(swerve)
         );

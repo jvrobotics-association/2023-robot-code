@@ -2,31 +2,28 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class CalibrateArmCommand extends CommandBase {
 
     // Required subsystems
-    private final ArmSubsystem armSubsystem;
-    private final ClawSubsystem clawSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
 
     /**
      * This command sets the arm to the zero position.
      */
-    public CalibrateArmCommand(ArmSubsystem _armSubsystem, ClawSubsystem _clawSubsystem) {
-        this.armSubsystem = _armSubsystem;
-        this.clawSubsystem = _clawSubsystem;
-        addRequirements(armSubsystem);
+    public CalibrateArmCommand(GrabberSubsystem _grabberSubsystem) {
+        this.grabberSubsystem = _grabberSubsystem;
+        addRequirements(grabberSubsystem);
     }
 
     @Override
     public void initialize() {
-        // armSubsystem.setPrimaryMotor(-Constants.Arm.primaryArmMaxSpeed);
-        // armSubsystem.setSecondaryMotor(-Constants.Arm.secondaryArmMaxSpeed);
-        armSubsystem.setMotor(Constants.Arm.maxSpeed);
-        clawSubsystem.setWristMotor(Constants.Claw.wristMotorSpeed);
-        // armSubsystem.resetEncoders();
+        // grabberSubsystem.setPrimaryMotor(-Constants.Arm.primaryArmMaxSpeed);
+        // grabberSubsystem.setSecondaryMotor(-Constants.Arm.secondaryArmMaxSpeed);
+        grabberSubsystem.setArmMotor(Constants.Arm.maxSpeed);
+        grabberSubsystem.setWristMotor(Constants.Claw.wristMotorSpeed);
+        // grabberSubsystem.resetEncoders();
     }
 
     // Returns whether the arm is stopped.
@@ -34,19 +31,19 @@ public class CalibrateArmCommand extends CommandBase {
     // The arm is done moving when both motors are stopped.
     @Override
     public boolean isFinished() {
-        // return armSubsystem.isPrimaryMotorStoppedBackwards() & armSubsystem.isSecondaryMotorStoppedDown() & clawSubsystem.isWristMotorStoppedUp();
-        // return armSubsystem.isPrimaryMotorStoppedForward();
-        return armSubsystem.isMotorStoppedForward() & clawSubsystem.isWristMotorStoppedDown();
+        // return grabberSubsystem.isPrimaryMotorStoppedBackwards() & grabberSubsystem.isSecondaryMotorStoppedDown() & grabberSubsystem.isWristMotorStoppedUp();
+        // return grabberSubsystem.isPrimaryMotorStoppedForward();
+        return grabberSubsystem.isArmMotorStoppedForward() & grabberSubsystem.isWristMotorStoppedDown();
     }
 
     @Override
     public void end(boolean interrupted) {
-        // armSubsystem.setPrimaryMotor(0);
-        // armSubsystem.setSecondaryMotor(0);
-        armSubsystem.setMotor(0);
-        clawSubsystem.setWristMotor(0);
-        armSubsystem.resetEncoder();
-        clawSubsystem.resetEncoder();
+        // grabberSubsystem.setPrimaryMotor(0);
+        // grabberSubsystem.setSecondaryMotor(0);
+        grabberSubsystem.setArmMotor(0);
+        grabberSubsystem.setWristMotor(0);
+        grabberSubsystem.resetEncoder();
+        grabberSubsystem.resetEncoder();
     }
 
 }

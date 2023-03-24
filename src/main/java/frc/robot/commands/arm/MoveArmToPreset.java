@@ -2,38 +2,38 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class MoveArmToPreset extends CommandBase {
 
-    private final ArmSubsystem armSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
     private final ArmPositions targetPosition;
 
-    public MoveArmToPreset(ArmSubsystem armSubsystem, ArmPositions targetPosition) {
-        this.armSubsystem = armSubsystem;
+    public MoveArmToPreset(GrabberSubsystem grabberSubsystem, ArmPositions targetPosition) {
+        this.grabberSubsystem = grabberSubsystem;
         this.targetPosition = targetPosition;
-        addRequirements(armSubsystem);
+        addRequirements(grabberSubsystem);
     }
 
     @Override
     public void initialize() {
-        armSubsystem.setTargetEncoderValue(targetPosition.getArmAngle());
-        armSubsystem.moveToTarget();
+        grabberSubsystem.setArmTargetEncoderValue(targetPosition.getArmAngle());
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public void execute() {
-        armSubsystem.moveToTarget();
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.hasReachedTarget();
+        return grabberSubsystem.hasReachedTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setMotor(0);
+        grabberSubsystem.setArmMotor(0);
     }
 
 }

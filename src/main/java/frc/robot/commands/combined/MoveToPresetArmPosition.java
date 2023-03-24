@@ -2,8 +2,8 @@ package frc.robot.commands.combined;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
+
 
 /*
  * TODO: Make the movement sequential to prioritize specific motions first
@@ -13,21 +13,18 @@ import frc.robot.subsystems.ClawSubsystem;
 
 public class MoveToPresetArmPosition extends SequentialCommandGroup {
 
-    private final ArmSubsystem armSubsystem;
     private final ArmPositions targetPosition;
-    private final ClawSubsystem clawSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
 
-    public MoveToPresetArmPosition(ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem,
-            ArmPositions targetPosition) {
-        this.armSubsystem = armSubsystem;
-        this.clawSubsystem = clawSubsystem;
+    public MoveToPresetArmPosition(GrabberSubsystem grabberSubsystem, ArmPositions targetPosition) {
+        this.grabberSubsystem = grabberSubsystem;
         this.targetPosition = targetPosition;
-        addRequirements(armSubsystem, clawSubsystem);
+        addRequirements(grabberSubsystem, grabberSubsystem);
 
         addCommands(
-                // new MoveAllToTargetCommand(armSubsystem, clawSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
+                // new MoveAllToTargetCommand(grabberSubsystem, grabberSubsystem, ArmPositions.KNOWN_GOOD_CONFIGURATION),
 
-                new MoveAllToTargetCommand(armSubsystem, clawSubsystem, targetPosition));
+                new MoveAllToTargetCommand(grabberSubsystem, targetPosition));
     }
 
 }

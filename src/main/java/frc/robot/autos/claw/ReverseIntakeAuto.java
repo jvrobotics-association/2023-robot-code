@@ -3,16 +3,16 @@ package frc.robot.autos.claw;
 import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class ReverseIntakeAuto extends CommandBase {
 
-    private final ClawSubsystem clawSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
     private double startTime;
 
-    public ReverseIntakeAuto(ClawSubsystem clawSubsystem) {
-        this.clawSubsystem = clawSubsystem;
-        addRequirements(clawSubsystem);
+    public ReverseIntakeAuto(GrabberSubsystem grabberSubsystem) {
+        this.grabberSubsystem = grabberSubsystem;
+        addRequirements(grabberSubsystem);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ReverseIntakeAuto extends CommandBase {
 
     @Override
     public void execute() {
-        clawSubsystem.setIntakeMotor(0.5);
+        grabberSubsystem.setIntakeMotor(0.5);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ReverseIntakeAuto extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        clawSubsystem.stopIntakeMotor();
+        grabberSubsystem.stopIntakeMotor();
     }
     
 }

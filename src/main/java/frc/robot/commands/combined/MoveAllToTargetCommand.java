@@ -2,44 +2,39 @@ package frc.robot.commands.combined;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class MoveAllToTargetCommand extends CommandBase {
     
-    private final ArmSubsystem armSubsystem;
-    private final ClawSubsystem clawSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
     private final ArmPositions targetPosition;
 
-    public MoveAllToTargetCommand(ArmSubsystem armSubsystem, ClawSubsystem clawSubsystem, ArmPositions targetPosition) {
-        this.armSubsystem = armSubsystem;
-        this.clawSubsystem = clawSubsystem;
+    public MoveAllToTargetCommand(GrabberSubsystem grabberSubsystem, ArmPositions targetPosition) {
+        this.grabberSubsystem = grabberSubsystem;
         this.targetPosition = targetPosition;
-        addRequirements(armSubsystem, clawSubsystem);
+        addRequirements(grabberSubsystem, grabberSubsystem);
     }
 
     @Override
     public void initialize() {
-        armSubsystem.setTargetEncoderValue(targetPosition.getArmAngle());
-        armSubsystem.moveToTarget();
-        clawSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
-        clawSubsystem.moveToTarget();
+        grabberSubsystem.setArmTargetEncoderValue(targetPosition.getArmAngle());
+        grabberSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public void execute() {
-        armSubsystem.moveToTarget();
-        clawSubsystem.moveToTarget();
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.hasReachedTarget() & clawSubsystem.hasReachedTarget();
+        return grabberSubsystem.hasReachedTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setMotor(0);
-        clawSubsystem.setWristMotor(0);
+        grabberSubsystem.setArmMotor(0);
+        grabberSubsystem.setWristMotor(0);
     }
 }

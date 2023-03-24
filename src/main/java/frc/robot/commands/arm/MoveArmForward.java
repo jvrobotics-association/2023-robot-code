@@ -2,14 +2,14 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class MoveArmForward extends CommandBase {
 
     // Required subsystems
-    private final ArmSubsystem armSubsystem;
+    private final GrabberSubsystem armSubsystem;
 
-    public MoveArmForward(ArmSubsystem _armSubsystem) {
+    public MoveArmForward(GrabberSubsystem _armSubsystem) {
         this.armSubsystem = _armSubsystem;
         addRequirements(armSubsystem);
     }
@@ -17,21 +17,21 @@ public class MoveArmForward extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (armSubsystem.isMotorStoppedForward())
+        if (armSubsystem.isArmMotorStoppedForward())
             return;
-        armSubsystem.setMotor(Constants.Arm.manualMaxSpeed);
+        armSubsystem.setArmMotor(Constants.Arm.manualMaxSpeed);
     }
 
     // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isMotorStoppedForward();
+        return armSubsystem.isArmMotorStoppedForward();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setMotor(0);
+        armSubsystem.setArmMotor(0);
     }
     
 }

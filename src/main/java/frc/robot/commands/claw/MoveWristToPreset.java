@@ -2,38 +2,38 @@ package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmPositions;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class MoveWristToPreset extends CommandBase {
 
-    private final ClawSubsystem clawSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
     private final ArmPositions targetPosition;
 
-    public MoveWristToPreset(ClawSubsystem clawSubsystem, ArmPositions targetPosition) {
-        this.clawSubsystem = clawSubsystem;
+    public MoveWristToPreset(GrabberSubsystem grabberSubsystem, ArmPositions targetPosition) {
+        this.grabberSubsystem = grabberSubsystem;
         this.targetPosition = targetPosition;
-        addRequirements(clawSubsystem);
+        addRequirements(grabberSubsystem);
     }
 
     @Override
     public void initialize() {
-        clawSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
-        clawSubsystem.moveToTarget();
+        grabberSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public void execute() {
-        clawSubsystem.moveToTarget();
+        grabberSubsystem.moveToTarget();
     }
 
     @Override
     public boolean isFinished() {
-        return clawSubsystem.hasReachedTarget();
+        return grabberSubsystem.hasReachedTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        clawSubsystem.setWristMotor(0);
+        grabberSubsystem.setWristMotor(0);
     }
     
 }
