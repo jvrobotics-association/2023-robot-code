@@ -64,7 +64,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, 7);
     private final JoystickButton fieldCentric = new JoystickButton(driver, 8);
     // private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton alignRobot = new JoystickButton(control, 2);
+    // private final JoystickButton alignRobot = new JoystickButton(control, 2);
     // private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
     // private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
@@ -109,10 +109,10 @@ public class RobotContainer {
     // private final Command exampleAuto = new ExampleAuto(s_Swerve);
 
     // Moves in a diamond shape
-    // private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Arm, s_Claw);
-    // private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Arm, s_Claw, isRed);
-    // private final Command simpleAutoMiddle = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FRONT_POLE);
-    // private final Command simpleAutoBottom = new VerySimpleAuto(s_Swerve, s_Arm, s_Claw, isRed, ArmPositions.FLOOR_DROP);
+    // private final Command diamondAuto = new DiamondAuto(s_Swerve, s_Grabber);
+    // private final Command competitionAuto = new CompetitionAuto(s_Swerve, s_Grabber, isRed);
+    // private final Command simpleAutoMiddle = new VerySimpleAuto(s_Swerve, s_Grabber, isRed, ArmPositions.FRONT_POLE);
+    // private final Command simpleAutoBottom = new VerySimpleAuto(s_Swerve, s_Grabber, isRed, ArmPositions.FLOOR_DROP);
 
     // A chooser for autonomous commands
     SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -156,7 +156,7 @@ public class RobotContainer {
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
         // levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
-        alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
+        // alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
         // alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         // zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
 
@@ -178,14 +178,14 @@ public class RobotContainer {
         runIntakeReverseFast.whileTrue(new ReverseClawIntakeFastCommand(s_Grabber));
 
         // /* Preset Position Buttons */
-        // backPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_POLE));
-        // frontPole.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_POLE));
-        // backShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.BACK_SHELF));
-        // frontShelf.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FRONT_SHELF));
-        // floorDrop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_DROP));
-        // floorPickupTop.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.FLOOR_PICKUP_TOP));
-        // startingPosition.onTrue(new CalibrateArmCommand(s_Arm, s_Claw));
-        // sliderPickup.onTrue(new MoveToPresetArmPosition(s_Arm, s_Claw, ArmPositions.SLIDER_PICKUP));
+        // backPole.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.BACK_POLE));
+        frontPole.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.FRONT_POLE));
+        backShelf.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.BACK_SHELF));
+        frontShelf.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.FRONT_SHELF));
+        floorDrop.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.FLOOR_DROP));
+        // floorPickupTop.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.FLOOR_PICKUP_TOP));
+        // startingPosition.onTrue(new CalibrateArmCommand(s_Grabber));
+        sliderPickup.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.SLIDER_PICKUP));
 
         /* April Tag Buttons */
         calculateRobotPosition.whileTrue(new UpdateRobotPositionCommand(s_AprilTag));

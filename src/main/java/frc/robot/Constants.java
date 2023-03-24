@@ -29,10 +29,10 @@ public final class Constants {
         public static final double wristGearRatio = 20.0;
         public static final double clawLength = Units.inchesToMeters(16.0);
         public static final double wristMotorSpeed = 0.50;
-        public static final double wristMotorTolerance = 5.0;
+        public static final double wristMotorTolerance = 2.0;
 
-        public static final double wristNoGoZoneLowerBound = 0.0;
-        public static final double wristNoGoZoneUpperBound = 0.0;
+        public static final double wristNoGoZoneLowerBound = -13.8;
+        public static final double wristNoGoZoneUpperBound = -57.3;
 
 
     }
@@ -40,13 +40,13 @@ public final class Constants {
     public static enum ArmPositions {
 
         // BACK_POLE(61.9, -181.6, 38.6),
-        // FRONT_POLE(14.7, -87.6, 30.9),
-        // BACK_SHELF(16.7, -63.5, 29.1),
-        // FRONT_SHELF(66.5, -165.2, 44.6),
-        // FLOOR_DROP(63.5, -27.8, 16.6),
+        FRONT_POLE(0,0),
+        BACK_SHELF(0,0),
+        FRONT_SHELF(0,0),
+        FLOOR_DROP(393.8,-60.5),
         // FLOOR_PICKUP_TOP(40.1, -32.7, 42.0),
         // STARTING_POSITION(0.0, 0.0, 0.0),
-        // SLIDER_PICKUP(0.0, -82.2, 36.0),
+        SLIDER_PICKUP(0,0),
         // // TODO: find the correct values for these
         // KNOWN_GOOD_CONFIGURATION(35.5, -50.0, 20.0);
 
@@ -96,8 +96,8 @@ public final class Constants {
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 1.0;
 
-        public static final double armNoGoZoneLowerBound = 0.0;
-        public static final double armNoGoZoneUpperBound = 0.0;
+        public static final double armNoGoZoneLowerBound = 53.9;
+        public static final double armNoGoZoneUpperBound = 332.6;
 
         // These values are in percent output (0.0 to 1.0)
         // public static final double primaryArmMaxSpeed = 0.3;
@@ -173,8 +173,8 @@ public final class Constants {
          * loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
          */
-        public static final double openLoopRamp = 0.25;
-        public static final double closedLoopRamp = 0.25;
+        public static final double openLoopRamp = 0.5;
+        public static final double closedLoopRamp = 0.5;
 
         /* Angle Motor PID Values */
         public static final double angleKP = chosenModule.angleKP;

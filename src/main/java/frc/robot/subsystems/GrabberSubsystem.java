@@ -51,6 +51,7 @@ public class GrabberSubsystem extends SubsystemBase {
                 speed = 0;
             }
         }
+        // preventMovementInNoGoZones();
         wristMotor.set(speed);
     }
 
@@ -68,6 +69,7 @@ public class GrabberSubsystem extends SubsystemBase {
                 speed = 0;
             }
         }
+        // preventMovementInNoGoZones();
         armMotor.set(-speed);
         SmartDashboard.putNumber("Arm Encoder", getArmEncoderPosition());
     }
@@ -121,7 +123,7 @@ public class GrabberSubsystem extends SubsystemBase {
         double delta = armEncoderTarget - getArmEncoderPosition();
 
         if (Math.abs(delta) > Constants.Arm.allowedEncoderError) {
-            double direction = (int) (delta / Math.abs(delta)) * Constants.Arm.maxSpeed;
+            double direction = -(int) (delta / Math.abs(delta)) * Constants.Arm.maxSpeed;
 
             boolean hasStopped = false;
 
@@ -206,6 +208,11 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public void moveToTarget() {
+        moveArmToTarget();
+        moveWristToTarget();
+    }
+
+    public void moveWristToTarget() {
         double wristDelta = wristEncoderTarget - getWristPosition();
 
         if (Math.abs(wristDelta) > Constants.Arm.allowedEncoderError) {
