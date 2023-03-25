@@ -7,14 +7,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
-import frc.robot.autos.drive.AlignToAprilTag;
-import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.MoveArmBackward;
@@ -25,9 +22,7 @@ import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.ReverseClawIntakeFastCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
-import frc.robot.commands.drive.StraightenRobot;
 import frc.robot.commands.drive.TeleopSwerve;
-import frc.robot.commands.drive.ZeroOdometry;
 import frc.robot.subsystems.*;
 
 /**

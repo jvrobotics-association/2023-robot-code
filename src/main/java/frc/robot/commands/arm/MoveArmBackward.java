@@ -7,31 +7,28 @@ import frc.robot.subsystems.GrabberSubsystem;
 public class MoveArmBackward extends CommandBase {
 
     // Required subsystems
-    private final GrabberSubsystem armSubsystem;
+    private final GrabberSubsystem grabberSubsystem;
 
-    public MoveArmBackward(GrabberSubsystem _armSubsystem) {
-        this.armSubsystem = _armSubsystem;
-        addRequirements(armSubsystem);
+    public MoveArmBackward(GrabberSubsystem grabberSubsystem) {
+        this.grabberSubsystem = grabberSubsystem;
+        addRequirements(grabberSubsystem);
     }
 
-    // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        if (armSubsystem.isArmMotorStoppedBackwards())
-            return;
-        armSubsystem.setArmMotor(-Constants.Arm.manualMaxSpeed);
+    public void execute() {
+        grabberSubsystem.setArmMotor(-Constants.Arm.manualMaxSpeed);
     }
 
     // If the arm is stopped, the command is finished.
     @Override
     public boolean isFinished() {
-        return armSubsystem.isArmMotorStoppedBackwards();
+        return grabberSubsystem.isArmMotorStoppedBackwards();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.setArmMotor(0);
+        grabberSubsystem.setArmMotor(0);
+        grabberSubsystem.setWristMotor(0);
     }
-    
 }

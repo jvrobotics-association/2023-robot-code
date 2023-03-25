@@ -18,12 +18,9 @@ public class CalibrateArmCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-        // grabberSubsystem.setPrimaryMotor(-Constants.Arm.primaryArmMaxSpeed);
-        // grabberSubsystem.setSecondaryMotor(-Constants.Arm.secondaryArmMaxSpeed);
+    public void execute() {
         grabberSubsystem.setArmMotor(Constants.Arm.maxSpeed);
         grabberSubsystem.setWristMotor(Constants.Claw.wristMotorSpeed);
-        // grabberSubsystem.resetEncoders();
     }
 
     // Returns whether the arm is stopped.
@@ -31,19 +28,13 @@ public class CalibrateArmCommand extends CommandBase {
     // The arm is done moving when both motors are stopped.
     @Override
     public boolean isFinished() {
-        // return grabberSubsystem.isPrimaryMotorStoppedBackwards() & grabberSubsystem.isSecondaryMotorStoppedDown() & grabberSubsystem.isWristMotorStoppedUp();
-        // return grabberSubsystem.isPrimaryMotorStoppedForward();
         return grabberSubsystem.isArmMotorStoppedForward() & grabberSubsystem.isWristMotorStoppedDown();
     }
 
     @Override
     public void end(boolean interrupted) {
-        // grabberSubsystem.setPrimaryMotor(0);
-        // grabberSubsystem.setSecondaryMotor(0);
         grabberSubsystem.setArmMotor(0);
         grabberSubsystem.setWristMotor(0);
         grabberSubsystem.resetEncoder();
-        grabberSubsystem.resetEncoder();
     }
-
 }

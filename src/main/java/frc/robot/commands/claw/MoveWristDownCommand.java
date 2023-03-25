@@ -12,11 +12,8 @@ public class MoveWristDownCommand extends CommandBase {
         addRequirements(grabberSubsystem);
     }
 
-    // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        if (grabberSubsystem.isWristMotorStoppedDown())
-            return;
+    public void execute() {
         grabberSubsystem.setWristMotor(0.15);
     }
 

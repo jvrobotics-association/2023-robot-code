@@ -18,7 +18,6 @@ public class MoveArmToPreset extends CommandBase {
     @Override
     public void initialize() {
         grabberSubsystem.setArmTargetEncoderValue(targetPosition.getArmAngle());
-        grabberSubsystem.moveToTarget();
     }
 
     @Override

@@ -28,7 +28,7 @@ public final class Constants {
         public static final int wristLimitSwitchDownId = 3;
         public static final double wristGearRatio = 20.0;
         public static final double clawLength = Units.inchesToMeters(16.0);
-        public static final double wristMotorSpeed = 0.50;
+        public static final double wristMotorSpeed = 0.2;
         public static final double wristMotorTolerance = 2.0;
 
         public static final double wristNoGoZoneLowerBound = -13.8;
@@ -83,6 +83,24 @@ public final class Constants {
 
     }
 
+    // Forward refers to the side of the robot that stores the arm/intake when not in use
+    public static enum RedZoneValues {
+        FORWARD_ARM_START(60.0),
+        FORWARD_WRIST_LIMIT(-8.0),
+        BACK_ARM_START(315.0),
+        BACK_WRIST_LIMIT(-60.0);
+
+        private final double position;
+
+        RedZoneValues(double position) {
+            this.position = position;
+        }
+
+        public double getPosition() {
+            return this.position;
+        }
+    }
+
     public static final class Arm {
         // public static final int primaryArmMotorId = 14;
         // public static final int secondaryArmMotorId = 15;
@@ -117,8 +135,8 @@ public final class Constants {
         // public static final double zeroAreaSecondaryEncoderValue = -70;
 
         public static final double encoderZero = 0;
-        public static final double maxSpeed = 1.0;
-        public static final double manualMaxSpeed = 0.75;
+        public static final double maxSpeed = 0.5;
+        public static final double manualMaxSpeed = 0.25;
     }
 
     public static final class Swerve {

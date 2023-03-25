@@ -18,7 +18,6 @@ public class MoveWristToPreset extends CommandBase {
     @Override
     public void initialize() {
         grabberSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
-        grabberSubsystem.moveToTarget();
     }
 
     @Override

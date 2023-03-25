@@ -15,15 +15,14 @@ public class GrabberSubsystem extends SubsystemBase {
 
     private final CANSparkMax armMotor;
 
+    private int runCount = 0;
+
     private final CANSparkMax intakeMotor;
     private final CANSparkMax wristMotor;
     private final DigitalInput wristLimitSwitchUp = new DigitalInput(Constants.Claw.wristLimitSwitchUpId);
     private final DigitalInput wristLimitSwitchDown = new DigitalInput(Constants.Claw.wristLimitSwitchDownId);
 
     private double wristEncoderTarget = 0;
-
-    private boolean isWristInLowerRedZone = false;
-    private boolean isWristInUpperRedZone = false;
 
     public GrabberSubsystem() {
         armMotor = new CANSparkMax(Constants.Arm.motorId, CANSparkMax.MotorType.kBrushless);
@@ -42,16 +41,61 @@ public class GrabberSubsystem extends SubsystemBase {
 
     // Sets the speed of the wrist motor
     public void setWristMotor(double speed) {
-        if (isWristInLowerRedZone) {
-            if (speed < 0) {
-                speed = 0;
-            }
-        } else if (isWristInUpperRedZone) {
-            if (speed > 0) {
-                speed = 0;
+        // If the wrist is agianst the up limit switch and is being told to move up, prevent it
+        // from moving up any further to avoid damage to the robot.
+        if (getWristLimitSwitchUp() && speed < 0) {
+            wristMotor.set(0);
+            return;
+        }
+
+        // If the wrist is agianst the down limit switch and is being told to move down, prevent it
+        // from moving down any further to avoid damage to the robot.
+        if (getWristLimitSwitchDown() && speed > 0) {
+            wristMotor.set(0);
+            return;
+        }
+
+        // Check if the current arm position is within the front red zone, if so it should check the position
+        // of the wrist and then move the arm to a location to allow the wrist to move to the desired location.
+        if (armMotor.getEncoder().getPosition() <= Constants.RedZoneValues.FORWARD_ARM_START.getPosition() && speed < 0) {
+            wristMotor.set(0);
+            return;
+        }
+
+
+        // Check if the current arm position is within the back red zone, if so it should check the position
+        // of the wrist and then move the arm to a location to allow the wrist to move to the desired location.
+        if (armMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_ARM_START.getPosition() && speed > 0) {
+            if (wristMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_WRIST_LIMIT.getPosition()) {
+                wristMotor.set(0);
+                return;
             }
         }
-        // preventMovementInNoGoZones();
+
+
+        // // Check if the current arm position is within the back red zone, if so it should check the position
+        // // of the wrist and then move the arm to a location to allow the wrist to move to the desired location.
+        // if (armMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_ARM_START.getPosition()) {
+        //     // Chcek if the wrist is beyong the limit, if so stop the wrist and move the arm to a safe location
+        //     if (wristMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_WRIST_LIMIT.getPosition()) {
+        //         // Stop the wrist motor so that we can move the arm
+        //         wristMotor.set(0);
+
+        //         // Temporarily store the arm encoder setpoint so we can restore it
+        //         var currentArmSetpoint = armEncoderTarget;
+
+        //         // Set a new target being that of the maximum arm rotation for this zone
+        //         setArmTargetEncoderValue(Constants.RedZoneValues.BACK_ARM_START.getPosition());
+
+        //         // Move the arm to this new location
+        //         moveArmToTarget();
+
+        //         // Restore the old arm setpoint
+        //         setArmTargetEncoderValue(currentArmSetpoint);
+        //     }
+        // }
+
+        // Move the wrist
         wristMotor.set(speed);
     }
 
@@ -60,51 +104,67 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public void setArmMotor(double speed) {
-        if (getArmForwardLimitSwitch()) {
-            if (speed > 0) {
-                speed = 0;
-            }
-        } else if (getArmReverseLimitSwitch()) {
-            if (speed < 0) {
-                speed = 0;
+        SmartDashboard.putNumber("Arm Encoder", getArmEncoderPosition());
+
+        // If the arm is against the forward limit switch and it is being told to move forwards, prevent it
+        // from moving forward any further to avoid damage to the robot.
+        if (getArmForwardLimitSwitch() && speed > 0) {
+            armMotor.set(0);
+            armMotor.getEncoder().setPosition(0);
+            return;
+        }
+
+        // If the arm is against the back limit switch and it is being told to move backwards, prevent it
+        // from moving backwards any further to avoid damage to the robot.
+        if (getArmReverseLimitSwitch() && speed < 0) {
+            armMotor.set(0);
+            return;
+        }
+    
+        // Check if the current arm position is within the front red zone, if so
+        // it should check the position of the wrist and move it if it is not in a proper position.
+        if (armMotor.getEncoder().getPosition() <= Constants.RedZoneValues.FORWARD_ARM_START.getPosition() && speed > 0) {
+            // Check if the wrist is beyond the limit, if so stop the arm and move the wrist back
+            if (wristMotor.getEncoder().getPosition() <= Constants.RedZoneValues.FORWARD_WRIST_LIMIT.getPosition()) {
+                // Stop the arm motor so that we can move the wrist
+                armMotor.set(0);
+
+                // Move the wrist until it is in the good zone
+                setWristMotor(0.25);
+
+                // Prevent the arm from moving until the wrist is in its proper location
+                return;
+            } else { 
+                wristMotor.set(0);
             }
         }
-        // preventMovementInNoGoZones();
+
+        // Check if the current arm position is within the back red zone, if so
+        // it should check the position of the wrist and move it if it is not in a proper position.
+        if (armMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_ARM_START.getPosition() && speed < 0) {
+            // Chcek if the wrist is beyong the limit, if so stop the arm and move the wrist back
+            if (wristMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_WRIST_LIMIT.getPosition()) {
+                // Stop the arm motor so that we can move the wrist
+                armMotor.set(0);
+
+                // Move the wrist until it is in the good zone
+                setWristMotor(-0.25);
+
+                // Prevent the arm from moving until the wrist is in its proper location
+                return;
+            } else {
+                wristMotor.set(0);
+            }
+        }
+
+        // Set the motor speed
         armMotor.set(-speed);
-        SmartDashboard.putNumber("Arm Encoder", getArmEncoderPosition());
     }
 
     public double getArmEncoderPosition() {
         double position = armMotor.getEncoder().getPosition();
         SmartDashboard.putNumber("Arm Encoder", position);
         return position;
-    }
-
-    public void preventMovementInNoGoZones() {
-        double armEncoderPosition = getArmEncoderPosition();
-        double wristEncoderPosition = getWristPosition();
-
-        boolean isWristInUpperGoZone = wristEncoderPosition > Constants.Claw.wristNoGoZoneUpperBound;
-        boolean isWristInLowerGoZone = wristEncoderPosition < Constants.Claw.wristNoGoZoneLowerBound;
-
-        if (armEncoderPosition < Constants.Arm.armNoGoZoneLowerBound) {
-            if (isWristInLowerGoZone) {
-                isWristInLowerRedZone = false;
-                return;
-            } else {
-                isWristInLowerRedZone = true;
-            }
-            armMotor.set(0);
-        } else if (armEncoderPosition > Constants.Arm.armNoGoZoneUpperBound && !isWristInUpperGoZone) {
-            if (isWristInUpperGoZone) {
-                isWristInUpperRedZone = false;
-                return;
-            } else {
-                isWristInUpperRedZone = true;
-            }
-            armMotor.set(0);
-        }
-
     }
 
     public boolean hasArmReachedTarget() {
@@ -234,11 +294,10 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public void resetEncoder() {
         wristMotor.getEncoder().setPosition(0);
+        armMotor.getEncoder().setPosition(0);
     }
 
     public boolean hasReachedTarget() {
         return Math.abs(getWristPosition() - wristEncoderTarget) <= Constants.Claw.wristMotorTolerance & hasArmReachedTarget();
     }
-
-    
 }
