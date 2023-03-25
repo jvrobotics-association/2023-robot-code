@@ -69,8 +69,8 @@ public class RobotContainer {
     // private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
     /* Arm Buttons */
-    private final JoystickButton armForward = new JoystickButton(control, 8);
-    private final JoystickButton armBackward = new JoystickButton(control, 7);
+    private final JoystickButton armForward = new JoystickButton(control, 12);
+    private final JoystickButton armBackward = new JoystickButton(control, 13);
     // private final JoystickButton primaryArmForward = new JoystickButton(control, 4);
     // private final JoystickButton primaryArmReverse = new JoystickButton(control, 5);
     // private final JoystickButton secondaryArmUp = new JoystickButton(control, 6);
@@ -80,24 +80,24 @@ public class RobotContainer {
 
     // /* Claw Buttons */
     private final JoystickButton moveWristUp = new JoystickButton(control, 10);
-    private final JoystickButton moveWristDown = new JoystickButton(control, 9);
-    private final JoystickButton runIntakeFoward = new JoystickButton(control, 13);
-    private final JoystickButton runIntakeReverse = new JoystickButton(control, 12);
-    private final JoystickButton runIntakeReverseFast = new JoystickButton(control, 11);
+    private final JoystickButton moveWristDown = new JoystickButton(control, 11);
+    private final JoystickButton runIntakeFoward = new JoystickButton(control, 7);
+    private final JoystickButton runIntakeReverse = new JoystickButton(control, 8);
+    private final JoystickButton runIntakeReverseFast = new JoystickButton(control, 9);
 
     // /* Preset Position Buttons */
     // private final JoystickButton backPole = new JoystickButton(driver, 7);
-    private final JoystickButton frontPole = new JoystickButton(control, 1);
-    private final JoystickButton backShelf = new JoystickButton(control, 6);
-    private final JoystickButton frontShelf = new JoystickButton(control, 4);
-    private final JoystickButton floorDrop = new JoystickButton(control, 5);
+    private final JoystickButton frontPole = new JoystickButton(control, 6);
+    private final JoystickButton backShelf = new JoystickButton(control, 4);
+    private final JoystickButton frontShelf = new JoystickButton(control, 5);
+    private final JoystickButton floorDrop = new JoystickButton(control, 1);
     // private final JoystickButton floorPickupTop = new JoystickButton(driver, 12);
     // private final JoystickButton startingPosition = new JoystickButton(driver, 6);
     private final JoystickButton sliderPickup = new JoystickButton(control, 2);
     private final JoystickButton calibrateArm = new JoystickButton(control, 3);
 
     /* April Tag Buttons */
-    private final JoystickButton calculateRobotPosition = new JoystickButton(control, 1);
+    private final JoystickButton calculateRobotPosition = new JoystickButton(driver, 12);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
