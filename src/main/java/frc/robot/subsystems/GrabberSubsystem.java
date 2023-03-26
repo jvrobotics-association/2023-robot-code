@@ -15,8 +15,6 @@ public class GrabberSubsystem extends SubsystemBase {
 
     private final CANSparkMax armMotor;
 
-    private int runCount = 0;
-
     private final CANSparkMax intakeMotor;
     private final CANSparkMax wristMotor;
     private final DigitalInput wristLimitSwitchUp = new DigitalInput(Constants.Claw.wristLimitSwitchUpId);
@@ -65,38 +63,25 @@ public class GrabberSubsystem extends SubsystemBase {
 
         // Check if the current arm position is within the back red zone, if so it should check the position
         // of the wrist and then move the arm to a location to allow the wrist to move to the desired location.
-        if (armMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_ARM_START.getPosition() && speed > 0) {
-            if (wristMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_WRIST_LIMIT.getPosition()) {
+        if (armMotor.getEncoder().getPosition() >= getDynamicWristRedZoneLimit() && speed > 0) {
+            if (wristMotor.getEncoder().getPosition() >= getDynamicWristRedZoneLimit()) {
                 wristMotor.set(0);
                 return;
             }
         }
 
-
-        // // Check if the current arm position is within the back red zone, if so it should check the position
-        // // of the wrist and then move the arm to a location to allow the wrist to move to the desired location.
-        // if (armMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_ARM_START.getPosition()) {
-        //     // Chcek if the wrist is beyong the limit, if so stop the wrist and move the arm to a safe location
-        //     if (wristMotor.getEncoder().getPosition() >= Constants.RedZoneValues.BACK_WRIST_LIMIT.getPosition()) {
-        //         // Stop the wrist motor so that we can move the arm
-        //         wristMotor.set(0);
-
-        //         // Temporarily store the arm encoder setpoint so we can restore it
-        //         var currentArmSetpoint = armEncoderTarget;
-
-        //         // Set a new target being that of the maximum arm rotation for this zone
-        //         setArmTargetEncoderValue(Constants.RedZoneValues.BACK_ARM_START.getPosition());
-
-        //         // Move the arm to this new location
-        //         moveArmToTarget();
-
-        //         // Restore the old arm setpoint
-        //         setArmTargetEncoderValue(currentArmSetpoint);
-        //     }
-        // }
-
         // Move the wrist
         wristMotor.set(speed);
+    }
+
+    public double getDynamicWristRedZoneLimit() {
+        // Calculate the lerp value based off the current arm position
+        double lerp = (Constants.RedZoneValues.BACK_ARM_START.getPosition() - armMotor.getEncoder().getPosition()) / (Constants.RedZoneValues.BACK_ARM_START.getPosition() - 395.0);
+
+        double decayValue = -Math.pow(lerp, 1.0/3.0) + 1;
+
+        // Calculate the wrist limit based off the lerp value
+        return -60.0 + (decayValue * (-25.0 - -60.0));
     }
 
     public void stopWristMotor() {
@@ -130,7 +115,7 @@ public class GrabberSubsystem extends SubsystemBase {
                 armMotor.set(0);
 
                 // Move the wrist until it is in the good zone
-                setWristMotor(0.25);
+                setWristMotor(0.3);
 
                 // Prevent the arm from moving until the wrist is in its proper location
                 return;
@@ -148,7 +133,7 @@ public class GrabberSubsystem extends SubsystemBase {
                 armMotor.set(0);
 
                 // Move the wrist until it is in the good zone
-                setWristMotor(-0.25);
+                setWristMotor(-0.3);
 
                 // Prevent the arm from moving until the wrist is in its proper location
                 return;

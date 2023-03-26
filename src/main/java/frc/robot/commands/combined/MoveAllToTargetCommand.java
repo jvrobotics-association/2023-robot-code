@@ -19,7 +19,6 @@ public class MoveAllToTargetCommand extends CommandBase {
     public void initialize() {
         grabberSubsystem.setArmTargetEncoderValue(targetPosition.getArmAngle());
         grabberSubsystem.setWristEncoderTarget(targetPosition.getWristAngle());
-        grabberSubsystem.moveToTarget();
     }
 
     @Override

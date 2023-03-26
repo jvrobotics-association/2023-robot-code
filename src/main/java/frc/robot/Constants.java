@@ -28,22 +28,17 @@ public final class Constants {
         public static final int wristLimitSwitchDownId = 3;
         public static final double wristGearRatio = 20.0;
         public static final double clawLength = Units.inchesToMeters(16.0);
-        public static final double wristMotorSpeed = 0.2;
+        public static final double wristMotorSpeed = 0.3;
         public static final double wristMotorTolerance = 2.0;
-
-        public static final double wristNoGoZoneLowerBound = -13.8;
-        public static final double wristNoGoZoneUpperBound = -57.3;
-
-
     }
 
     public static enum ArmPositions {
 
         // BACK_POLE(61.9, -181.6, 38.6),
-        FRONT_POLE(0,0),
-        BACK_SHELF(0,0),
-        FRONT_SHELF(0,0),
-        FLOOR_DROP(393.8,-60.5),
+        FRONT_POLE(281.0, -45),
+        BACK_SHELF(275.0, -42.0),
+        FRONT_SHELF(265.0, -30.0),
+        FLOOR_DROP(396.0, -60.0),
         // FLOOR_PICKUP_TOP(40.1, -32.7, 42.0),
         // STARTING_POSITION(0.0, 0.0, 0.0),
         SLIDER_PICKUP(0,0),
@@ -87,7 +82,7 @@ public final class Constants {
     public static enum RedZoneValues {
         FORWARD_ARM_START(60.0),
         FORWARD_WRIST_LIMIT(-8.0),
-        BACK_ARM_START(315.0),
+        BACK_ARM_START(340.0),
         BACK_WRIST_LIMIT(-60.0);
 
         private final double position;
@@ -114,9 +109,6 @@ public final class Constants {
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 1.0;
 
-        public static final double armNoGoZoneLowerBound = 53.9;
-        public static final double armNoGoZoneUpperBound = 332.6;
-
         // These values are in percent output (0.0 to 1.0)
         // public static final double primaryArmMaxSpeed = 0.3;
         // public static final double secondaryArmMaxSpeed = 0.5;
@@ -135,8 +127,8 @@ public final class Constants {
         // public static final double zeroAreaSecondaryEncoderValue = -70;
 
         public static final double encoderZero = 0;
-        public static final double maxSpeed = 0.5;
-        public static final double manualMaxSpeed = 0.25;
+        public static final double maxSpeed = 1.0;
+        public static final double manualMaxSpeed = 0.5;
     }
 
     public static final class Swerve {

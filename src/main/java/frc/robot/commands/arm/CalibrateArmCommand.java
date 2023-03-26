@@ -32,9 +32,14 @@ public class CalibrateArmCommand extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
+    public void end (boolean interrupted) {
         grabberSubsystem.setArmMotor(0);
         grabberSubsystem.setWristMotor(0);
+
+        if (interrupted) {
+            return;
+        }
+
         grabberSubsystem.resetEncoder();
     }
 }
