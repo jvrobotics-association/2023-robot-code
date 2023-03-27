@@ -33,19 +33,11 @@ public final class Constants {
     }
 
     public static enum ArmPositions {
-
-        // BACK_POLE(61.9, -181.6, 38.6),
-        FRONT_POLE(281.0, -45),
-        BACK_SHELF(275.0, -42.0),
-        FRONT_SHELF(265.0, -30.0),
+        FRONT_POLE(285.0, -36),
+        BACK_SHELF(270.0, -38.0),
+        FRONT_SHELF(250.0, -20.0),
         FLOOR_DROP(396.0, -60.0),
-        // FLOOR_PICKUP_TOP(40.1, -32.7, 42.0),
-        // STARTING_POSITION(0.0, 0.0, 0.0),
-        SLIDER_PICKUP(0,0),
-        // // TODO: find the correct values for these
-        // KNOWN_GOOD_CONFIGURATION(35.5, -50.0, 20.0);
-
-        STARTING_POSITION(0.0, 0.0);
+        SLIDER_PICKUP(0,0);
 
         private final double armAngle;
         private final double wristAngle;
@@ -54,14 +46,6 @@ public final class Constants {
             this.armAngle = armAngle;
             this.wristAngle = wristAngle;
         }
-
-        // public double getPrimaryArmAngle() {
-        //     return primaryArmAngle;
-        // }
-
-        // public double getSecondaryArmAngle() {
-        //     return secondaryArmAngle;
-        // }
 
         public double getArmAngle() {
             return armAngle;
@@ -97,35 +81,11 @@ public final class Constants {
     }
 
     public static final class Arm {
-        // public static final int primaryArmMotorId = 14;
-        // public static final int secondaryArmMotorId = 15;
-        // public static final int primaryLimitSwitchForwardId = 0;
-        // public static final int primaryLimitSwitchReverseId = 1;
-        // public static final int secondaryLimitSwitchUpId = 2;
-        // public static final int secondaryLimitSwitchDownId = 3;
         public static final int motorId = 15;
         public static final int limitSwitchForwardId = 0;
         public static final int limitSwitchReverseId = 1;
         public static final int encoderTicksPerRevolution = 42;
         public static final double allowedEncoderError = 1.0;
-
-        // These values are in percent output (0.0 to 1.0)
-        // public static final double primaryArmMaxSpeed = 0.3;
-        // public static final double secondaryArmMaxSpeed = 0.5;
-
-        // public static final double primaryArmLength = Units.inchesToMeters(36.0);
-        // public static final double secondaryArmLength = Units.inchesToMeters(30.0);
-
-        // The gear ratios of the arm motors
-        // public static final double primaryArmGearRatio = 500.0;
-        // public static final double secondaryArmGearRatio = 400.0;
-
-        // public static final double primaryArmEncoderZero = 0;
-        // public static final double secondaryArmEncoderZero = 0;
-
-        // public static final double zeroAreaPrimaryEncoderValue = 20;
-        // public static final double zeroAreaSecondaryEncoderValue = -70;
-
         public static final double encoderZero = 0;
         public static final double maxSpeed = 1.0;
         public static final double manualMaxSpeed = 0.5;
