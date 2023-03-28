@@ -1,26 +1,26 @@
 package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class ReverseClawIntakeFastCommand extends CommandBase {
 
     // Required subsystems
-    private final GrabberSubsystem grabberSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
 
-    public ReverseClawIntakeFastCommand(GrabberSubsystem _grabberSubsystem){
-        this.grabberSubsystem = _grabberSubsystem;
-        addRequirements(grabberSubsystem);
+    public ReverseClawIntakeFastCommand(IntakeSubsystem _intakeSubsystem){
+        this.intakeSubsystem = _intakeSubsystem;
+        addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        grabberSubsystem.setIntakeMotor(1.00);
+        intakeSubsystem.setIntakeMotor(1.00);
     }
 
     @Override
     public void end(boolean interrupted) {
-        grabberSubsystem.stopIntakeMotor();
+        intakeSubsystem.stopIntakeMotor();
     }
     
 }

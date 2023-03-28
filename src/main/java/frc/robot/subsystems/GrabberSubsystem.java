@@ -15,7 +15,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
     private final CANSparkMax armMotor;
 
-    private final CANSparkMax intakeMotor;
+    
     private final CANSparkMax wristMotor;
     private final DigitalInput wristLimitSwitchUp = new DigitalInput(Constants.Claw.wristLimitSwitchUpId);
     private final DigitalInput wristLimitSwitchDown = new DigitalInput(Constants.Claw.wristLimitSwitchDownId);
@@ -24,18 +24,10 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public GrabberSubsystem() {
         armMotor = new CANSparkMax(Constants.Arm.motorId, CANSparkMax.MotorType.kBrushless);
-        intakeMotor = new CANSparkMax(Constants.Claw.intakeMotorId, CANSparkMax.MotorType.kBrushless);
         wristMotor = new CANSparkMax(Constants.Claw.wristMotorId, CANSparkMax.MotorType.kBrushless);
     }
 
-    // Sets the speed of the intake motor
-    public void setIntakeMotor(double speed) {
-        intakeMotor.set(speed);
-    }
-
-    public void stopIntakeMotor() {
-        intakeMotor.set(0);
-    }
+    
 
     // Sets the speed of the wrist motor
     public void setWristMotor(double speed) {
@@ -89,7 +81,7 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public void setArmMotor(double speed) {
-        SmartDashboard.putNumber("Arm Encoder", getArmEncoderPosition());
+        printEncoders();
 
         // If the arm is against the forward limit switch and it is being told to move forwards, prevent it
         // from moving forward any further to avoid damage to the robot.
@@ -148,7 +140,6 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public double getArmEncoderPosition() {
         double position = armMotor.getEncoder().getPosition();
-        SmartDashboard.putNumber("Arm Encoder", position);
         return position;
     }
 
@@ -220,7 +211,7 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public boolean isWristMotorStopped() {
-        SmartDashboard.putNumber("Wrist Motor Encoder", getWristPosition());
+        printEncoders();
 
         boolean isStopped = getWristLimitSwitchUp() | getWristLimitSwitchDown();
         if (isStopped)
@@ -229,7 +220,7 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public boolean isWristMotorStoppedUp() {
-        SmartDashboard.putNumber("Wrist Motor Encoder", getWristPosition());
+        printEncoders();
         boolean isStopped = getWristLimitSwitchUp();
         if (isStopped)
             wristMotor.set(0);
@@ -237,7 +228,7 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public boolean isWristMotorStoppedDown() {
-        SmartDashboard.putNumber("Wrist Motor Encoder", getWristPosition());
+        printEncoders();
         boolean isStopped = getWristLimitSwitchDown();
         if (isStopped)
             wristMotor.set(0);
@@ -284,5 +275,11 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public boolean hasReachedTarget() {
         return Math.abs(getWristPosition() - wristEncoderTarget) <= Constants.Claw.wristMotorTolerance & hasArmReachedTarget();
+    }
+
+    // show the encoders on the smart dashboard
+    public void printEncoders() {
+        SmartDashboard.putNumber("Wrist Motor Encoder", getWristPosition());
+        SmartDashboard.putNumber("Arm Motor Encoder", getArmEncoderPosition());
     }
 }

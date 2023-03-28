@@ -33,11 +33,11 @@ public final class Constants {
     }
 
     public static enum ArmPositions {
-        FRONT_POLE(285.0, -36),
+        FRONT_POLE(285.0, -36.0),
         BACK_SHELF(270.0, -38.0),
         FRONT_SHELF(250.0, -20.0),
         FLOOR_DROP(396.0, -60.0),
-        SLIDER_PICKUP(0,0);
+        SLIDER_PICKUP(249.0, -32.0);
 
         private final double armAngle;
         private final double wristAngle;

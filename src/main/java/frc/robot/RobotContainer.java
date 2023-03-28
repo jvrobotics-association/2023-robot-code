@@ -14,6 +14,7 @@ import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
+import frc.robot.commands.arm.HoldArmPositionCommand;
 import frc.robot.commands.arm.MoveArmBackward;
 import frc.robot.commands.arm.MoveArmForward;
 import frc.robot.commands.claw.MoveWristDownCommand;
@@ -91,6 +92,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final GrabberSubsystem s_Grabber = new GrabberSubsystem();
     private final AprilTagSubsystem s_AprilTag = new AprilTagSubsystem(s_Swerve);
+    private final IntakeSubsystem s_Intake = new IntakeSubsystem();
 
     /* Autonomous */
     // Moves in a S shape
@@ -118,6 +120,8 @@ public class RobotContainer {
                         () -> isRobotCentricSupplier.getAsBoolean(),
                         () -> isYLocked,
                         () -> slowDriveMode.getAsBoolean()));
+
+        s_Grabber.setDefaultCommand(new HoldArmPositionCommand(s_Grabber));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -157,9 +161,9 @@ public class RobotContainer {
         /* Claw Buttons */
         moveWristUp.whileTrue(new MoveWristUpCommand(s_Grabber));
         moveWristDown.whileTrue(new MoveWristDownCommand(s_Grabber));
-        runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Grabber));
-        runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Grabber));
-        runIntakeReverseFast.whileTrue(new ReverseClawIntakeFastCommand(s_Grabber));
+        runIntakeFoward.whileTrue(new RunClawIntakeCommand(s_Intake));
+        runIntakeReverse.whileTrue(new ReverseClawIntakeCommand(s_Intake, s_Swerve));
+        runIntakeReverseFast.whileTrue(new ReverseClawIntakeFastCommand(s_Intake));
 
         // /* Preset Position Buttons */
         frontPole.onTrue(new MoveToPresetArmPosition(s_Grabber, ArmPositions.FRONT_POLE));
@@ -180,7 +184,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         // Command selection = autonomousChooser.getSelected();
-        Command selection = new NoArmAuto(s_Swerve, isRed);
+        Command selection = new NoArmAuto(s_Swerve, s_Grabber, s_Intake, isRed);
         // System.out.println(selection.getName());
         return selection;
     }

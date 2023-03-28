@@ -1,26 +1,36 @@
 package frc.robot.commands.claw;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class ReverseClawIntakeCommand extends CommandBase {
 
     // Required subsystems
-    private final GrabberSubsystem grabberSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
+    private final Swerve swerve;
 
-    public ReverseClawIntakeCommand(GrabberSubsystem _grabberSubsystem){
-        this.grabberSubsystem = _grabberSubsystem;
-        addRequirements(grabberSubsystem);
+    public ReverseClawIntakeCommand(IntakeSubsystem _intakeSubsystem, Swerve _swerve){
+        this.intakeSubsystem = _intakeSubsystem;
+        this.swerve = _swerve;
+        addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        grabberSubsystem.setIntakeMotor(0.25);
+        intakeSubsystem.setIntakeMotor(0.25);
+    }
+
+    @Override
+    public void execute() {
+        swerve.drive(new Translation2d(-0.05, 0), 0, false, true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        grabberSubsystem.stopIntakeMotor();
+        intakeSubsystem.stopIntakeMotor();
+        swerve.drive(new Translation2d(), 0, false, true);
     }
     
 }

@@ -33,6 +33,7 @@ public class MoveArmToPreset extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         grabberSubsystem.setArmMotor(0);
+        grabberSubsystem.setWristMotor(0);
     }
 
 }
