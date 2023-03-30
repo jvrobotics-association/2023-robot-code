@@ -122,6 +122,10 @@ public class Swerve extends SubsystemBase {
         drive(new Translation2d(expectedMovement, 0), 0, false, true);
     }
 
+    public boolean isRobotLevel() {
+        return Math.abs(getPitch()) < AutoConstants.kRobotPitchTolerance;
+    }
+
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }

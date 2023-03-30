@@ -15,30 +15,29 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
 
-public class NoArmAuto extends SequentialCommandGroup {
+public class BottomLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
     private final int direction;
 
-    public NoArmAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
-        direction = isRed ? 1 : -1;
+    public BottomLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
+        direction = isRed ? -1 : 1;
         addCommands(
-                new InstantCommand(() -> swerve.zeroGyro(180)),
                 // Zero arm
                 new CalibrateArmCommand(grabberSubsystem),
                 // Move arm to front pole
                 new MoveToPresetArmPosition(grabberSubsystem, ArmPositions.FRONT_POLE),
                 // Score cone
                 new ParallelCommandGroup(
-                    new ReverseIntakeAuto(intakeSubsystem),
-                    new MoveRobotAuto(swerve, new Translation2d(-direction * 0.05, 0.0), 0.5)),
+                    new ReverseIntakeAuto(intakeSubsystem, swerve),
+                    new MoveRobotAuto(swerve, new Translation2d(0.05, 0.0), 0.5)),
                 // Move out of community and zero arm.
                 new ParallelCommandGroup(
-                    new MoveRobotAuto(swerve, new Translation2d(-direction * 0.2, 0.0), 3.0),
+                    new MoveRobotAuto(swerve, new Translation2d(0.2, 0.0), 3.0),
                     new CalibrateArmCommand(grabberSubsystem)),
                 // Move to behind charging station
-                new MoveRobotAuto(swerve, new Translation2d(0, -direction * 0.1), 2.0),
+                new MoveRobotAuto(swerve, new Translation2d(0, direction * 0.12), 2.0),
                 // Move onto charging station
-                new MoveRobotAuto(swerve, new Translation2d(direction * 0.2, 0.0), 1.5),
+                new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
                 // Level the charging station
                 new LevelChargingStationAuto(swerve));
 

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -105,7 +106,7 @@ public class RobotContainer {
     // private final Command simpleAutoBottom = new VerySimpleAuto(s_Swerve, s_Grabber, isRed, ArmPositions.FLOOR_DROP);
 
     // A chooser for autonomous commands
-    SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+    private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -132,7 +133,9 @@ public class RobotContainer {
         // autonomousChooser.addOption("Diamond Auto", diamondAuto);
         // autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
         // autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
-        // SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+        autonomousChooser.setDefaultOption("Competition Auto", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("Do Nothing", new InstantCommand());
+        SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
 
     /**
@@ -183,8 +186,11 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        // Command selection = autonomousChooser.getSelected();
-        Command selection = new NoArmAuto(s_Swerve, s_Grabber, s_Intake, isRed);
+        Command selection = autonomousChooser.getSelected();
+        // Command selection = new NoArmAuto(s_Swerve, s_Grabber, s_Intake, isRed);
+        if (selection == null) {
+            return new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed);
+        }
         // System.out.println(selection.getName());
         return selection;
     }
