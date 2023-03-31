@@ -16,10 +16,8 @@ import frc.robot.subsystems.Swerve;
 
 public class CenterLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
-    private final int direction;
 
-    public CenterLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
-        direction = isRed ? -1 : 1;
+    public CenterLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem) {
         addCommands(
                 new IntakeAuto(intakeSubsystem, 0.5),
                 // Zero arm

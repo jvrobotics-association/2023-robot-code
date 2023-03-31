@@ -94,7 +94,7 @@ public class Swerve extends SubsystemBase {
         double pitch = getPitch();
 
         // check to see if the robot is going to fall off the table
-        Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
+        // Translation2d robotPos = swerveOdometry.getPoseMeters().getTranslation();
         // if (isRed) {
         // if (Math.abs(Constants.AutoConstants.kRedChargingStationX - robotPos.getX())
         // > AutoConstants.kAllowedChargingStationMovementFromCenter) {

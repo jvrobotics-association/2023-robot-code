@@ -26,6 +26,7 @@ public class AprilTagSubsystem extends SubsystemBase {
         photonCamera.setPipelineIndex(0);
     }
 
+    @SuppressWarnings("unused")
     public Pose3d calculateRobotPosition() {
         // Get the latest result from the camera
         var result = photonCamera.getLatestResult();

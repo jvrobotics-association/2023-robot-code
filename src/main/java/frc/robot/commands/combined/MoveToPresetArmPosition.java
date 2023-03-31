@@ -4,16 +4,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.subsystems.GrabberSubsystem;
 
-
-/*
- * TODO: Make the movement sequential to prioritize specific motions first
- * For example this would be move secondary up then primary forward for scoring
- * This prevents colliding with frame and game elements.
- */
-
 public class MoveToPresetArmPosition extends SequentialCommandGroup {
 
+    @SuppressWarnings("unused")
     private final ArmPositions targetPosition;
+    @SuppressWarnings("unused")
     private final GrabberSubsystem grabberSubsystem;
 
     public MoveToPresetArmPosition(GrabberSubsystem grabberSubsystem, ArmPositions targetPosition) {

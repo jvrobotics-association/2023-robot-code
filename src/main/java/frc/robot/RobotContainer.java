@@ -54,6 +54,7 @@ public class RobotContainer {
     private final int rotationAxis = 2;
 
     private boolean isRobotCentric = false;
+    @SuppressWarnings("unused")
     private boolean isSlowDrive = false;
 
     private final BooleanSupplier isRobotCentricSupplier = () -> isRobotCentric;
@@ -135,11 +136,11 @@ public class RobotContainer {
         // autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
         // autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
         autonomousChooser.setDefaultOption("Bottom of L", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("Center of L", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("Center of L", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("Top of L", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("No Level Bottom of L", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("No Level Center of L", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("No Level Top of L", new NoLevelTopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("No Level Bottom of L", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("No Level Center of L", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("No Level Top of L", new NoLevelTopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("Place Cone", new PlaceConeAuto(s_Swerve, s_Intake, s_Grabber));
         autonomousChooser.addOption("Place Cube Back Shelf", new PlaceCubeTopAuto(s_Intake, s_Grabber));
         autonomousChooser.addOption("Place Cube Front Shelf", new PlaceCubeBottomAuto(s_Intake, s_Grabber));
