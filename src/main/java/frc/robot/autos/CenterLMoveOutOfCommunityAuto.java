@@ -3,6 +3,7 @@ package frc.robot.autos;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.claw.IntakeAuto;
 import frc.robot.autos.claw.ReverseIntakeAuto;
@@ -30,6 +31,9 @@ public class CenterLMoveOutOfCommunityAuto extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                     new MoveRobotAuto(swerve, new Translation2d(0.2, 0.0), 3.0),
                     new CalibrateArmCommand(grabberSubsystem)),
+                
+                // Wait for the charge station to level
+                new WaitCommand(2.0),
                 // Move onto charging station
                 new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
                 // Level the charging station

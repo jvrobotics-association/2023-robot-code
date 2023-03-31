@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
+import frc.robot.autos.claw.IntakeAuto;
 import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
@@ -25,6 +26,7 @@ import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.ReverseClawIntakeFastCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
+import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.StraightenRobot;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
@@ -68,6 +70,7 @@ public class RobotContainer {
     private final JoystickButton slowDriveMode = new JoystickButton(driver, 2);
     private final JoystickButton levelRobot = new JoystickButton(driver, 3);
     private final JoystickButton alignRobot = new JoystickButton(driver, 1);
+    private final JoystickButton lockWheels = new JoystickButton(driver, 4);
     // private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
     // private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
@@ -173,6 +176,8 @@ public class RobotContainer {
         alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis), () -> -driver.getRawAxis(translationAxis)));
         // alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         // zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
+        lockWheels.onTrue(new LockWheels(s_Swerve));
+
 
         /* Arm Buttons */
         armForward.whileTrue(new MoveArmForward(s_Grabber));

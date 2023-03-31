@@ -25,29 +25,14 @@ public class StraightenRobot extends CommandBase {
 
     @Override
     public void initialize() {
-        robotContainer.setYLock(true);
-        double heading = ((swerve.getYaw().getDegrees() + 180) % 360) - 180;
-        if (heading < -90) {
-            target = -180;
-        } else if (heading >= -90 || heading < 90) {
-            target = 0;
-        } else {
-            target = 180;
-        }
-        swerve.spinRobotToTarget(target, strafeSup.getAsDouble(), translationSupplier.getAsDouble());
+        target = 0;
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble() * 0.75, translationSupplier.getAsDouble() * 0.75);
     }
 
     @Override
     public void execute() {
-        double heading = ((swerve.getYaw().getDegrees() + 180) % 360) - 180;
-        if (heading < -90) {
-            target = -180;
-        } else if (heading >= -90 || heading < 90) {
-            target = 0;
-        } else {
-            target = 180;
-        }
-        swerve.spinRobotToTarget(target, strafeSup.getAsDouble(), translationSupplier.getAsDouble());
+        target = 0;
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble() * 0.75, translationSupplier.getAsDouble() * 0.75);
     }
 
     @Override

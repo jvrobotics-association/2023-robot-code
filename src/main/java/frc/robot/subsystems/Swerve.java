@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -170,13 +171,28 @@ public class Swerve extends SubsystemBase {
     }
 
     public void spinRobotToTarget(double angle, double strafe, double translation) {
-        int direction = (int) Math.signum(angle - getYaw().getDegrees());
-        if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone
-                || Math.abs(angle + 180 - ((getYaw().getDegrees() + 180) % 360)) < Constants.Swerve.gyroDeadZone) {
+        // int direction = (int) Math.signum(angle - getYaw().getDegrees());
+        // if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone
+        //         || Math.abs(angle + 180 - ((getYaw().getDegrees() + 180) % 360)) < Constants.Swerve.gyroDeadZone) {
+        //     drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), 0, false, true);
+        // } else {
+        //     drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), direction * Constants.Swerve.maxAngularVelocity , false,
+        //             true);
+        // }
+
+        double currentAngle = MathUtil.angleModulus(getYaw().getRadians() - Math.PI) * 180 / Math.PI;
+        SmartDashboard.putNumber("Current Angle", currentAngle);
+        double difference = Math.abs(angle - currentAngle);
+        double rotation = -(angle - currentAngle) / 180.0;
+        // make sure that the rotation magnitude is greater than 0.2
+        if (Math.abs(rotation) < 0.38) {
+            rotation = Math.signum(rotation) * 0.38;
+        }
+        SmartDashboard.putNumber("Expected Rotation", rotation);
+        if (difference < Constants.Swerve.gyroDeadZone) {
             drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), 0, false, true);
         } else {
-            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), direction * Constants.Swerve.maxAngularVelocity , false,
-                    true);
+            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), rotation * Constants.Swerve.maxAngularVelocity, false, true);
         }
     }
 
