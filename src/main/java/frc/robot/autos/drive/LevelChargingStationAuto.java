@@ -11,7 +11,7 @@ public class LevelChargingStationAuto extends CommandBase {
 
     private final Swerve swerve;
     private double timerTimeStamp;
-    private double levelDuration = 1.0;
+    private double levelDuration = 2.0;
 
     public LevelChargingStationAuto(Swerve swerve) {
         this.swerve = swerve;

@@ -118,8 +118,8 @@ public class Swerve extends SubsystemBase {
             expectedMovement = pitch / 180.0;
         }
 
-        SmartDashboard.putNumber("Level Expected Movement", expectedMovement);
-        drive(new Translation2d(expectedMovement, 0), 0, false, true);
+        SmartDashboard.putNumber("Level Expected Movement", -expectedMovement);
+        drive(new Translation2d(-expectedMovement, 0), 0, false, true);
     }
 
     public boolean isRobotLevel() {

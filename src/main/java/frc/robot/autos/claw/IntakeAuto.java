@@ -1,24 +1,20 @@
 package frc.robot.autos.claw;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Swerve;
 
-public class ReverseIntakeAuto extends CommandBase {
-
+public class IntakeAuto extends CommandBase {
+    
     private final IntakeSubsystem intakeSubsystem;
-    private final Swerve swerve;
     private double startTime;
     private final double duration;
 
-    public ReverseIntakeAuto(IntakeSubsystem _intakeSubsystem, Swerve _swerve, double _duration) {
+    public IntakeAuto(IntakeSubsystem _intakeSubsystem, double _duration) {
         this.intakeSubsystem = _intakeSubsystem;
-        this.swerve = _swerve;
         this.duration = _duration;
-        addRequirements(intakeSubsystem, swerve);
+        addRequirements(intakeSubsystem);
     }
 
     @Override
@@ -28,8 +24,7 @@ public class ReverseIntakeAuto extends CommandBase {
 
     @Override
     public void execute() {
-        intakeSubsystem.setIntakeMotor(0.5);
-        swerve.drive(new Translation2d(-0.05, 0), 0, false, true);
+        intakeSubsystem.setIntakeMotor(-0.5);
     }
 
     @Override
@@ -40,7 +35,6 @@ public class ReverseIntakeAuto extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakeSubsystem.stopIntakeMotor();
-        swerve.drive(new Translation2d(), 0, false, true);
     }
-    
+
 }

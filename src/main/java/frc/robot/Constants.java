@@ -224,7 +224,7 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 90;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-        public static final double kRobotPitchTolerance = 1.0;
+        public static final double kRobotPitchTolerance = 5.0;
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;

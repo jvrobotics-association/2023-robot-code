@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmPositions;
 import frc.robot.autos.*;
+import frc.robot.autos.drive.LevelChargingStationAuto;
 import frc.robot.commands.april_tag.UpdateRobotPositionCommand;
 import frc.robot.commands.arm.CalibrateArmCommand;
 import frc.robot.commands.arm.HoldArmPositionCommand;
@@ -62,7 +63,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, 7);
     private final JoystickButton fieldCentric = new JoystickButton(driver, 8);
     private final JoystickButton slowDriveMode = new JoystickButton(driver, 2);
-    // private final JoystickButton levelRobot = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton levelRobot = new JoystickButton(driver, 3);
     // private final JoystickButton alignRobot = new JoystickButton(control, 2);
     // private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
     // private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
@@ -133,7 +134,15 @@ public class RobotContainer {
         // autonomousChooser.addOption("Diamond Auto", diamondAuto);
         // autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
         // autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
-        autonomousChooser.setDefaultOption("Competition Auto", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.setDefaultOption("Bottom of L", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("Center of L", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("Top of L", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("No Level Bottom of L", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("No Level Center of L", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("No Level Top of L", new NoLevelTopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
+        autonomousChooser.addOption("Place Cone", new PlaceConeAuto(s_Swerve, s_Intake, s_Grabber));
+        autonomousChooser.addOption("Place Cube Back Shelf", new PlaceCubeTopAuto(s_Intake, s_Grabber));
+        autonomousChooser.addOption("Place Cube Front Shelf", new PlaceCubeBottomAuto(s_Intake, s_Grabber));
         autonomousChooser.addOption("Do Nothing", new InstantCommand());
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
@@ -151,7 +160,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
-        // levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
+        levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
         // alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
         // alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         // zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));

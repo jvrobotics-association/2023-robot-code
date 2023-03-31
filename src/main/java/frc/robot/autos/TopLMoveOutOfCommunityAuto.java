@@ -16,11 +16,11 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
 
-public class BottomLMoveOutOfCommunityAuto extends SequentialCommandGroup {
+public class TopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
     private final int direction;
 
-    public BottomLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
+    public TopLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
         direction = isRed ? -1 : 1;
         addCommands(
                 new IntakeAuto(intakeSubsystem, 0.5),
@@ -35,7 +35,7 @@ public class BottomLMoveOutOfCommunityAuto extends SequentialCommandGroup {
                     new MoveRobotAuto(swerve, new Translation2d(0.2, 0.0), 2.5),
                     new CalibrateArmCommand(grabberSubsystem)),
                 // Move to behind charging station
-                new MoveRobotAuto(swerve, new Translation2d(0, direction * 0.12), 1.5),
+                new MoveRobotAuto(swerve, new Translation2d(0, -direction * 0.12), 1.5),
                 // Move onto charging station
                 new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
                 // Level the charging station
