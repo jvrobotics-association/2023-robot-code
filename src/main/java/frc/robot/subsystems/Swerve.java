@@ -169,13 +169,13 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    public void spinRobotToTarget(double angle, double strafe) {
+    public void spinRobotToTarget(double angle, double strafe, double translation) {
         int direction = (int) Math.signum(angle - getYaw().getDegrees());
         if (Math.abs(angle - getYaw().getDegrees()) < Constants.Swerve.gyroDeadZone
                 || Math.abs(angle + 180 - ((getYaw().getDegrees() + 180) % 360)) < Constants.Swerve.gyroDeadZone) {
-            drive(new Translation2d(0, strafe * 1), 0, false, true);
+            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), 0, false, true);
         } else {
-            drive(new Translation2d(0, strafe * 1), direction * Constants.Swerve.maxAngularVelocity * 0.5, false,
+            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), direction * Constants.Swerve.maxAngularVelocity , false,
                     true);
         }
     }

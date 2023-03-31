@@ -11,13 +11,15 @@ public class StraightenRobot extends CommandBase {
     private final Swerve swerve;
     private final RobotContainer robotContainer;
     private final DoubleSupplier strafeSup;
+    private final DoubleSupplier translationSupplier;
 
     private double target = 0;
 
-    public StraightenRobot(Swerve swerve, RobotContainer robotContainer, DoubleSupplier strafeSup) {
+    public StraightenRobot(Swerve swerve, RobotContainer robotContainer, DoubleSupplier strafeSup, DoubleSupplier translationSupplier) {
         this.swerve = swerve;
         this.robotContainer = robotContainer;
         this.strafeSup = strafeSup;
+        this.translationSupplier = translationSupplier;
         addRequirements(swerve);
     }
 
@@ -32,7 +34,7 @@ public class StraightenRobot extends CommandBase {
         } else {
             target = 180;
         }
-        swerve.spinRobotToTarget(target, strafeSup.getAsDouble());
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble(), translationSupplier.getAsDouble());
     }
 
     @Override
@@ -45,7 +47,7 @@ public class StraightenRobot extends CommandBase {
         } else {
             target = 180;
         }
-        swerve.spinRobotToTarget(target, strafeSup.getAsDouble());
+        swerve.spinRobotToTarget(target, strafeSup.getAsDouble(), translationSupplier.getAsDouble());
     }
 
     @Override

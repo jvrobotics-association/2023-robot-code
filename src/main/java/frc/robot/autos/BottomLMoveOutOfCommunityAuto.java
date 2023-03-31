@@ -1,6 +1,7 @@
 package frc.robot.autos;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
@@ -20,6 +21,7 @@ public class BottomLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
     public BottomLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
         direction = isRed ? -1 : 1;
+        SmartDashboard.putBoolean("Direction", direction == 1);
         addCommands(
                 new IntakeAuto(intakeSubsystem, 0.5),
                 // Zero arm

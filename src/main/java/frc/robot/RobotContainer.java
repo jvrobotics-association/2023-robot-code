@@ -25,6 +25,7 @@ import frc.robot.commands.claw.ReverseClawIntakeCommand;
 import frc.robot.commands.claw.ReverseClawIntakeFastCommand;
 import frc.robot.commands.claw.RunClawIntakeCommand;
 import frc.robot.commands.combined.MoveToPresetArmPosition;
+import frc.robot.commands.drive.StraightenRobot;
 import frc.robot.commands.drive.TeleopSwerve;
 import frc.robot.subsystems.*;
 
@@ -39,7 +40,7 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
-    private final boolean isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+    private boolean isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
     private boolean isYLocked = false;
 
     /* Controllers */
@@ -58,6 +59,7 @@ public class RobotContainer {
     private boolean isSlowDrive = false;
 
     private final BooleanSupplier isRobotCentricSupplier = () -> isRobotCentric;
+    private final BooleanSupplier isRedSupplier = () -> isRed;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, 9);
@@ -65,7 +67,7 @@ public class RobotContainer {
     private final JoystickButton fieldCentric = new JoystickButton(driver, 8);
     private final JoystickButton slowDriveMode = new JoystickButton(driver, 2);
     private final JoystickButton levelRobot = new JoystickButton(driver, 3);
-    // private final JoystickButton alignRobot = new JoystickButton(control, 2);
+    private final JoystickButton alignRobot = new JoystickButton(driver, 1);
     // private final JoystickButton alignRobotToAprilTag = new JoystickButton(control, 3);
     // private final JoystickButton zeroOdometry = new JoystickButton(driver, XboxController.Button.kY.value);
 
@@ -110,6 +112,11 @@ public class RobotContainer {
     // A chooser for autonomous commands
     private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
+    public void updateTeamColor() {
+        isRed = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+        SmartDashboard.putBoolean("Is Red", isRed);
+    }
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -135,16 +142,17 @@ public class RobotContainer {
         // autonomousChooser.addOption("Diamond Auto", diamondAuto);
         // autonomousChooser.setDefaultOption("Simple Auto Middle", simpleAutoMiddle);
         // autonomousChooser.addOption("Simple Auto Bottom", simpleAutoBottom);
-        autonomousChooser.setDefaultOption("Bottom of L", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("Center of L", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
-        autonomousChooser.addOption("Top of L", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed));
-        autonomousChooser.addOption("No Level Bottom of L", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
-        autonomousChooser.addOption("No Level Center of L", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
-        autonomousChooser.addOption("No Level Top of L", new NoLevelTopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("Red 1 Level", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, true));
+        autonomousChooser.addOption("Red 3 Level", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, true));
+        autonomousChooser.addOption("Blue 1 Level", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, false));
+        autonomousChooser.addOption("Blue 3 Level", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, false));
+        autonomousChooser.addOption("Common 2 Level", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("No Level Center", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("No Level Outside", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("Place Cone", new PlaceConeAuto(s_Swerve, s_Intake, s_Grabber));
         autonomousChooser.addOption("Place Cube Back Shelf", new PlaceCubeTopAuto(s_Intake, s_Grabber));
         autonomousChooser.addOption("Place Cube Front Shelf", new PlaceCubeBottomAuto(s_Intake, s_Grabber));
-        autonomousChooser.addOption("Do Nothing", new InstantCommand());
+        autonomousChooser.setDefaultOption("Do Nothing", new InstantCommand());
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
 
@@ -162,7 +170,7 @@ public class RobotContainer {
         robotCentric.onTrue(new InstantCommand(() -> isRobotCentric = true));
         fieldCentric.onTrue(new InstantCommand(() -> isRobotCentric = false));
         levelRobot.whileTrue(new LevelChargingStationAuto(s_Swerve));
-        // alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis)));
+        alignRobot.whileTrue(new StraightenRobot(s_Swerve, this, () -> -driver.getRawAxis(strafeAxis), () -> -driver.getRawAxis(translationAxis)));
         // alignRobotToAprilTag.whileTrue(new AlignToAprilTag(s_Swerve));
         // zeroOdometry.onTrue(new ZeroOdometry(s_Swerve));
 
@@ -197,10 +205,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         Command selection = autonomousChooser.getSelected();
-        // Command selection = new NoArmAuto(s_Swerve, s_Grabber, s_Intake, isRed);
-        if (selection == null) {
-            return new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, isRed);
-        }
+
         // System.out.println(selection.getName());
         return selection;
     }

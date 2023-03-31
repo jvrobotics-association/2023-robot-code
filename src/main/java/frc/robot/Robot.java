@@ -90,6 +90,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    // make sure that the robot has the correct color
+    m_robotContainer.updateTeamColor();
+
+    // rezero the gyro
+    m_robotContainer.getSwerve().zeroGyro(180);
+
     m_robotContainer.getAprilTag().disableUpdate = true;
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();

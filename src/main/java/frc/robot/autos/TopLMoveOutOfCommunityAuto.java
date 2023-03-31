@@ -1,6 +1,7 @@
 package frc.robot.autos;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmPositions;
@@ -20,6 +21,8 @@ public class TopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
     public TopLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem, boolean isRed) {
         direction = isRed ? -1 : 1;
+        SmartDashboard.putBoolean("Red Check Again", isRed);
+
         addCommands(
                 new IntakeAuto(intakeSubsystem, 0.5),
                 // Zero arm
@@ -38,7 +41,6 @@ public class TopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
                 new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
                 // Level the charging station
                 new LevelChargingStationAuto(swerve));
-
     }
 
 }
