@@ -102,7 +102,7 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(13.25);
         public static final double wheelBase = Units.inchesToMeters(22.25);
-        public static final double gyroDeadZone = 5.0;
+        public static final double gyroDeadZone = 3.0;
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /*

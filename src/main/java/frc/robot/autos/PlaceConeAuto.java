@@ -13,7 +13,7 @@ import frc.robot.subsystems.Swerve;
 public class PlaceConeAuto extends SequentialCommandGroup {
 
     public PlaceConeAuto(Swerve swerve, IntakeSubsystem intakeSubsystem, GrabberSubsystem grabberSubsystem) {
-        addCommands(new IntakeAuto(intakeSubsystem, 0.5),
+        addCommands(new IntakeAuto(intakeSubsystem, 0.25),
         // Zero arm
         new CalibrateArmCommand(grabberSubsystem),
         // Move arm to front pole

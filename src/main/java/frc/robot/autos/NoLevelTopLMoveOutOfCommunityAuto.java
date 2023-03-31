@@ -17,7 +17,7 @@ public class NoLevelTopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
 
     public NoLevelTopLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem) {
         addCommands(
-                new IntakeAuto(intakeSubsystem, 0.5),
+                new IntakeAuto(intakeSubsystem, 0.25),
                 // Zero arm
                 new CalibrateArmCommand(grabberSubsystem),
                 // Move arm to front pole

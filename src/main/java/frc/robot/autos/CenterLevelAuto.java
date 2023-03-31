@@ -15,12 +15,12 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
 
-public class CenterLMoveOutOfCommunityAuto extends SequentialCommandGroup {
+public class CenterLevelAuto extends SequentialCommandGroup {
 
 
-    public CenterLMoveOutOfCommunityAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem) {
+    public CenterLevelAuto(Swerve swerve, GrabberSubsystem grabberSubsystem, IntakeSubsystem intakeSubsystem) {
         addCommands(
-                new IntakeAuto(intakeSubsystem, 0.5),
+                new IntakeAuto(intakeSubsystem, 0.25),
                 // Zero arm
                 new CalibrateArmCommand(grabberSubsystem),
                 // Move arm to front pole
@@ -29,14 +29,10 @@ public class CenterLMoveOutOfCommunityAuto extends SequentialCommandGroup {
                 new ReverseIntakeAuto(intakeSubsystem, swerve, 1.0),
                 // Move out of community over the and zero arm.
                 new ParallelCommandGroup(
-                    new MoveRobotAuto(swerve, new Translation2d(0.2, 0.0), 3.0),
+                    new MoveRobotAuto(swerve, new Translation2d(0.15, 0.0), 1.5),
                     new CalibrateArmCommand(grabberSubsystem)),
                 
-                // Wait for the charge station to level
-                new WaitCommand(2.0),
-                // Move onto charging station
-                new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
-                // Level the charging station
+                // Level charging station once on the 
                 new LevelChargingStationAuto(swerve));
 
     }

@@ -24,7 +24,7 @@ public class TopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
         SmartDashboard.putBoolean("Red Check Again", isRed);
 
         addCommands(
-                new IntakeAuto(intakeSubsystem, 0.5),
+                new IntakeAuto(intakeSubsystem, 0.25),
                 // Zero arm
                 new CalibrateArmCommand(grabberSubsystem),
                 // Move arm to front pole
@@ -33,10 +33,10 @@ public class TopLMoveOutOfCommunityAuto extends SequentialCommandGroup {
                 new ReverseIntakeAuto(intakeSubsystem, swerve, 1.0),
                 // Move out of community and zero arm.
                 new ParallelCommandGroup(
-                    new MoveRobotAuto(swerve, new Translation2d(0.2, 0.0), 2.5),
+                    new MoveRobotAuto(swerve, new Translation2d(0.4, 0.0), 1.15),
                     new CalibrateArmCommand(grabberSubsystem)),
                 // Move to behind charging station
-                new MoveRobotAuto(swerve, new Translation2d(0, -direction * 0.12), 1.5),
+                new MoveRobotAuto(swerve, new Translation2d(0, -direction * 0.15), 1.55),
                 // Move onto charging station
                 new MoveRobotAuto(swerve, new Translation2d(-0.2, 0.0), 1.5),
                 // Level the charging station

@@ -12,7 +12,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class PlaceCubeBottomAuto extends SequentialCommandGroup {
 
     public PlaceCubeBottomAuto(IntakeSubsystem intakeSubsystem, GrabberSubsystem grabberSubsystem) {
-        addCommands(new IntakeAuto(intakeSubsystem, 0.5),
+        addCommands(new IntakeAuto(intakeSubsystem, 0.25),
         // Zero arm
         new CalibrateArmCommand(grabberSubsystem),
         // Move arm to front pole

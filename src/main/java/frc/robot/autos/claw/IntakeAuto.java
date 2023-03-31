@@ -23,7 +23,7 @@ public class IntakeAuto extends CommandBase {
 
     @Override
     public void execute() {
-        intakeSubsystem.setIntakeMotor(-0.5);
+        intakeSubsystem.setIntakeMotor(-1.0);
     }
 
     @Override

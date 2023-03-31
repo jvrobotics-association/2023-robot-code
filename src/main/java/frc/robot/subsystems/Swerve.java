@@ -190,9 +190,9 @@ public class Swerve extends SubsystemBase {
         }
         SmartDashboard.putNumber("Expected Rotation", rotation);
         if (difference < Constants.Swerve.gyroDeadZone) {
-            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), 0, false, true);
+            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), 0, true, true);
         } else {
-            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), rotation * Constants.Swerve.maxAngularVelocity, false, true);
+            drive(new Translation2d(translation * Constants.Swerve.maxSpeed, strafe * Constants.Swerve.maxSpeed), rotation * Constants.Swerve.maxAngularVelocity, true, true);
         }
     }
 

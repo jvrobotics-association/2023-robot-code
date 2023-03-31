@@ -8,6 +8,8 @@ import frc.robot.subsystems.Swerve;
 public class LockWheels extends CommandBase {
     
     private final Swerve swerve;
+    private double timerTimeStamp;
+    private double levelDuration = 0.5;
 
     public LockWheels(Swerve swerve) {
         this.swerve = swerve;
@@ -15,8 +17,13 @@ public class LockWheels extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        timerTimeStamp = Timer.getFPGATimestamp();    
+    }
+
+    @Override
     public boolean isFinished() {
-        return true;
+        return (Timer.getFPGATimestamp() - timerTimeStamp) > levelDuration;
     }
 
     @Override

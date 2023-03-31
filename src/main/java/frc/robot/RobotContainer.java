@@ -149,7 +149,7 @@ public class RobotContainer {
         autonomousChooser.addOption("Red 3 Level", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, true));
         autonomousChooser.addOption("Blue 1 Level", new TopLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, false));
         autonomousChooser.addOption("Blue 3 Level", new BottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake, false));
-        autonomousChooser.addOption("Common 2 Level", new CenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
+        autonomousChooser.addOption("Common 2 Level", new CenterLevelAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("No Level Center", new NoLevelCenterLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("No Level Outside", new NoLevelBottomLMoveOutOfCommunityAuto(s_Swerve, s_Grabber, s_Intake));
         autonomousChooser.addOption("Place Cone", new PlaceConeAuto(s_Swerve, s_Intake, s_Grabber));
